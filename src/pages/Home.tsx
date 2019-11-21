@@ -8,7 +8,7 @@ import Header from "./_header"
 import OptionBar from "./_optionBar"
 import LatestOpinions from "./_latestOpinions"
 import styled from 'styled-components'
-import { Anchor, Box, Button, Heading, Paragraph, TextInput } from "grommet"
+import { Anchor, Box, Button, Heading, Paragraph, Text, TextInput } from "grommet"
 import { DocumentText, Search, Volume } from 'grommet-icons'
 // override grommet heading constraints
 const FullHeading = styled(Heading)` max-width: 100%`
@@ -27,6 +27,7 @@ const fakeLatestData = [
     caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
     dateFiled: "November 19, 2019",
     status: "Precedential",
+    natureSuit: "",
     docketNumber: "23 EAP 2018",
     link: "#",
   },
@@ -34,6 +35,7 @@ const fakeLatestData = [
     caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
     dateFiled: "November 19, 2019",
     status: "Precedential",
+    natureSuit: "",
     docketNumber: "23 EAP 2018",
     link: "#",
   },
@@ -41,6 +43,7 @@ const fakeLatestData = [
     caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
     dateFiled: "November 19, 2019",
     status: "Precedential",
+    natureSuit: "",
     docketNumber: "23 EAP 2018",
     link: "#",
   },
@@ -48,6 +51,7 @@ const fakeLatestData = [
     caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
     dateFiled: "November 19, 2019",
     status: "Precedential",
+    natureSuit: "",
     docketNumber: "23 EAP 2018",
     link: "#",
   },
@@ -55,10 +59,24 @@ const fakeLatestData = [
     caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
     dateFiled: "November 19, 2019",
     status: "Precedential",
+    natureSuit: "",
     docketNumber: "23 EAP 2018",
     link: "#",
   },
 ]
+
+const LatestOpinionList = ({data}) => (
+  data.map((opinion, index) => (
+    <Box margin={{ vertical: "small" }}>
+      <Anchor size="large" label={opinion.caption} key={`unique_${index}`} href={opinion.link}/>
+      <Box direction="row" gap="medium">
+        <Text size="small">{`Date Filed: ${opinion.dateFiled}`}</Text>
+        <Text size="small">{`Status: ${opinion.status}`}</Text>
+        <Text size="small">{`Docket Number: ${opinion.docketNumber}`}</Text>
+        {opinion.natureSuit && <Text size="small">{`Nature of Suit: ${opinion.natureSuit}`}</Text>}
+      </Box>
+    </Box>
+)))
 
 const Home = props => (
     <>
@@ -101,6 +119,7 @@ const Home = props => (
       <Box direction="row" gap="large">
         <Box basis="1/2">
           <Heading level={3}>Latest Opinions<DocumentIcon /></Heading>
+          <LatestOpinionList data={fakeLatestData}/>
           <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary={true} />
         </Box>
         <Box basis="1/2">
