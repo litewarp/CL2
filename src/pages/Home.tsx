@@ -6,77 +6,58 @@ import { fetchTest } from "../root/actions";
 import withLayout from "../root/withLayout"
 import Header from "./_header"
 import OptionBar from "./_optionBar"
-import LatestOpinions from "./_latestOpinions"
 import styled from 'styled-components'
 import { Anchor, Box, Button, Heading, Paragraph, Text, TextInput } from "grommet"
 import { DocumentText, Search, Volume } from 'grommet-icons'
+import { fakeLatestData,fakeAudioData } from "./_fakeData"
+
 // override grommet heading constraints
 const FullHeading = styled(Heading)` max-width: 100%`
 const ItalicHeading = styled(FullHeading)` font-variant: italic`
+const DocumentIcon = styled(DocumentText)` margin-left: 1rem`
+const SoundIcon = styled(Volume)` margin-left: 1rem`
+const FlatButton = styled(Button)`border-radius: 0; max-width: 50%; margin-left: auto`
 
 const clLink = <Anchor label="CourtListener" href="https://github.com/freelawproject/courtlistener"/>
 const jsLink = <Anchor label="Juriscraper" href="https://github.com/freelawproject/juriscraper"/>
 const recapLink = <Anchor label="RECAP" href="https://free.law/recap"/>
 const freelawLink = <Anchor label="Free Law Project" href="https://free.law"/>
-const DocumentIcon = styled(DocumentText)` margin-left: 1rem`
-const SoundIcon = styled(Volume)` margin-left: 1rem`
-const FlatButton = styled(Button)`border-radius: 0; max-width: 50%; margin-left: auto`
 
-const fakeLatestData = [
-  {
-    caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
-    dateFiled: "November 19, 2019",
-    status: "Precedential",
-    natureSuit: "",
-    docketNumber: "23 EAP 2018",
-    link: "#",
-  },
-  {
-    caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
-    dateFiled: "November 19, 2019",
-    status: "Precedential",
-    natureSuit: "",
-    docketNumber: "23 EAP 2018",
-    link: "#",
-  },
-  {
-    caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
-    dateFiled: "November 19, 2019",
-    status: "Precedential",
-    natureSuit: "",
-    docketNumber: "23 EAP 2018",
-    link: "#",
-  },
-  {
-    caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
-    dateFiled: "November 19, 2019",
-    status: "Precedential",
-    natureSuit: "",
-    docketNumber: "23 EAP 2018",
-    link: "#",
-  },
-  {
-    caption: "In Re: Risperdal Litig., Appeal of: Winter, J. (Pa. 2019)",
-    dateFiled: "November 19, 2019",
-    status: "Precedential",
-    natureSuit: "",
-    docketNumber: "23 EAP 2018",
-    link: "#",
-  },
-]
-
-const LatestOpinionList = ({data}) => (
-  data.map((opinion, index) => (
-    <Box margin={{ vertical: "small" }}>
-      <Anchor size="large" label={opinion.caption} key={`unique_${index}`} href={opinion.link}/>
-      <Box direction="row" gap="medium">
-        <Text size="small">{`Date Filed: ${opinion.dateFiled}`}</Text>
-        <Text size="small">{`Status: ${opinion.status}`}</Text>
-        <Text size="small">{`Docket Number: ${opinion.docketNumber}`}</Text>
-        {opinion.natureSuit && <Text size="small">{`Nature of Suit: ${opinion.natureSuit}`}</Text>}
-      </Box>
+const LatestOpinion = (props: {
+  caption: string,
+  link: string,
+  dateFiled: string,
+  docketNumber: string,
+  status: string,
+  natureSuit: string,
+}) => (
+  <Box margin={{ vertical: 'small' }}>
+    <Anchor size="large" label={props.caption} href={props.link}/>
+    <Box direction="row" gap="medium">
+      <Text size="small">{`Date Filed: ${props.dateFiled}`}</Text>
+      <Text size="small">{`Status: ${props.status}`}</Text>
+      <Text size="small">{`Docket Number: ${props.docketNumber}`}</Text>
+      {props.natureSuit && <Text size="small">{`Nature of Suit: ${props.natureSuit}`}</Text>}
     </Box>
-)))
+  </Box>
+)
+
+const LatestAudio = (props: {
+  caption: string,
+  link: string,
+  dateArgued: string,
+  docketNumber: string,
+  duration: string
+}) => (
+  <Box margin={{ vertical: 'small' }}>
+    <Anchor size="large" label={props.caption} href={props.link}/>
+    <Box direction="row" gap="medium">
+      <Text size="small">{`Date Filed: ${props.dateArgued}`}</Text>
+      <Text size="small">{`Docket Number: ${props.docketNumber}`}</Text>
+      <Text size="small">{`Duration: ${props.duration}`}</Text>
+    </Box>
+  </Box>
+)
 
 const Home = props => (
     <>
@@ -118,13 +99,26 @@ const Home = props => (
 
       <Box direction="row" gap="large">
         <Box basis="1/2">
-          <Heading level={3}>Latest Opinions<DocumentIcon /></Heading>
-          <LatestOpinionList data={fakeLatestData}/>
+          <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >Latest Opinions<DocumentIcon /></Heading>
+          <Text size="xxsmall" margin={{ vertical: 'small'}}>
+            We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
+          </Text>
+          {fakeLatestData.map((opinion, index) => <LatestOpinion key={`opinion_${index}`} {...opinion} />)}
           <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary={true} />
         </Box>
         <Box basis="1/2">
-          <Heading level={3}>Latest Oral Arguments<SoundIcon /></Heading>
-          <FlatButton label="See Recent Oral Arguments" href="/?order_by=dateArgued+desc&type=OA" color="accent-2" primary={true} />
+          <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>Latest Oral Arguments<SoundIcon /></Heading>
+          <Text size="xxsmall" margin={{ vertical: 'small'}}>
+            We download oral arguments from many jurisdictions on an ongoing basis. Here are the most recent ones.
+          </Text>
+
+          {fakeAudioData.map((opinion, index) => <LatestAudio key={`audio_${index}`} {...opinion} />)}
+          <FlatButton
+            label="See Recent Oral Arguments"
+            href="/?order_by=dateArgued+desc&type=OA"
+            color="accent-2"
+            primary={true}
+          />
         </Box>
       </Box>
     </>
