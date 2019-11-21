@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { fetchTest } from "../root/actions";
+import withLayout from "../root/withLayout"
 
 const Home = props => {
   return (
@@ -35,4 +36,4 @@ const mstp = ({ posts }) => ({ posts });
 export default connect(
   mstp,
   { fetchTest }
-)(Home);
+)(withLayout(Home));
