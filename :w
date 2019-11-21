@@ -1,0 +1,65 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import Helmet from "react-helmet";
+import { connect } from "react-redux";
+import { fetchTest } from "../root/actions";
+import withLayout from "../root/withLayout"
+import Header from "./_header"
+import OptionBar from "./_optionBar"
+import styled from 'styled-components'
+import { Anchor, Box, Button, Heading, Paragraph, TextInput } from "grommet"
+import { Search } from 'grommet-icons'
+// override grommet heading constraints
+const FullHeading = styled(Heading)` max-width: 100%`
+const ItalicHeading = styled(FullHeading)` font-variant: italic`
+
+const Home = props => (
+    <>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
+      <Header/>
+      <OptionBar/>
+      <Box align="center" pad="medium" gap="medium">
+        <FullHeading level={3} margin="none">
+          Search millions of opinions by case name, topic, or citation.
+        </FullHeading>
+        <FullHeading level={4} margin="none">
+          403 Jurisdictions. Sponsored by the Non-Profit Free Law Project.
+        </FullHeading>
+        <Box width="large" direction="row" align="center" round="small" border="all">
+          <TextInput type="search" plain={true} />
+          <Button icon={<Search />} label="Search" color="accent-2" primary={true} onClick={()=>{}}/>
+        </Box>
+        <ItalicHeading level={4} margin="none">- or -</ItalicHeading>
+        <Anchor href="/opinion" label={<FullHeading level={4} margin="none">Advanced Search</FullHeading>}/>
+      </Box>
+      <Box direction="row">
+        <Box>
+          <Heading level={3}>About CourtListener</Heading>
+          <Paragraph margin="none">
+            CourtListener is a free legal research website containing millions of legal opinions from federal and state courts. With CourtListener, lawyers, journalists, academics, and the public can research an important case, stay up to date with new opinions as they are filed, or do deep analysis using our raw data.
+          </Paragraph>
+        </Box>
+        <Box>
+          <Heading level={3}>About Free Law Project</Heading>
+          <Paragraph margin="none">
+            Free Law Project seeks to provide free access to primary legal materials, develop legal research tools, and support academic research on legal corpora. We work diligently with volunteers to expand our efforts at building an open source, open access, legal research ecosystem. Currently Free Law Project sponsors the development of <Anchor label="CourtListener" href="https://github.com/freelawproject/courtlistener"/>, <Anchor href="https://github.com/freelawproject/juriscraper" label="Juriscraper"/>, and <Anchor label="RECAP" href="https://free.law/recap"/>.
+          </Paragraph>
+        </Box
+      </Box>
+    </>
+  );
+
+Home.getInitialProps = async ({ store }) => {
+  await store.dispatch(fetchTest());
+  // u can get initial states with store.getState()
+  //console.log(store.getState());
+};
+
+const mstp = ({ posts }) => ({ posts });
+
+export default connect(
+  mstp,
+  { fetchTest }
+)(withLayout(Home));

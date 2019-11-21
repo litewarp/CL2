@@ -46,6 +46,10 @@ const ScrollBox = styled(Box)`
   -webkit-overflow-scrolling: touch;
   `
 
+const FixedBox = styled(Box)`
+  max-width: 1280px;
+`
+
 const withLayout = (Component) => (
   class WithLayout extends React.Component<PassedProps> {
     public render() {
@@ -58,9 +62,9 @@ const withLayout = (Component) => (
                 fill={true}
                 alignContent="center"
               >
-                <Box pad={{ left: size !== 'small' ? '50px' : '0' }} fill={true}>
+                <FixedBox alignSelf="center" fill={true}>
                   <Component match={match} {...props} />
-                </Box>
+                </FixedBox>
               </ScrollBox>
             )}
           </ResponsiveContext.Consumer>
