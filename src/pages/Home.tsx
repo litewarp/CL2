@@ -5,12 +5,6 @@ import { connect } from "react-redux";
 import { fetchTest } from "../root/actions";
 
 const Home = props => {
-  const renderList = () => {
-    return props.posts.map(post => {
-      return <li key={post.id}>{post.title}</li>;
-    });
-  };
-
   return (
     <>
       <Helmet>
@@ -25,7 +19,6 @@ const Home = props => {
           <code>src/About.js</code>and save to reload.
         </p>
         <Link to="/about">About -></Link>
-        <ul className="list-container">{renderList()}</ul>
       </div>
     </>
   );

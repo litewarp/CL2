@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@jaredpalmer/after": "latest",
+    "@material-ui/core": "^4.6.1",
     "@tshio/redux-api-params-middleware": "^1.2.2",
     "afterjs-assets": "^1.0.1",
     "axios": "^0.19.0",
@@ -31,6 +32,11 @@
     "styled-components": "^4.4.1"
   },
   "devDependencies": {
+    "@types/react-dom": "^16.9.4",
+    "@types/react-redux": "^7.1.5",
+    "@types/redux-api-middleware": "^3.0.7",
+    "@types/redux-logger": "^3.0.7",
+    "@types/styled-components": "^4.4.0",
     "razzle-plugin-typescript": "^3.0.0",
     "tslint": "^5.20.1",
     "tslint-react": "^4.1.0",
