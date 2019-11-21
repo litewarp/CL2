@@ -32,10 +32,10 @@ const theme = deepFreeze({
       'status-warning': '#FDCA40',
     },
     font: {
-      family: 'roboto',
+      family: 'Roboto',
       height: '20px',
       size: '14px',
-      weight: '500',
+      weight: '300',
     },
   },
 })

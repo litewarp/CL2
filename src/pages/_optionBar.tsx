@@ -1,0 +1,35 @@
+import * as React from 'react'
+import { Menu, Box, Anchor } from 'grommet'
+import { Favorite } from 'grommet-icons'
+
+const OptionBar = () => (
+  <Box
+    align="center"
+    border="horizontal"
+    direction="row"
+    justify="around"
+  >
+    <Menu
+      label="Opinions"
+      items={[
+        { label: "Advanced Search", href: "/opinion" },
+        { label: "Citation Look Up", href: "/c" }
+      ]}
+      size="small"
+    />
+    <Anchor label="RECAP Archive" size="small" href="recap" color="dark-6"/>
+    <Anchor label="Oral Arguments" size="small" href="audio" color="dark-6"/>
+    <Anchor label="Judges" size="small" href="person" color="dark-6"/>
+    <Menu
+      label="Visualizations"
+      items={[
+        { label: "Gallery", href: "/visualizations/gallery" },
+        { label: "SCOTUS Networks", href: "/visualizations/scotus-mapper" },
+        { label: "New Network", href: "/visualizations/scotus-mapper/new" }
+      ]}
+      size="small"
+    />
+    <Anchor label="Donate" size="small" href="/donate/?referrer=navbar-v2" icon={<Favorite/>}/>
+  </Box>
+)
+export default OptionBar

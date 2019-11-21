@@ -4,13 +4,16 @@ import Helmet from "react-helmet";
 import { connect } from "react-redux";
 import { fetchTest } from "../root/actions";
 import withLayout from "../root/withLayout"
+import Header from "./_header"
+import OptionBar from "./_optionBar"
 
-const Home = props => {
-  return (
+const Home = props => (
     <>
       <Helmet>
         <title>Home</title>
       </Helmet>
+      <Header/>
+      <OptionBar/>
       <div className="Home">
         <div className="Home-header">
           <h2>Welcome to After.js</h2>
@@ -23,7 +26,6 @@ const Home = props => {
       </div>
     </>
   );
-};
 
 Home.getInitialProps = async ({ store }) => {
   await store.dispatch(fetchTest());
