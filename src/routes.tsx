@@ -8,7 +8,7 @@ export default [
     path: "/",
     exact: true,
     component: asyncComponent({
-      loader: () => import(/* webpackChunkName: "Home" */ "./pages/Home"), // required
+      loader: () => import(/* webpackChunkName: "Home" */ "./pages/home/Home"), // required
       Placeholder: () => <div>...LOADING...</div>
     })
   },
