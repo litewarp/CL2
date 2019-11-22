@@ -17,17 +17,17 @@ const Home = props => (
         <title>Home</title>
       </Helmet>
 
-      <Box height="small" direction="row" fill="horizontal" justify="end" pad="small">
+      <Box direction="row" justify="end" pad="small" flex="grow">
         <Header/>
       </Box>
-      <Box height="xsmall" direction="row" align="center" justify="around" border="horizontal">
+      <Box flex="grow" direction="row" align="center" justify="around" border="horizontal">
         <OptionBar/>
       </Box>
       <Box align="center" pad="medium">
         <SearchBar />
       </Box>
 
-      <Box direction="row" gap="large" pad="medium">
+      <Box pad="small" height="small" direction="row" gap="large">
         <Box basis="1/2">
           <AboutCourtListener />
         </Box>
@@ -36,20 +36,20 @@ const Home = props => (
         </Box>
       </Box>
 
-      <Box direction="row" gap="large" margin="small">
-        <Box basis="1/2" margin={{vertical: 'medium'}}>
+      <Box pad="small" direction="row" gap="large" flex="grow">
+        <Box basis="1/2">
           <LatestOpinionList />
         </Box>
-        <Box basis="1/2" margin={{ vertical: 'medium'}}>
+        <Box basis="1/2">
           <LatestAudioList />
         </Box>
       </Box>
 
-      <Box direction="row" gap="large" margin="small">
-        <Box basis="1/2" margin={{ vertical: 'medium'}}>
+      <Box margin={{ vertical: 'small' }} pad="small" direction="row" gap="large" height="medium">
+        <Box basis="1/2">
           <ScotusNetwork />
         </Box>
-        <Box basis="1/2" margin={{ vertical: 'medium' }}>
+        <Box basis="1/2">
           <TheNumbers />
         </Box>
       </Box>

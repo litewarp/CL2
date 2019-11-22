@@ -16,7 +16,7 @@ const SearchBar = () => (
     <FullHeading level={5} margin="none">
       403 Jurisdictions. Sponsored by the Non-Profit Free Law Project.
     </FullHeading>
-    <Box width="large" direction="row" align="center" round="small" border="all" pad="medium">
+    <Box width="large" direction="row" align="center" round="small" border="all">
       <TextInput type="search" plain={true} />
       <Button
         icon={<Search />}
@@ -24,14 +24,14 @@ const SearchBar = () => (
         color="accent-2"
         primary={true}
         onClick={() => {}}
-        />
-      </Box>
-    <ItalicHeading level={4} margin='none'>
+      />
+    </Box>
+    <ItalicHeading level={4} margin="none">
       - or -
     </ItalicHeading>
     <Anchor
       href="/opinion"
-      label={<FullHeading level={4} margin='none'>Advanced Search</FullHeading>}
+      label={<FullHeading level={4} margin="none">Advanced Search</FullHeading>}
     />
   </>
 )

@@ -9,7 +9,7 @@ import { fakeLatestData,fakeAudioData } from "./_fakeData"
 // override grommet with styled-components
 const DocumentIcon = styled(DocumentText)` margin-left: 1rem`
 const SoundIcon = styled(Volume)` margin-left: 1rem`
-const FlatButton = styled(Button)`margin-top: 1rem; max-width: 50%; margin-left: auto`
+const FlatButton = styled(Button)`margin-top: 1rem; max-width: 50%; margin: .5rem 0 0 auto`
 
 // local components
 const LatestOpinion = (props: {
