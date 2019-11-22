@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Heading, Table, TableCell, TableRow, Text } from 'grommet'
+import { Anchor, Box, Button, Heading, Table, TableBody, TableCell, TableRow, Text } from 'grommet'
 import { Analytics, Optimize } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
@@ -17,6 +17,20 @@ export const ScotusNetwork = () => (
       Supreme Court Network Visualizations allow you to see and analyze lines of precedent in Supreme Court cases.
     </Text>
     <img src={fakeScotusChart}/>
+    <Box direction="row" justify="start">
+      <Button
+        label="See Gallery"
+        color="light-1"
+        href="/visualizations/gallery"
+      />
+      <Button
+        label="Learn More About SCOTUS Networks"
+        color="accent-2"
+        href="/visualizations/scotus-mapper"
+        primary={true}
+        margin={{ left: 'auto' }}
+      />
+    </Box>
   </>
 )
 
@@ -49,7 +63,9 @@ export const TheNumbers = () => {
         <AnalyticsIcon />
       </Heading>
       <Table>
-        <Columns />
+        <TableBody>
+          <Columns />
+        </TableBody>
       </Table>
     </>
   )
