@@ -1,24 +1,23 @@
-import React from "react";
-
-import { asyncComponent } from "@jaredpalmer/after";
+import { asyncComponent } from '@jaredpalmer/after'
+import * as React from 'react'
 
 export default [
   {
-    name: "Home",
-    path: "/",
-    exact: true,
     component: asyncComponent({
-      loader: () => import(/* webpackChunkName: "Home" */ "./pages/home/Home"), // required
-      Placeholder: () => <div>...LOADING...</div>
-    })
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/home/Home'), // required
+    }),
+    exact: true,
+    name: 'Home',
+    path: '/',
   },
   {
-    name: "About",
-    path: "/about",
-    exact: true,
     component: asyncComponent({
-      loader: () => import(/* webpackChunkName: "About" */ "./pages/About"),
-      Placeholder: () => <div>...LOADING...</div>
-    })
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import(/* webpackChunkName: 'About' */ './pages/About'),
+    }),
+    exact: true,
+    name: 'About',
+    path: '/about',
   }
-];
+]

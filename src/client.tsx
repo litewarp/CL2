@@ -1,10 +1,8 @@
-import { ensureReady, After } from '@jaredpalmer/after';
+import { After, ensureReady } from '@jaredpalmer/after';
 import { ConnectedRouter } from 'connected-react-router'
 import React from 'react';
 import { hydrate } from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import thunk from 'redux-thunk';
 import createStore from './root/store/createStore';
 import routes from './routes';
 

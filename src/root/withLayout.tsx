@@ -1,9 +1,9 @@
+import { Box, Grommet, ResponsiveContext } from 'grommet'
+import { deepFreeze } from 'grommet/utils'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
-import { Box, Grommet, ResponsiveContext } from 'grommet'
-import { deepFreeze } from "grommet/utils"
 
 const theme = deepFreeze({
   global: {
@@ -41,17 +41,16 @@ const theme = deepFreeze({
 
 const FixedBox = styled(Box)` max-width: 1280px;`
 
-const withLayout = (Component) => (
-  class WithLayout extends React.Component<PassedProps> {
+const withLayout = (Component: React.ReactNode) => (
+  class WithLayout extends React.Component {
     public render() {
-      const { match, ...props } = this.props
       return (
         <Grommet theme={theme} full={true}>
           <ResponsiveContext.Consumer>
             {(size) => (
               <Box fill={true} alignContent="center">
                 <FixedBox alignSelf="center" fill={true}>
-                  <Component match={match} {...props} />
+                  <Component size={size} {...this.props} />
                 </FixedBox>
               </Box>
             )}

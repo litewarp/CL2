@@ -1,11 +1,11 @@
-import { compose, createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import createRootReducer from "../reducers";
-import logger from 'redux-logger'
-import { apiMiddleware } from 'redux-api-middleware'
-import { routerMiddleware } from 'connected-react-router'
 import paramsMiddleware from '@tshio/redux-api-params-middleware'
+import { routerMiddleware } from 'connected-react-router'
 import { createBrowserHistory, createMemoryHistory } from 'history'
+import { applyMiddleware, compose, createStore } from 'redux'
+import { apiMiddleware } from 'redux-api-middleware'
+import logger from 'redux-logger'
+import thunk from 'redux-thunk'
+import createRootReducer from '../reducers'
 
 // helper to determine if rendering on server or client
 export const isServer = !(
@@ -31,6 +31,7 @@ export default (url = '/') => {
   const enhancers = []
   // Dev tools are helpful
   if (process.env.NODE_ENV === 'development' && !isServer) {
+    // @ts-ignore
     const devToolsExtension = window.devToolsExtension
     if (typeof devToolsExtension === 'function') {
       enhancers.push(devToolsExtension())
@@ -38,9 +39,11 @@ export default (url = '/') => {
   }
 
   // Do we have preloaded state available? Great, save it.
+  // @ts-ignore
   const initialState = !isServer ? window.INITIAL_STATE : {}
   // Delete it once we have it stored in a variable
   if (!isServer) {
+    // @ts-ignore
     delete window.INITIAL_STATE
   }
   const composedEnhancers = compose(

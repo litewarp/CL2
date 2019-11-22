@@ -1,5 +1,5 @@
+import { Anchor, Heading, Paragraph } from 'grommet'
 import * as React from 'react'
-import { Anchor, Box, Heading, Paragraph } from 'grommet'
 
 const createLink = ({ name }: { name: string }) => {
   const props = {
