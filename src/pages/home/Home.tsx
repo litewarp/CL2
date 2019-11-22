@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchTest } from '../../root/actions';
 import withLayout from '../../root/withLayout'
 import { AboutCourtListener, AboutFreeLawProject } from './_about'
+import { ScotusNetwork, TheNumbers } from './_analytics'
 import Header from './_header'
 import { LatestAudioList, LatestOpinionList } from './_latestResults'
 import OptionBar from './_optionBar'
@@ -16,14 +17,17 @@ const Home = props => (
         <title>Home</title>
       </Helmet>
 
-      <Header/>
-      <OptionBar/>
-
-      <Box align="center" pad="medium" gap="medium">
+      <Box height="small" direction="row" fill="horizontal" justify="end" pad="small">
+        <Header/>
+      </Box>
+      <Box height="xsmall" direction="row" align="center" justify="around" border="horizontal">
+        <OptionBar/>
+      </Box>
+      <Box align="center" pad="medium">
         <SearchBar />
       </Box>
 
-      <Box direction="row" gap="large">
+      <Box direction="row" gap="large" pad="medium">
         <Box basis="1/2">
           <AboutCourtListener />
         </Box>
@@ -32,12 +36,21 @@ const Home = props => (
         </Box>
       </Box>
 
-      <Box direction="row" gap="large">
-        <Box basis="1/2">
+      <Box direction="row" gap="large" margin="small">
+        <Box basis="1/2" margin={{vertical: 'medium'}}>
           <LatestOpinionList />
         </Box>
-        <Box basis="1/2">
+        <Box basis="1/2" margin={{ vertical: 'medium'}}>
           <LatestAudioList />
+        </Box>
+      </Box>
+
+      <Box direction="row" gap="large" margin="small">
+        <Box basis="1/2" margin={{ vertical: 'medium'}}>
+          <ScotusNetwork />
+        </Box>
+        <Box basis="1/2" margin={{ vertical: 'medium' }}>
+          <TheNumbers />
         </Box>
       </Box>
     </>

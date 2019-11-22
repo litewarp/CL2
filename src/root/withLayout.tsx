@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -34,21 +33,13 @@ const theme = deepFreeze({
     font: {
       family: 'Roboto',
       height: '20px',
-      size: '14px',
+      size: '12px',
       weight: '300',
     },
   },
 })
 
-const ScrollBox = styled(Box)`
-  overflow-x: hidden;
-  overflow-y: scroll
-  -webkit-overflow-scrolling: touch;
-  `
-
-const FixedBox = styled(Box)`
-  max-width: 1280px;
-`
+const FixedBox = styled(Box)` max-width: 1280px;`
 
 const withLayout = (Component) => (
   class WithLayout extends React.Component<PassedProps> {
@@ -58,14 +49,11 @@ const withLayout = (Component) => (
         <Grommet theme={theme} full={true}>
           <ResponsiveContext.Consumer>
             {(size) => (
-              <ScrollBox
-                fill={true}
-                alignContent="center"
-              >
+              <Box fill={true} alignContent="center">
                 <FixedBox alignSelf="center" fill={true}>
                   <Component match={match} {...props} />
                 </FixedBox>
-              </ScrollBox>
+              </Box>
             )}
           </ResponsiveContext.Consumer>
         </Grommet>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Anchor, Box, Button, Heading, Text } from 'grommet'
+import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
 import { DocumentText, Search, Volume } from 'grommet-icons'
 import styled from 'styled-components'
 
@@ -19,17 +19,20 @@ const LatestOpinion = (props: {
   docketNumber: string,
   status: string,
   natureSuit: string,
-}) => (
-  <Box margin={{ vertical: 'small' }}>
-    <Anchor size="large" label={props.caption} href={props.link}/>
-    <Box direction="row" gap="medium">
-      <Text size="small">{`Date Filed: ${props.dateFiled}`}</Text>
-      <Text size="small">{`Status: ${props.status}`}</Text>
-      <Text size="small">{`Docket Number: ${props.docketNumber}`}</Text>
-      {props.natureSuit && <Text size="small">{`Nature of Suit: ${props.natureSuit}`}</Text>}
-    </Box>
-  </Box>
-)
+}) => {
+  const dateString = `Date Filed: ${props.dateFiled}`
+  const statusString = `Status: ${props.status}`
+  const docketString = `Docket Number: ${props.docketNumber}`
+  const natureString = `Nature of Suit: ${props.natureSuit}`
+  return (
+    <>
+      <Anchor size="medium" label={props.caption} href={props.link}/>
+      <Text size="small">
+        {dateString} {statusString} {docketString} {props.natureSuit && natureString}
+      </Text>
+    </>
+  )
+}
 
 const LatestAudio = (props: {
   caption: string,
@@ -37,16 +40,17 @@ const LatestAudio = (props: {
   dateArgued: string,
   docketNumber: string,
   duration: string
-}) => (
-  <Box margin={{ vertical: 'small' }}>
-    <Anchor size="large" label={props.caption} href={props.link}/>
-    <Box direction="row" gap="medium">
-      <Text size="small">{`Date Filed: ${props.dateArgued}`}</Text>
-      <Text size="small">{`Docket Number: ${props.docketNumber}`}</Text>
-      <Text size="small">{`Duration: ${props.duration}`}</Text>
-    </Box>
-  </Box>
-)
+}) => {
+  const dateString = `Date Argued: ${props.dateArgued}`
+  const docketString = `Docket Number: ${props.docketNumber}`
+  const durationString = `Duration: ${props.duration}`
+  return (
+    <>
+      <Anchor size="medium" label={props.caption} href={props.link}/>
+      <Text size="small">{dateString} {docketString} {durationString}</Text>
+    </>
+  )
+}
 
 // exported components
 export const LatestOpinionList = () => (
