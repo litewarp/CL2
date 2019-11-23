@@ -1,9 +1,11 @@
-import express from 'express';
-import "cross-fetch/polyfill"
+import 'cross-fetch/polyfill'
+import express from 'express'
+
+// tslint:disable:no-var-requires
 let app = require('./server').default;
 
 if (module.hot) {
-  module.hot.accept('./server', function() {
+  module.hot.accept('./server', () => {
     console.log('🔁  HMR Reloading `./server`...');
     try {
       app = require('./server').default;
@@ -18,7 +20,7 @@ const port = process.env.PORT || 3000;
 
 export default express()
   .use((req, res) => app.handle(req, res))
-  .listen(port, function(err) {
+  .listen(port, (err: Error) => {
     if (err) {
       console.error(err);
       return;

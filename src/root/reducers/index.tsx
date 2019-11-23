@@ -1,9 +1,9 @@
-import postsReducer from "./postsReducer";
 import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
+import { layoutReducer } from '../actions/layoutActions'
+import homeReducer from './homeReducer'
 
-export default (history) =>
+export default () =>
   combineReducers({
-    posts: postsReducer,
-    router: connectRouter(history),
+    home: homeReducer,
+    layout: layoutReducer,
   })

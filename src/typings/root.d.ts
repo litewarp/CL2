@@ -1,8 +1,26 @@
-/** @format */
+// type definitions for Court Listener
+
+declare module '*.png'
 
 export interface HtmlProps {
   data: {},
-  helmet: {},
+  helmet: {
+    bodyAttributes: {
+      toComponent: () => {}
+    },
+    htmlAttributes: {
+      toComponent: () => {}
+    },
+    link: {
+      toComponent: () => {}
+    },
+    meta: {
+      toComponent: () => {}
+    },
+    title: {
+      toComponent: () => {}
+    },
+  },
   styleTags: {},
   serverState: {},
   assets: {
@@ -28,6 +46,6 @@ export interface CtxProps {
   res?: {},
   history?: {},
   location?: {},
-  data: mixed,
+  data: {},
   renderPage: (node: React.ReactNode) => {},
 }
