@@ -22,8 +22,14 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016"
   },
-  "files": [
-    "src/*"
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "razzle.config.js"
   ],
-  "types": []
+  "types": ["typePatches", "node", "webpack-env"]
 }

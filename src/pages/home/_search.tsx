@@ -10,7 +10,7 @@ const ItalicHeading = styled(FullHeading)` font-variant: italic`
 
 const SearchBar = () => (
   <>
-    <FullHeading level={3} margin="none">
+    <FullHeading level={3} margin={{ horizontal: 'none' }}>
       Search millions of opinions by case name, topic, or citation.
     </FullHeading>
     <FullHeading level={5} margin="none">
