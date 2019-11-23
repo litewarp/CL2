@@ -1,8 +1,6 @@
 import { Box, Grommet, ResponsiveContext } from 'grommet'
 import { deepFreeze } from 'grommet/utils'
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 const theme = deepFreeze({

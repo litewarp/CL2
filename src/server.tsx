@@ -19,8 +19,10 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', async (req, res) => {
     try {
-
-      const { store, history } = createStore(req.url);
+      // create store based on request
+      const { store } = createStore(req.url);
+      // render app to static string using react server
+      // return the current state with the static string
       const customRenderer = (node: React.ReactNode) => {
         const App = <Provider store={store}>{node}</Provider>
         return {
@@ -28,14 +30,14 @@ server
           serverState: store.getState()
         }
       }
+      // send the following to the renderer
       const html = await render({
         assets,
         customRenderer,
         document: Document,
         req,
         res,
-        routes,
-        store
+        routes
       });
       res.send(html);
     } catch (error) {

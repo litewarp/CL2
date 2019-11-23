@@ -12,7 +12,7 @@ ensureReady(routes).then((data) =>
   hydrate(
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <After data={data} routes={routes} store={store} />
+        <After data={data} routes={routes}/>
       </ConnectedRouter>
     </Provider>,
     document.getElementById('root')

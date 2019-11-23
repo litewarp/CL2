@@ -2,11 +2,10 @@ import { Anchor, Box, Button, Heading, Table, TableBody, TableCell, TableRow, Te
 import { Analytics, Optimize } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
-import fakeScotusChart from './fakeScotusChart.png'
+import * as fakeScotusChart from './fakeScotusChart.png'
 
 const AnalyticsIcon = styled(Analytics)` margin-left: 1rem `
 const OptimizeIcon = styled(Optimize)` margin-left: 1rem `
-
 export const ScotusNetwork = () => (
   <>
     <Heading level={3} margin="none">

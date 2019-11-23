@@ -23,7 +23,7 @@ const SearchBar = () => (
         label="Search"
         color="accent-2"
         primary={true}
-        onClick={() => {}}
+        onClick={() => ({ result: 'Yay! You searched!' })}
       />
     </Box>
     <ItalicHeading level={4} margin="none">

@@ -2,7 +2,7 @@ import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
 import { Article, Github, Link, Twitter } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
-import donate from './donate-button.png'
+import * as donate from './donate-button.png'
 
 const footerLinks = [
   { label: 'About', link: '/about' },

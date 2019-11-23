@@ -1,7 +1,8 @@
+// Base HTML Template Used by Server-Side Renderer
 import { AfterData, AfterRoot } from '@jaredpalmer/after'
 import * as React from 'react'
 import { ServerStyleSheet } from 'styled-components'
-import { CtxProps, HtmlProps } from './_types'
+import { CtxProps, HtmlProps } from '../typings/roos'
 
 class Document extends React.Component<HtmlProps> {
   public static async getInitialProps({ assets, data, renderPage }: CtxProps) {
