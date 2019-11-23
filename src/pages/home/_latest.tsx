@@ -1,10 +1,10 @@
+import { Anchor, Heading, Text } from 'grommet'
+import { DocumentText, Volume } from 'grommet-icons'
 import * as React from 'react'
-import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
-import { DocumentText, Search, Volume } from 'grommet-icons'
 import styled from 'styled-components'
 
 // mock api call
-import { fakeLatestData,fakeAudioData } from "./_fakeData"
+import { fakeAudioData, fakeLatestData } from './_fakeData'
 
 // override grommet with styled-components
 const DocumentIcon = styled(DocumentText)` margin-left: 1rem`
@@ -55,7 +55,10 @@ const LatestAudio = (props: {
 // exported components
 export const LatestOpinionList = () => (
   <>
-    <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >Latest Opinions<DocumentIcon /></Heading>
+    <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >
+      Latest Opinions
+      <DocumentIcon />
+    </Heading>
     <Text size="xxsmall" margin={{ vertical: 'small'}}>
       We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
     </Text>

@@ -48,9 +48,9 @@ export const Footer = () => (
 
 export const FooterIcons = () => (
   <Box direction="row" gap="medium" justify="center">
-    <Anchor icon={<Link size="large" />} url="https://free.law" />
-    <Anchor icon={<Twitter size="large" />} url="https://twitter.com/freelawproject" />
-    <Anchor icon={<Article size="large"/>} url="https://free.law/newsletter" />
-    <Anchor icon={<Github size="large" />} url="https://github.com/freelawproject" />
+    <Anchor icon={<Link size="large" />} href="https://free.law" />
+    <Anchor icon={<Twitter size="large" />} href="https://twitter.com/freelawproject" />
+    <Anchor icon={<Article size="large"/>} href="https://free.law/newsletter" />
+    <Anchor icon={<Github size="large" />} href="https://github.com/freelawproject" />
   </Box>
 )

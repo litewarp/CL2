@@ -25,7 +25,7 @@ const Home = props => (
     rows={[ 'xsmall', 'xxsmall', 'small', 'xsmall', 'medium', 'medium', 'xsmall', 'small', 'xxsmall' ]}
     columns={[ '1/2', '1/2' ]}
     areas={[
-      { name: 'header',   start: [0, 0], end: [1, 0] },
+      { name: 'header', start: [0, 0], end: [1, 0] },
       { name: 'options', start: [0, 1], end: [1, 1] },
       { name: 'search', start: [0, 2], end: [1, 2] },
       { name: 'about', start: [0, 3], end: [1, 3] },
@@ -39,6 +39,7 @@ const Home = props => (
     <Helmet>
       <title>Non-Profit Free Legal Search Engine and Alert System</title>
     </Helmet>
+
     <Box direction="row" justify="end" pad="small" gridArea="header">
       <Header/>
     </Box>

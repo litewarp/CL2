@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Anchor, Heading, Text } from "grommet"
+import { Anchor, Box, Heading } from 'grommet'
+import * as React from 'react'
 
 const HeaderAnchor = (props: { href: string, label: string }) => (
   <Anchor {...props} margin="small" color="dark-5" size="small"/>
