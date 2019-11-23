@@ -7,6 +7,7 @@ import createStore from './root/store/createStore'
 import routes from './routes'
 
 const { store } = createStore()
+const root = document.getElementById('root')
 
 ensureReady(routes).then((data) =>
   hydrate(
@@ -15,7 +16,7 @@ ensureReady(routes).then((data) =>
         <After data={data} routes={routes}/>
       </BrowserRouter>
     </Provider>,
-    document.getElementById('root')
+    root
   )
 );
 

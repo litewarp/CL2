@@ -3,6 +3,7 @@ import express from 'express'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { Provider } from 'react-redux'
+import { StaticRouter } from 'react-router-dom'
 import routes from './routes'
 
 import Document from './root/Document'
@@ -24,7 +25,13 @@ server
       // render app to static string using react server
       // return the current state with the static string
       const customRenderer = (node: React.ReactNode) => {
-        const App = <Provider store={store}>{node}</Provider>
+        const App = (
+          <Provider store={store}>
+            <StaticRouter location={req.url} context={{}}>
+              {node}
+            </StaticRouter>
+          </Provider>
+        )
         return {
           html: renderToString(App),
           serverState: store.getState()

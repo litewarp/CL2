@@ -45,4 +45,4 @@ class Document extends React.Component<HtmlProps> {
   }
 }
 
-export default Document;
+export default Document

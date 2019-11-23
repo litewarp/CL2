@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@jaredpalmer/after": "latest",
+    "@reduxjs/toolkit": "^1.0.4",
     "@tshio/redux-api-params-middleware": "^1.2.2",
     "connected-react-router": "^6.6.0",
     "cross-fetch": "^3.0.4",

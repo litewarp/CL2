@@ -1,11 +1,9 @@
-import { Box, Button, Grid, Heading, Text, TextInput } from 'grommet'
-import { Article } from 'grommet-icons'
-
-import React from 'react';
-import Helmet from 'react-helmet';
-import { connect, shallowEqual, useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components'
+import { Box, Button, CheckBox, Grid, Heading, Text, TextInput } from 'grommet'
+import React from 'react'
+import Helmet from 'react-helmet'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchTest } from '../../root/actions'
+import { toggleDarkMode } from '../../root/actions/layoutActions'
 import withLayout from '../../root/withLayout'
 import { CtxProps } from '../../typings/root'
 
@@ -21,7 +19,9 @@ import SearchBar from './_search'
 const Home = (props: CtxProps) => {
   // get data from the redux store
   // pass useSelector a getter function and an optional equality function
-  // const selectedData: {} = useSelector((state) => state.home, shallowEqual)
+  const darkMode = useSelector(({ layout }) => layout.darkMode)
+  // dispatch actions from the store using useDispatch
+  const dispatch = useDispatch()
   return (
     <Grid
       align="start"
@@ -47,6 +47,7 @@ const Home = (props: CtxProps) => {
 
       <Box direction="row" justify="end" pad="small" gridArea="header">
         <Header/>
+        <CheckBox label="Enable Dark Mode" checked={darkMode} toggle={true} onChange={() => dispatch(toggleDarkMode)} />
       </Box>
       <Box direction="row" align="center" justify="around" border="horizontal" gridArea="options">
         <OptionBar/>
@@ -88,7 +89,7 @@ const Home = (props: CtxProps) => {
         align="center"
         justify="start"
         background="#e5ecf9"
-        border="all"
+        border="horizontal"
         gridArea="newsletter"
       >
         <Newsletter />
