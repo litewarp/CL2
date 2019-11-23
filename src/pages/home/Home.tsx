@@ -47,7 +47,11 @@ const Home = (props: CtxProps) => {
 
       <Box direction="row" justify="end" pad="small" gridArea="header">
         <Header/>
-        <CheckBox label="Enable Dark Mode" checked={darkMode} toggle={true} onChange={() => dispatch(toggleDarkMode)} />
+        <CheckBox label="Enable Dark Mode" checked={darkMode} toggle={true} onChange={() => {
+            console.log(darkMode)
+            dispatch(toggleDarkMode())
+          }}
+        />
       </Box>
       <Box direction="row" align="center" justify="around" border="horizontal" gridArea="options">
         <OptionBar/>
