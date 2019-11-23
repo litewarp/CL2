@@ -1,22 +1,22 @@
-import { render } from '@jaredpalmer/after';
-import express from 'express';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
-import routes from './routes';
+import { render } from '@jaredpalmer/after'
+import express from 'express'
+import React from 'react'
+import { renderToString } from 'react-dom/server'
+import { Provider } from 'react-redux'
+import routes from './routes'
 
-import Document from './root/Document';
-import createStore from './root/store/createStore';
+import Document from './root/Document'
+import createStore from './root/store/createStore'
 
 // @ts-ignore
 // tslint:disable:no-var-requires
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
-const server = express();
+const server = express()
 
 server
   .disable('x-powered-by')
-  .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
+  .use(express.static(process.env.RAZZLE_PUBLIC_DIR || ''))
   .get('/*', async (req, res) => {
     try {
       // create store based on request

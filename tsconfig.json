@@ -15,6 +15,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": false,
+    "outDir": "./build",
     "sourceMap": true,
     "strictNullChecks": true,
     "strict": true,
@@ -22,14 +23,8 @@
     "suppressImplicitAnyIndexErrors": true,
     "target": "es2016"
   },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "razzle.config.js"
+  "include": [
+    "./src/**/*"
   ],
   "types": ["typePatches", "node", "webpack-env"]
 }

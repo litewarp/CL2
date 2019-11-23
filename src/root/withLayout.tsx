@@ -39,24 +39,19 @@ const theme = deepFreeze({
 
 const FixedBox = styled(Box)` max-width: 1280px;`
 
-const withLayout = (Component: React.ReactNode) => (
-  class WithLayout extends React.Component {
-    public render() {
-      return (
-        <Grommet theme={theme} full={true}>
-          <ResponsiveContext.Consumer>
-            {(size) => (
-              <Box fill={true} alignContent="center">
-                <FixedBox alignSelf="center" fill={true}>
-                  <Component size={size} {...this.props} />
-                </FixedBox>
-              </Box>
-            )}
-          </ResponsiveContext.Consumer>
-        </Grommet>
-      )
-    }
-  }
+const withLayout = (Component: React.FC) => (
+  (props: any) => (
+    <Grommet theme={theme} full={true}>
+      <ResponsiveContext.Consumer>
+        {(size) => (
+          <Box fill={true} alignContent="center">
+            <FixedBox alignSelf="center" fill={true}>
+              <Component size={size} {...props} />
+            </FixedBox>
+          </Box>
+        )}
+      </ResponsiveContext.Consumer>
+    </Grommet>
+  )
 )
-
 export default withLayout

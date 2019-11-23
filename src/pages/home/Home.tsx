@@ -21,7 +21,7 @@ import SearchBar from './_search'
 const Home = (props: CtxProps) => {
   // get data from the redux store
   // pass useSelector a getter function and an optional equality function
-  const selectedData = useSelector((state) => state.home, shallowEqual)
+  // const selectedData: {} = useSelector((state) => state.home, shallowEqual)
   return (
     <Grid
       align="start"
@@ -108,7 +108,8 @@ const Home = (props: CtxProps) => {
 // Call getInitialProps prior to initial render
 Home.getInitialProps = async (props: CtxProps) => {
   // dispatch any async API calls or functions
-  useDispatch(fetchTest())
+  const dispatch = useDispatch()
+  dispatch(fetchTest())
   // return the props to the page; no need to wait
   return { ...props }
 }

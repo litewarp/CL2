@@ -3,7 +3,6 @@
 // imported from yarn libraries
 import paramsMiddleware from '@tshio/redux-api-params-middleware'
 import { routerMiddleware } from 'connected-react-router'
-import { createBrowserHistory, createMemoryHistory } from 'history'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { apiMiddleware } from 'redux-api-middleware'
 import logger from 'redux-logger'
@@ -20,16 +19,11 @@ export const isServer = !(
 )
 
 export default (url = '/') => {
-  // create history depending on environment
-  const history = isServer
-    ? createMemoryHistory({ initialEntries: [url], initialIndex: 0 })
-    : createBrowserHistory()
   // bundle middlewares - be mindful of order
   const middleware = [
     paramsMiddleware,
     apiMiddleware,
     thunk,
-    routerMiddleware(history),
     logger,
   ]
 
@@ -60,7 +54,7 @@ export default (url = '/') => {
 
   // create the store
   const store = createStore(
-    createRootReducer(history),
+    createRootReducer(),
     initialState,
     composedEnhancers,
   )
@@ -73,5 +67,5 @@ export default (url = '/') => {
     })
   }
 
-  return { store, history }
+  return { store }
 };

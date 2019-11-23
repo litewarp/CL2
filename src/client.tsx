@@ -1,19 +1,19 @@
-import { After, ensureReady } from '@jaredpalmer/after';
-import { ConnectedRouter } from 'connected-react-router'
-import React from 'react';
-import { hydrate } from 'react-dom';
-import { Provider } from 'react-redux';
-import createStore from './root/store/createStore';
-import routes from './routes';
+import { After, ensureReady } from '@jaredpalmer/after'
+import React from 'react'
+import { hydrate } from 'react-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import createStore from './root/store/createStore'
+import routes from './routes'
 
-const { store, history } = createStore();
+const { store } = createStore()
 
 ensureReady(routes).then((data) =>
   hydrate(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <BrowserRouter>
         <After data={data} routes={routes}/>
-      </ConnectedRouter>
+      </BrowserRouter>
     </Provider>,
     document.getElementById('root')
   )
