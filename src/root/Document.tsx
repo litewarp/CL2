@@ -1,14 +1,13 @@
 import { AfterData, AfterRoot } from '@jaredpalmer/after'
 import * as React from 'react'
 import { ServerStyleSheet } from 'styled-components'
+import { CtxProps, HtmlProps } from './_types'
 
-class Document extends React.Component {
-  public static async getInitialProps({ assets, data, renderPage, req }) {
+class Document extends React.Component<HtmlProps> {
+  public static async getInitialProps({ assets, data, renderPage }: CtxProps) {
     const sheet = new ServerStyleSheet();
-    const page = await renderPage((App) => (props) => sheet.collectStyles
-    (<App {...props}/>));
+    const page = await renderPage((App: React.ReactNode) => (props) => sheet.collectStyles(<App {...props}/>));
     const styleTags = sheet.getStyleElement();
-
     return { assets, data, styleTags, ...page };
   }
 

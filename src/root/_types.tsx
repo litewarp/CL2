@@ -2,7 +2,24 @@
 
 export interface HtmlProps {
   data: {},
-  helmet: {},
+  helmet: {
+    bodyAttributes: {
+      toComponent: () => {}
+    },
+    htmlAttributes: {
+      toComponent: () => {}
+    },
+    link: {
+      toComponent: () => {}
+    },
+    meta: {
+      toComponent: () => {}
+    },
+    title: {
+      toComponent: () => {}
+    },
+
+},
   styleTags: {},
   serverState: {},
   assets: {

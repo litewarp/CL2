@@ -17,7 +17,7 @@ import Newsletter from './_newsletter'
 import OptionBar from './_options'
 import SearchBar from './_search'
 
-const Home = props => (
+const Home = (props) => (
   <Grid
     align="start"
     gap="xlarge"
@@ -94,7 +94,7 @@ const Home = props => (
 Home.getInitialProps = async ({ store }) => {
   await store.dispatch(fetchTest());
   // u can get initial states with store.getState()
-  //console.log(store.getState());
+  // console.log(store.getState());
 };
 
 const mstp = ({ posts }) => ({ posts });

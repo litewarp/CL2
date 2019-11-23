@@ -1,5 +1,5 @@
 import 'cross-fetch/polyfill'
-import express from 'express';
+import express from 'express'
 
 // tslint:disable:no-var-requires
 let app = require('./server').default;

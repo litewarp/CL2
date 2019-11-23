@@ -18,7 +18,7 @@ const Newsletter = () => (
     </Box>
     <Box direction="row" margin={{ left: 'auto' }} gap="small">
       <TextInput placeholder="Email Address" size="xsmall" />
-      <SubscribeButton size="small" icon={<Article />} label="Subscribe" onClick={()=>{}}/>
+      <SubscribeButton size="small" icon={<Article />} label="Subscribe" onClick={() => ({ subscribe: 'Yay!' })} />
     </Box>
   </>
 )
