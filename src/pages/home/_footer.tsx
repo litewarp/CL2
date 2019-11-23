@@ -2,6 +2,7 @@ import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
 import { Article, Github, Link, Twitter } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
+import donate from './donate-button.png'
 
 const footerLinks = [
   { label: 'About', link: '/about' },
@@ -29,15 +30,27 @@ const footerLinks = [
 
 export const Footer = () => (
   <>
-    {footerLinks.map((l, index) => <Anchor label={l.label} href={l.link} key={`footer_${index}`}/>)}
-  </>
+    <Box direction="column" gap="medium">
+      <Box direction="row" wrap={true} gap="large" basis="1/2">
+        {footerLinks.map((l, index) => (
+          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} margin="none"/>
+        ))}
+      </Box>
+      <Text size="small" margin="none">
+        CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
+      </Text>
+    </Box>
+    <Box direction="row" basis="1/2" justify="end" pad="medium">
+      <img src={donate} width="227" height="75"/>
+    </Box>
+</>
 )
 
 export const FooterIcons = () => (
   <Box direction="row" gap="medium" justify="center">
-    <Link />
-    <Twitter />
-    <Article />
-    <Github />
+    <Anchor icon={<Link size="large" />} url="https://free.law" />
+    <Anchor icon={<Twitter size="large" />} url="https://twitter.com/freelawproject" />
+    <Anchor icon={<Article size="large"/>} url="https://free.law/newsletter" />
+    <Anchor icon={<Github size="large" />} url="https://github.com/freelawproject" />
   </Box>
 )

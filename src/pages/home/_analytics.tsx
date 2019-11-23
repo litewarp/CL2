@@ -9,14 +9,14 @@ const OptimizeIcon = styled(Optimize)` margin-left: 1rem `
 
 export const ScotusNetwork = () => (
   <>
-    <Heading level={3} margin={{ vertical: 'medium'}}>
+    <Heading level={3} margin="none">
       Supreme Court Network Visualizations
       <OptimizeIcon />
     </Heading>
     <Text size="xxsmall" margin={{ vertical: 'small' }}>
       Supreme Court Network Visualizations allow you to see and analyze lines of precedent in Supreme Court cases.
     </Text>
-    <img src={fakeScotusChart}/>
+    <img src={fakeScotusChart} width="470" height="250"/>
     <Box direction="row" justify="start">
       <Button
         label="See Gallery"
@@ -58,7 +58,7 @@ export const TheNumbers = () => {
   }
   return (
     <>
-      <Heading level={3} margin={{ vertical: 'medium'}} >
+      <Heading level={3} margin="none" >
         The Numbers
         <AnalyticsIcon />
       </Heading>

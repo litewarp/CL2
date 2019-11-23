@@ -19,8 +19,10 @@ import SearchBar from './_search'
 
 const Home = props => (
   <Grid
-    gap="small"
-    rows={[ 'xsmall', 'xxsmall', 'small', 'small', 'medium', 'flex', 'xsmall', 'small', 'xxsmall' ]}
+    align="start"
+    gap="xlarge"
+    fill={true}
+    rows={[ 'xsmall', 'xxsmall', 'small', 'xsmall', 'medium', 'medium', 'xsmall', 'small', 'xxsmall' ]}
     columns={[ '1/2', '1/2' ]}
     areas={[
       { name: 'header',   start: [0, 0], end: [1, 0] },
@@ -78,7 +80,7 @@ const Home = props => (
       <Newsletter />
     </Box>
 
-    <Box direction="row" justify="start" gridArea="footer">
+    <Box direction="row" justify="start" gridArea="footer" align="center">
       <Footer />
     </Box>
 
