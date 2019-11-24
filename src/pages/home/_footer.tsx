@@ -2,7 +2,9 @@ import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
 import { Article, Github, Link, Twitter } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
-import * as donate from './donate-button.png'
+
+// tslint:disable:no-var-requires
+const donate = require('./donate-button.png')
 
 const footerLinks = [
   { label: 'About', link: '/about' },

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchTest } from '../../root/actions'
 import { toggleDarkMode } from '../../root/actions/layoutActions'
 import withLayout from '../../root/withLayout'
-import { ApplicationState, CtxProps } from '../../typings/root'
+import { ApplicationState, CtxProps } from '../../types'
 
 import { AboutCourtListener, AboutFreeLawProject } from './_about'
 import { ScotusNetwork, TheNumbers } from './_analytics'

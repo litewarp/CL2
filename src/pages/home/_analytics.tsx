@@ -2,7 +2,9 @@ import { Anchor, Box, Button, Heading, Table, TableBody, TableCell, TableRow, Te
 import { Analytics, Optimize } from 'grommet-icons'
 import * as React from 'react'
 import styled from 'styled-components'
-import * as fakeScotusChart from './fakeScotusChart.png'
+
+// tslint:disable:no-var-requires
+const fakeScotusChart = require('./fakeScotusChart.png')
 
 const AnalyticsIcon = styled(Analytics)` margin-left: 1rem `
 const OptimizeIcon = styled(Optimize)` margin-left: 1rem `
