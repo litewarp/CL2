@@ -40,11 +40,11 @@ const theme = deepFreeze({
 
 const FixedBox = styled(Box)` max-width: 1280px;`
 
-const withLayout = (Component: React.FC) => (
+const withLayout = (Component: React.ComponentType<{}>) => (
     (props: any) => {
       // inject darkMode flag from state
-      const darkMode = useSelector(({ layout }) => layout.darkMode)
-      return (
+    const darkMode = useSelector(({ layout }: { layout: { darkMode: boolean }}) => layout.darkMode)
+    return (
       <Grommet theme={theme} themeMode={darkMode ? 'dark' : 'light'} full={true}>
         <ResponsiveContext.Consumer>
           {(size) => (

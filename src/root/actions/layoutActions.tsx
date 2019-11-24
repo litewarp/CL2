@@ -5,7 +5,7 @@ export const toggleDarkMode = createAction('@layout/TOGGLE_DARK_MODE')
 const initialState = { darkMode: true }
 
 export const layoutReducer = createReducer(initialState, {
-  [toggleDarkMode]: (state, action) => ({
+  [toggleDarkMode as any]: (state, action) => ({
     ...state,
       darkMode: !state.darkMode
   })

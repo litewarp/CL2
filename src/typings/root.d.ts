@@ -49,3 +49,9 @@ export interface CtxProps {
   data: {},
   renderPage: (node: React.ReactNode) => {},
 }
+
+export interface ApplicationState {
+  layout: {
+    darkMode: boolean,
+  }
+}

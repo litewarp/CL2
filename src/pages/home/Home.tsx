@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchTest } from '../../root/actions'
 import { toggleDarkMode } from '../../root/actions/layoutActions'
 import withLayout from '../../root/withLayout'
-import { CtxProps } from '../../typings/root'
+import { ApplicationState, CtxProps } from '../../typings/root'
 
 import { AboutCourtListener, AboutFreeLawProject } from './_about'
 import { ScotusNetwork, TheNumbers } from './_analytics'
@@ -19,7 +19,7 @@ import SearchBar from './_search'
 const Home = (props: CtxProps) => {
   // get data from the redux store
   // pass useSelector a getter function and an optional equality function
-  const darkMode = useSelector(({ layout }) => layout.darkMode)
+  const darkMode = useSelector((state: ApplicationState) => state.layout.darkMode)
   // dispatch actions from the store using useDispatch
   const dispatch = useDispatch()
   return (
@@ -47,10 +47,11 @@ const Home = (props: CtxProps) => {
 
       <Box direction="row" justify="end" pad="small" gridArea="header">
         <Header/>
-        <CheckBox label="Enable Dark Mode" checked={darkMode} toggle={true} onChange={() => {
-            console.log(darkMode)
-            dispatch(toggleDarkMode())
-          }}
+        <CheckBox
+          label="Enable Dark Mode"
+          checked={darkMode}
+          toggle={true}
+          onChange={() => dispatch(toggleDarkMode())}
         />
       </Box>
       <Box direction="row" align="center" justify="around" border="horizontal" gridArea="options">
