@@ -8,6 +8,7 @@ const fakeScotusChart = require('./fakeScotusChart.png')
 
 const AnalyticsIcon = styled(Analytics)` margin-left: 1rem `
 const OptimizeIcon = styled(Optimize)` margin-left: 1rem `
+
 export const ScotusNetwork = () => (
   <>
     <Heading level={3} margin="none">
