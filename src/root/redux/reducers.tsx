@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { layoutReducer } from '../actions/layoutActions'
-import homeReducer from './homeReducer'
+import { homeReducer } from './home'
+import { layoutReducer } from './layout'
 
 export default () =>
   combineReducers({

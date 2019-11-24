@@ -1,8 +1,10 @@
 import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
-import { Article, Github, Link, Twitter } from 'grommet-icons'
 import * as React from 'react'
+import { FaGithub, FaLink, FaRegNewspaper, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
-import * as donate from './donate-button.png'
+
+// tslint:disable:no-var-requires
+const donate = require('./donate-button.png')
 
 const footerLinks = [
   { label: 'About', link: '/about' },
@@ -48,9 +50,9 @@ export const Footer = () => (
 
 export const FooterIcons = () => (
   <Box direction="row" gap="medium" justify="center">
-    <Anchor icon={<Link size="large" />} href="https://free.law" />
-    <Anchor icon={<Twitter size="large" />} href="https://twitter.com/freelawproject" />
-    <Anchor icon={<Article size="large"/>} href="https://free.law/newsletter" />
-    <Anchor icon={<Github size="large" />} href="https://github.com/freelawproject" />
+    <Anchor icon={<FaLink />} href="https://free.law" size="xxlarge"/>
+    <Anchor icon={<FaTwitter />} href="https://twitter.com/freelawproject"  size="xxlarge"/>
+    <Anchor icon={<FaRegNewspaper />} href="https://free.law/newsletter" size="xxlarge"/>
+    <Anchor icon={<FaGithub />} href="https://github.com/freelawproject" size="xxlarge"/>
   </Box>
 )

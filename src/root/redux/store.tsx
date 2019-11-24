@@ -2,14 +2,13 @@
 
 // imported from yarn libraries
 import paramsMiddleware from '@tshio/redux-api-params-middleware'
-import { routerMiddleware } from 'connected-react-router'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { apiMiddleware } from 'redux-api-middleware'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 
 // local imports
-import createRootReducer from '../reducers'
+import createRootReducer from './reducers'
 
 // local helper to determine if rendering on server or client
 export const isServer = !(
@@ -61,11 +60,11 @@ export default (url = '/') => {
 
   // allow hot reloading of reducers
   if (module.hot) {
-    module.hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers').default
+    module.hot.accept('./reducers', () => {
+      const nextRootReducer = require('./reducers').default
       store.replaceReducer(nextRootReducer(history))
     })
   }
 
   return { store }
-};
+}

@@ -2,7 +2,7 @@
 import { AfterData, AfterRoot } from '@jaredpalmer/after'
 import * as React from 'react'
 import { ServerStyleSheet } from 'styled-components'
-import { CtxProps, HtmlProps } from '../typings/root'
+import { CtxProps, HtmlProps } from '../types'
 
 class Document extends React.Component<HtmlProps> {
   public static async getInitialProps({ assets, data, renderPage }: CtxProps) {

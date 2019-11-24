@@ -1,50 +1,16 @@
 import { Box, Grommet, ResponsiveContext } from 'grommet'
-import { deepFreeze } from 'grommet/utils'
 import * as React from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-
-const theme = deepFreeze({
-  global: {
-    colors: {
-      'accent-1': '#033F63',
-      'accent-2': '#476A6F',
-      'accent-3': '#b6c197',
-      'accent-4': '#eae2b7',
-      'brand': '#c01722',
-      'dark-1': '#080708',
-      'dark-2': '#353535',
-      'dark-3': '#555555',
-      'dark-4': '#666370',
-      'dark-5': '#777777',
-      'focus': '#FFF8F0',
-      'neutral-1': '#9B7874',
-      'neutral-2': '#69130E',
-      'neutral-3': '#1c1f33',
-      'neutral-4': '#c8963E',
-      'selected': '#C01722',
-      'status-critical': '#ff3f3f',
-      'status-error': '#DD4B1A',
-      'status-ok': '#8A9B6A',
-      'status-unknown': '#BDBBB0',
-      'status-warning': '#FDCA40',
-    },
-    font: {
-      family: 'Roboto',
-      height: '20px',
-      size: '12px',
-      weight: '300',
-    },
-  },
-})
+import theme from './theme'
 
 const FixedBox = styled(Box)` max-width: 1280px;`
 
-const withLayout = (Component: React.FC) => (
+const withLayout = (Component: React.ComponentType<{}>) => (
     (props: any) => {
       // inject darkMode flag from state
-      const darkMode = useSelector(({ layout }) => layout.darkMode)
-      return (
+    const darkMode = useSelector(({ layout }: { layout: { darkMode: boolean }}) => layout.darkMode)
+    return (
       <Grommet theme={theme} themeMode={darkMode ? 'dark' : 'light'} full={true}>
         <ResponsiveContext.Consumer>
           {(size) => (

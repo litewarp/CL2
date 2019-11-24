@@ -2,10 +2,10 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 
 export const toggleDarkMode = createAction('@layout/TOGGLE_DARK_MODE')
 
-const initialState = { darkMode: true }
+const initialState = { darkMode: false }
 
 export const layoutReducer = createReducer(initialState, {
-  [toggleDarkMode]: (state, action) => ({
+  [toggleDarkMode as any]: (state, action) => ({
     ...state,
       darkMode: !state.darkMode
   })
