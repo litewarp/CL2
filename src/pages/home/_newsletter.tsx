@@ -1,6 +1,6 @@
 import { Box, Button, Heading, Text, TextInput } from 'grommet'
-import { Article } from 'grommet-icons'
 import * as React from 'react'
+import { FaRegNewspaper } from 'react-icons/fa'
 import styled from 'styled-components'
 
 const SubscribeButton = styled(Button)`
@@ -18,7 +18,7 @@ const Newsletter = () => (
     </Box>
     <Box direction="row" margin={{ left: 'auto' }} gap="small">
       <TextInput placeholder="Email Address" size="xsmall" />
-      <SubscribeButton icon={<Article />} label="Subscribe" onClick={() => ({ subscribe: 'Yay!' })} />
+      <SubscribeButton icon={<FaRegNewspaper />} label="Subscribe" onClick={() => ({ subscribe: 'Yay!' })} />
     </Box>
   </>
 )

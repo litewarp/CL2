@@ -1,14 +1,14 @@
 import { Anchor, Button, Heading, Text } from 'grommet'
-import { DocumentText, Volume } from 'grommet-icons'
 import * as React from 'react'
+import { FaRegFileAlt, FaVolumeUp } from 'react-icons/fa'
 import styled from 'styled-components'
 
 // mock api call
 import { fakeAudioData, fakeLatestData } from './_fakeData'
 
 // override grommet with styled-components
-const DocumentIcon = styled(DocumentText)` margin-left: 1rem`
-const SoundIcon = styled(Volume)` margin-left: 1rem`
+const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`
+const SoundIcon = styled(FaVolumeUp)` margin-left: 1rem`
 const FlatButton = styled(Button)`max-width: 50%; margin: .5rem 0 0 auto`
 
 // local components

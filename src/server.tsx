@@ -7,7 +7,7 @@ import { StaticRouter } from 'react-router-dom'
 import routes from './routes'
 
 import Document from './root/Document'
-import createStore from './root/store/createStore'
+import createStore from './root/redux/store'
 
 // @ts-ignore
 // tslint:disable:no-var-requires

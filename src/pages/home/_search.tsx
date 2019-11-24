@@ -1,7 +1,7 @@
 
 import { Anchor, Box, Button, Heading, TextInput } from 'grommet'
-import { Search } from 'grommet-icons'
 import * as React from 'react'
+import { FaSearch } from 'react-icons/fa'
 import styled from 'styled-components'
 
 // override grommet with styled-components
@@ -19,7 +19,7 @@ const SearchBar = () => (
     <Box width="large" direction="row" align="center" round="small" border="all">
       <TextInput type="search" plain={true} />
       <Button
-        icon={<Search />}
+        icon={<FaSearch />}
         label="Search"
         color="accent-2"
         primary={true}

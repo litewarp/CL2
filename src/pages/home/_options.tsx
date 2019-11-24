@@ -1,6 +1,6 @@
 import { Anchor, Box, Menu } from 'grommet'
-import { Favorite } from 'grommet-icons'
 import * as React from 'react'
+import { FaHeart } from 'react-icons/fa'
 
 const OptionBar = () => (
   <>
@@ -24,7 +24,7 @@ const OptionBar = () => (
       ]}
       size="small"
     />
-    <Anchor label="Donate" size="small" href="/donate/?referrer=navbar-v2" icon={<Favorite/>}/>
+    <Anchor label="Donate" size="small" href="/donate/?referrer=navbar-v2" icon={<FaHeart/>}/>
   </>
 )
 export default OptionBar

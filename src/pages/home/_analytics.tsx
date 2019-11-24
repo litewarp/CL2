@@ -1,19 +1,19 @@
 import { Anchor, Box, Button, Heading, Table, TableBody, TableCell, TableRow, Text } from 'grommet'
-import { Analytics, Optimize } from 'grommet-icons'
 import * as React from 'react'
+import { FaChartLine, FaChartPie } from 'react-icons/fa'
 import styled from 'styled-components'
 
 // tslint:disable:no-var-requires
 const fakeScotusChart = require('./fakeScotusChart.png')
 
-const AnalyticsIcon = styled(Analytics)` margin-left: 1rem `
-const OptimizeIcon = styled(Optimize)` margin-left: 1rem `
+const PieChartIcon = styled(FaChartPie)` margin-left: 1rem `
+const ArrowChartIcon = styled(FaChartLine)` margin-left: 1rem `
 
 export const ScotusNetwork = () => (
   <>
     <Heading level={3} margin="none">
       Supreme Court Network Visualizations
-      <OptimizeIcon />
+      <ArrowChartIcon />
     </Heading>
     <Text size="xxsmall" margin={{ vertical: 'small' }}>
       Supreme Court Network Visualizations allow you to see and analyze lines of precedent in Supreme Court cases.
@@ -54,7 +54,7 @@ export const TheNumbers = () => {
     <>
       <Heading level={3} margin="none" >
         The Numbers
-        <AnalyticsIcon />
+        <PieChartIcon />
       </Heading>
       <Table>
         <TableBody>
