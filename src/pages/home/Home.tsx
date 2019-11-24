@@ -2,7 +2,7 @@ import { Box, Button, CheckBox, Grid, Heading, Text, TextInput } from 'grommet'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchTest } from '../../root/actions'
+import { fetchData } from '../../root/actions/homeActions'
 import { toggleDarkMode } from '../../root/actions/layoutActions'
 import withLayout from '../../root/withLayout'
 import { ApplicationState, CtxProps } from '../../types'
@@ -16,7 +16,7 @@ import Newsletter from './_newsletter'
 import OptionBar from './_options'
 import SearchBar from './_search'
 
-const Home = (props: CtxProps) => {
+const Home = () => {
   // get data from the redux store
   // pass useSelector a getter function and an optional equality function
   const darkMode = useSelector((state: ApplicationState) => state.layout.darkMode)
@@ -115,7 +115,7 @@ const Home = (props: CtxProps) => {
 Home.getInitialProps = async (props: CtxProps) => {
   // dispatch any async API calls or functions
   const dispatch = useDispatch()
-  dispatch(fetchTest())
+  dispatch(fetchData())
   // return the props to the page; no need to wait
   return { ...props }
 }
