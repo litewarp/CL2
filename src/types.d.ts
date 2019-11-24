@@ -1,47 +1,27 @@
 // type definitions for Court Listener
+import { DocumentProps, InitialProps } from '@jaredpalmer/after'
 
 declare module '*.png'
 
-export interface HtmlProps {
-  data: {},
-  helmet: {
-    bodyAttributes: {
-      toComponent: () => {}
-    },
-    htmlAttributes: {
-      toComponent: () => {}
-    },
-    link: {
-      toComponent: () => {}
-    },
-    meta: {
-      toComponent: () => {}
-    },
-    title: {
-      toComponent: () => {}
-    },
-  },
-  styleTags: {},
-  serverState: {},
-  assets: {
-    client: {
-      js: string,
-    },
-    vendor: {
-      js: string,
-    },
-  },
+type Merge<A, B> = (Omit<A, keyof B> & B) extends infer O
+  ? { [K in keyof O]: O[K] }
+  : never;
+
+interface Assets {
+  [name: string]: {
+    [ext: string]: string
+  }
 }
 
+interface InjectedDocumentProps {
+  styleTags: React.ReactElement<any>,
+  serverState: ApplicationState
+}
+
+export interface HtmlProps extends Merge<DocumentProps, InjectedDocumentProps> {}
+
 export interface CtxProps {
-  assets: {
-    client: {
-      js: string,
-    },
-    vendor: {
-      js: string,
-    },
-  },
+  assets: Assets,
   req?: {},
   res?: {},
   history?: {},
