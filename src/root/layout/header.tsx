@@ -21,28 +21,28 @@ export default () => {
     <Box direction="row" justify="end" pad="small">
       <Box direction="column" margin={{ right: 'auto'}}>
         <Box direction="row">
-          <Heading level={1} margin="none" color="accent-1">Court</Heading>
+          <Heading level={1} margin="none" color="neutral-1">Court</Heading>
           <Heading level={1} margin="none" color="brand">Listener</Heading>
         </Box>
         <Heading level={6} size="small" margin="none">
           From {FreeLawLink}, a 501(c)(3) corporation
         </Heading>
       </Box>
-      <Box direction="column">
-        <Box direction="row" justify="end" pad="small">
+      <Box direction="column" align="end">
+        <Box direction="row" pad="small">
           <HeaderAnchor href="/about" label="About" />
           <HeaderAnchor href="/faq" label="FAQ" />
           <HeaderAnchor href="#" label="Tour" />
           <HeaderAnchor href="/sign-in" label="Sign in / Register" />
+        </Box>
         <CheckBox
           reverse
           toggle
           color="dark-5"
           checked={darkMode}
-          label={<Anchor label={`Toggle ${ darkMode ? 'Light' : 'Dark' } Mode`} color="dark-5"/>}
+          label={<Anchor margin="none" label={`Toggle ${ darkMode ? 'Light' : 'Dark' } Mode`} color="dark-5"/>}
           onChange={() => dispatch(toggleDarkMode())}
         />
-        </Box>
       </Box>
     </Box>
   )

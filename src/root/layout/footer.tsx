@@ -31,7 +31,14 @@ const footerLinks = [
 ]
 
 const DonateButton = () => (
-  <Box direction="column" align="center" border="all" hoverIndicator onClick={() => '/donate/?referrer=footer-link'}>
+  <Box 
+    direction="column" 
+    align="center" 
+    border="all" 
+    pad="small"
+    hoverIndicator 
+    onClick={() => '/donate/?referrer=footer-link'}
+  >
     <Heading level={3} color="accent-1" margin="none">Donate</Heading>
     <Heading level={5} margin="none">to</Heading>
     <Heading level={4} color="neutral-1" margin="none">Support our work</Heading>
@@ -39,14 +46,14 @@ const DonateButton = () => (
 )
 
 export const Footer = () => (
-  <Box align="center" direction="row" margin={{ top: 'small' }}>
-    <Box direction="column" basis="2/3">
-      <Box wrap direction="row" gap="large">
+  <Box align="center" direction="row" justify="end" margin={{ top: 'small' }}>
+    <Box direction="column" basis="3/4" margin={{ right: 'auto' }} pad="small"> 
+      <Box wrap direction="row" gap="small">
         {footerLinks.map((l, index) => (
-          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} margin="none"/>
+          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} margin="xxsmall"/>
         ))}
       </Box>
-      <Text size="small" margin="none">
+      <Text size="small" margin={{ top: 'small'}}>
         CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
       </Text>
     </Box>
