@@ -81,5 +81,5 @@ export default deepFreeze({
   },
   name: 'CourtListener',
   rounding: 4,
-  spacing: 24,
+  spacing: 20,
 })

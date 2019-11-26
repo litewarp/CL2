@@ -9,7 +9,11 @@ import { fakeAudioData, fakeLatestData } from './_fakeData'
 // override grommet with styled-components
 const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`
 const SoundIcon = styled(FaVolumeUp)` margin-left: 1rem`
-const FlatButton = styled(Button)`max-width: 50%; margin: .5rem 0 0 auto`
+const FlatButton = styled(Button)`
+  max-width: 75%;
+  margin: .5rem 0 0 auto;
+  font-size: 1em;
+`
 
 // local components
 const LatestOpinion = (props: {
@@ -63,7 +67,7 @@ export const LatestOpinionList = () => (
       We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
     </Text>
     {fakeLatestData.map((opinion, index) => <LatestOpinion key={`opinion_${index}`} {...opinion} />)}
-    <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary={true} />
+    <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary/>
   </>
 )
 
@@ -79,7 +83,7 @@ export const LatestAudioList = () => (
       label="See Recent Oral Arguments"
       href="/?order_by=dateArgued+desc&type=OA"
       color="accent-2"
-      primary={true}
+      primary
     />
   </>
 )

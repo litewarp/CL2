@@ -15,7 +15,7 @@ const createLink = ({ name }: { name: string }) => {
 export const AboutCourtListener = () => (
   <>
     <Heading level={3} margin={{bottom: 'xsmall'}}>About CourtListener</Heading>
-    <Paragraph size="small" margin={{ top: 'none', right: 'none', left: 'none', bottom: 'small' }} fill={true}>
+    <Paragraph size="small" margin={{ top: 'none', right: 'none', left: 'none', bottom: 'small' }} fill>
       CourtListener is a free legal research website containing millions of
       legal opinions from federal and state courts. With CourtListener, lawyers,
       journalists, academics, and the public can research an important case,
@@ -28,14 +28,14 @@ export const AboutCourtListener = () => (
 export const AboutFreeLawProject = () => (
   <>
     <Heading level={3} margin={{bottom: 'xsmall'}}>About Free Law Project</Heading>
-    <Paragraph size="small" margin={{ top: 'none', right: 'none', left: 'none', bottom: 'small' }} fill={true}>
+    <Paragraph size="small" margin={{ top: 'none', right: 'none', left: 'none', bottom: 'small' }} fill>
       {createLink({ name: 'freelaw' })} seeks to provide free access to
       primary legal materials, develop legal research tools, and support
       academic research on legal corpora. We work diligently with volunteers
       to expand our efforts at building an open source, open access, legal
       research ecosystem. Currently Free Law Project sponsors the development
-      of {createLink({ name: 'courtlistener' })},
-      {createLink({ name: 'juriscraper' })}, and {createLink({name: 'recap' })}
+      of {createLink({ name: 'courtlistener' })}, {createLink({ name: 'juriscraper' })},
+       and {createLink({name: 'recap' })}
     </Paragraph>
   </>
 )
