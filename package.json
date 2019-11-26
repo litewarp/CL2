@@ -6,12 +6,12 @@
     "node": "13.x"
   },
   "scripts": {
-    "start": "razzle start",
+    "dev": "razzle start",
     "build": "razzle build",
     "test": "razzle test --env=jsdom",
     "prestart:prod": "yarn build",
     "start:prod": "NODE_ENV=production node build/server.js",
-    "deploy": "git push heroku master"
+    "heroku-postbuild": "yarn run build"
   },
   "dependencies": {
     "@jaredpalmer/after": "latest",
