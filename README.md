@@ -2,6 +2,7 @@ A More Modern CourtListener
 (at least the front end!)
 
 // Stack - explanations below
+
 Server & Webpack Configuration: After.js & Razzle
 
 Some people like Next or Gatsby, and they're good, but
@@ -32,15 +33,7 @@ In any case, this part I probably care about the least. Many people use Material
 
 git clone
 cd court_listener_2
+// install typescript globally if not already installed
+yarn global add typescript
 yarn
-// monkey-patch for connected-react-router until pull #377 accepted
-nvim (or code or whatever) node_modules/connected-react-router/lib/reducer.js
-// delete around lines 8-10
-  //  if (!location) {
-  //     return location
-  //  }
-// replace around line 12
-  //  const searchQuery = location.search || window.location.search
-// with
-  //  const searchQuery = location && location.search
-yarn start
+yarn dev
