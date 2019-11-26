@@ -1,36 +1,39 @@
-import { Anchor, Box, Button, Heading, Table, TableBody, TableCell, TableRow, Text } from 'grommet'
+import { Anchor, Box, Button, Heading, Image, Table, TableBody, TableCell, TableRow, Text } from 'grommet'
 import * as React from 'react'
 import { FaChartLine, FaChartPie } from 'react-icons/fa'
 import styled from 'styled-components'
 
 // tslint:disable:no-var-requires
-const fakeScotusChart = require('./fakeScotusChart.png')
+const scotusChart = require('./_scotusChart.png')
 
 const PieChartIcon = styled(FaChartPie)` margin-left: 1rem `
 const ArrowChartIcon = styled(FaChartLine)` margin-left: 1rem `
 
+const FlatButton = styled(Button)`
+  max-width: 75%;
+  font-size: 1em;
+`
 export const ScotusNetwork = () => (
   <>
     <Heading level={3} margin="none">
       Supreme Court Network Visualizations
       <ArrowChartIcon />
     </Heading>
-    <Text size="xxsmall" margin={{ vertical: 'small' }}>
+    <Text size="xxsmall">
       Supreme Court Network Visualizations allow you to see and analyze lines of precedent in Supreme Court cases.
     </Text>
-    <img src={fakeScotusChart} width="470" height="250"/>
-    <Box direction="row" justify="start">
-      <Button
+    <Image src={scotusChart} fit="contain" margin="small"/>
+    <Box direction="row" justify="between">
+      <FlatButton
         label="See Gallery"
         color="light-1"
         href="/visualizations/gallery"
       />
-      <Button
+      <FlatButton
+        primary
         label="Learn More About SCOTUS Networks"
         color="accent-2"
         href="/visualizations/scotus-mapper"
-        primary={true}
-        margin={{ left: 'auto' }}
       />
     </Box>
   </>

@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom'
 import routes from './routes'
 
-import Document from './root/Document'
+import Document from './root/layout/Document'
 import createStore from './root/redux/store'
 
 // @ts-ignore

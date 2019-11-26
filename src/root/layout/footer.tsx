@@ -1,10 +1,7 @@
-import { Anchor, Box, Button, Heading, Text, TextInput } from 'grommet'
+import { Anchor, Box, Button, Heading, Image, Text, TextInput } from 'grommet'
 import * as React from 'react'
 import { FaGithub, FaLink, FaRegNewspaper, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
-
-// tslint:disable:no-var-requires
-const donate = require('./donate-button.png')
 
 const footerLinks = [
   { label: 'About', link: '/about' },
@@ -30,29 +27,38 @@ const footerLinks = [
   { label: 'Vulnerability Policies', link: 'https://free.law/vulnerability-disclosure-policy' }
 ]
 
-export const Footer = () => (
-  <>
-    <Box direction="column" gap="medium">
-      <Box direction="row" wrap={true} gap="large" basis="1/2">
-        {footerLinks.map((l, index) => (
-          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} margin="none"/>
-        ))}
-      </Box>
-      <Text size="small" margin="none">
-        CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
-      </Text>
-    </Box>
-    <Box direction="row" basis="1/2" justify="end" pad="medium">
-      <img src={donate} width="227" height="75"/>
-    </Box>
-</>
+const DonateButton = () => (
+  <Button
+    hoverIndicator
+    href="/donate/?referrer=footer-link"
+  >
+    <Heading level={3} color="accent-1" margin="none">Donate</Heading>
+    <Heading level={5} margin="none">to</Heading>
+    <Heading level={4} color="neutral-1" margin="none">Support our work</Heading>
+  </Button>
 )
-
 export const FooterIcons = () => (
-  <Box direction="row" gap="medium" justify="center">
+  <Box direction="row" justify="center" gap="medium">
     <Anchor icon={<FaLink />} href="https://free.law" size="xxlarge"/>
     <Anchor icon={<FaTwitter />} href="https://twitter.com/freelawproject"  size="xxlarge"/>
     <Anchor icon={<FaRegNewspaper />} href="https://free.law/newsletter" size="xxlarge"/>
     <Anchor icon={<FaGithub />} href="https://github.com/freelawproject" size="xxlarge"/>
   </Box>
+)
+
+export const Footer = () => (
+  <>
+    <Box basis="1/2" direction="row" margin={{ right: 'auto' }} wrap>
+        {footerLinks.map((l, index) => (
+          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} />
+        ))}
+
+    </Box>
+    <Text size="small" margin={{ top: 'small'}}>
+      CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
+    </Text>
+    <Box margin={{ left: 'auto'}} alignSelf="start">
+      <DonateButton />
+    </Box>
+  </>
 )
