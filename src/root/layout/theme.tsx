@@ -4,10 +4,10 @@ export default deepFreeze({
   defaultMode: 'light',
   global: {
     colors: {
-      'accent-1': '#689d6a',
-      'accent-2': '#98971a',
-      'accent-3': '#d79921',
-      'accent-4': '#b16286',
+      'accent-1': '#6699cc', // blue
+      'accent-2': '#f99157', // orange
+      'accent-3': '#fac863', // yellow
+      'accent-4': '#99c794', // green
       'active': 'rgba(102,102,102,0.5)',
       'active-background': 'background-weak',
       'active-text': 'text-strong',
@@ -33,19 +33,15 @@ export default deepFreeze({
       'dark-2': '#282828',
       'dark-3': '#3c3836',
       'dark-4': '#504945',
-      'dark-5': '#665c54',
-      'dark-6': '#7c6f64',
       'focus': '#d65d0e',
       'light-1': '#f9f5d7',
       'light-2': '#fbf1c7',
       'light-3': '#ebdbb2',
       'light-4': '#d5c4al',
-      'light-5': '#bdae93',
-      'light-6': '#a89984',
-      'neutral-1': '#458588',
-      'neutral-2': '#d3869b',
-      'neutral-3': '#83a598',
-      'neutral-4': '#b57614',
+      'neutral-1': '#5fb3b3', // aqua
+      'neutral-2': '#ec5f67', // red
+      'neutral-3': '#c594c5', // purple
+      'neutral-4': '#ab7967', // brown
       'selected-background': 'background-strong',
       'selected-text': 'text-strong',
       'status-critical': '#cc241d',

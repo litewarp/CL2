@@ -1,10 +1,11 @@
 import { Anchor, Box, CheckBox, Heading } from 'grommet'
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { toggleDarkMode } from '../../root/redux/layout'
-import { ApplicationState } from '../../types'
-
+import { ApplicationState } from '../../typings'
 // local Components
+const Banner = styled(Heading)` font-family: 'Roboto Slab'`
 const FreeLawLink = <Anchor href="https://free.law" label="Free Law Project" color="accent-1"/>
 
 const HeaderAnchor = (props: { href: string, label: string }) => (
@@ -18,17 +19,17 @@ export default () => {
   // dispatch actions from the store using useDispatch
   const dispatch = useDispatch()
   return (
-    <Box direction="row" justify="end" pad="small">
-      <Box direction="column" margin={{ right: 'auto'}}>
+    <>
+      <Box direction="column" margin={{ right: 'auto'}} basis="1/2">
         <Box direction="row">
-          <Heading level={1} margin="none" color="neutral-1">Court</Heading>
-          <Heading level={1} margin="none" color="brand">Listener</Heading>
+          <Banner level={1} margin="none" color="neutral-2">Court</Banner>
+          <Banner level={1} margin="none" color="accent-2">Listener</Banner>
         </Box>
         <Heading level={6} size="small" margin="none">
           From {FreeLawLink}, a 501(c)(3) corporation
         </Heading>
       </Box>
-      <Box direction="column" align="end">
+      <Box direction="column" align="end" basis="1/2">
         <Box direction="row" pad="small">
           <HeaderAnchor href="/about" label="About" />
           <HeaderAnchor href="/faq" label="FAQ" />
@@ -44,6 +45,6 @@ export default () => {
           onChange={() => dispatch(toggleDarkMode())}
         />
       </Box>
-    </Box>
+    </>
   )
 }
