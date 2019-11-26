@@ -50,6 +50,6 @@
     "@types/redux-api-middleware": "^3.0.7",
     "@types/redux-logger": "^3.0.7",
     "@types/styled-components": "^4.4.0",
-    "@types/webpack-env": "^1.14.1",
+    "@types/webpack-env": "^1.14.1"
   }
 }
