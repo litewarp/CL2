@@ -32,8 +32,14 @@ In any case, this part I probably care about the least. Many people use Material
 // To Start
 
 git clone
-cd court_listener_2
+
+cd CL2
+
 // install typescript globally if not already installed
+
 yarn global add typescript
-yarn
+
+yarn install
+
 yarn dev
+
