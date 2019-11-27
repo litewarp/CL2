@@ -1,3 +1,5 @@
+// routes.tsx - router entrypoint for react router 4
+
 import { asyncComponent } from '@jaredpalmer/after'
 import * as React from 'react'
 

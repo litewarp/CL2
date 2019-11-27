@@ -1,3 +1,9 @@
+// server.tsx - entrypoint for the server
+// request hits server, server dispatches
+// getInitialProps functions and serves
+// the rendered html template and the js bundle,
+// and the rest is hydrated through the client
+
 import { render } from '@jaredpalmer/after'
 import express from 'express'
 import React from 'react'
@@ -6,7 +12,7 @@ import { Provider } from 'react-redux'
 import { StaticRouter } from 'react-router-dom'
 import routes from './routes'
 
-import Document from './root/layout/Document'
+import HtmlTemplate from './root/layout/HtmlTemplate'
 import createStore from './root/redux/store'
 
 // @ts-ignore
@@ -17,13 +23,16 @@ const server = express()
 
 server
   .disable('x-powered-by')
+  // serve static assets (css, js bundle, images, etc.)
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR || ''))
+  // entrypoint of the server
   .get('/*', async (req, res) => {
     try {
-      // create store based on request
+      // create application state based on request
       const { store } = createStore(req.url);
-      // render app to static string using react server
-      // return the current state with the static string
+      // render the application as a static string and
+      // send the html template string along with the
+      // current application state (as serialized json)
       const customRenderer = (node: React.ReactNode) => {
         const App = (
           <Provider store={store}>
@@ -37,11 +46,11 @@ server
           serverState: store.getState()
         }
       }
-      // send the following to the renderer
+      // send the following data to the renderer
       const html = await render({
         assets,
         customRenderer,
-        document: Document,
+        document: HtmlTemplate,
         req,
         res,
         routes
@@ -53,4 +62,4 @@ server
     }
   });
 
-export default server;
+export default server

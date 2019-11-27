@@ -1,3 +1,5 @@
+// client.tsx - entrypoint for the client bundle
+
 import { After, ensureReady } from '@jaredpalmer/after'
 import React from 'react'
 import { hydrate } from 'react-dom'

@@ -1,5 +1,6 @@
 // type definitions for Court Listener
 import { DocumentProps, InitialProps } from '@jaredpalmer/after'
+import { ThunkAction } from 'redux-thunk'
 
 declare module '*.png'
 
@@ -35,3 +36,5 @@ export interface ApplicationState {
     darkMode: boolean,
   }
 }
+
+export type ApiThunk = ThunkAction<void, RootState, null, Action<string>>

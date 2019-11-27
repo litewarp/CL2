@@ -1,3 +1,6 @@
+// withLayout.tsx - layout high-order-component
+// wraps the passed in component with the css layout
+
 import { Box, Grid, Grommet, ResponsiveContext } from 'grommet'
 import * as React from 'react'
 import { useSelector } from 'react-redux'

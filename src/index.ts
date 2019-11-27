@@ -1,3 +1,6 @@
+// index.js - entrypoint for the application
+// inject hot module reloader and deploy server
+
 import 'cross-fetch/polyfill'
 import express from 'express'
 
