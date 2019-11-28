@@ -1,9 +1,7 @@
 import { Box, Button, CheckBox, Grid, Heading, Text, TextInput } from 'grommet'
 import React from 'react'
 import Helmet from 'react-helmet'
-import { useDispatch } from 'react-redux'
 import withLayout from '../../root/layout/withLayout'
-import { fetchData } from '../../root/redux/home'
 import { ApplicationState, CtxProps } from '../../typings'
 
 import { AboutCourtListener, AboutFreeLawProject } from './_about'
@@ -58,10 +56,6 @@ const Home = () => (
 
 // Call getInitialProps prior to initial render
 Home.getInitialProps = async (props: CtxProps) => {
-  // dispatch any async API calls or functions
-  const dispatch = useDispatch()
-  dispatch(fetchData())
-  // return the props to the page; no need to wait
   return { ...props }
 }
 

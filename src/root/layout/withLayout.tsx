@@ -11,7 +11,48 @@ import OptionBar from './options'
 import theme from './theme'
 
 // set max-width of main content container to 1280px;
-const Main = styled(Box)` max-width: 1280px; `
+const ThemeContext = React.createContext({
+  darkMode: true,
+  toggleDarkMode: () => ({}),
+})
+
+const ThemeProvider = (props: { children: React.ReactNode }) => {
+  const localStorageState = window.localStorage.getItem('darkMode')
+  const [ darkMode, setDark ] = React.useState(window.localStorage.getItem('darkMode'))
+
+  React.useLayoutEffect(
+    () => {
+      const storedThemeState = window.localStorage.getItem('darkMode')
+
+      // if lastTheme set in localStorage, use it
+      storedThemeState ? setDark(true) : setDark(false)
+
+      // render the new theme only when the dark prop changes
+    },
+    [darkMode]
+  )
+
+  const toggleDarkMode = () => {
+    setDark(!darkMode)
+    window.localStorage.setItem('darkMode', !darkMode)
+  }
+
+  // return a component with the prop value and the function to modify it
+  return (
+    <ThemeContext.Provider value=({
+        darkMode,
+        toggleDarkMode
+      })
+    >
+      {props.children}
+    </ ThemeContext.Provider>
+  )
+
+}
+
+
+
+
 
 export default (Component: React.ComponentType<{props: any}>) => (...props: any) => {
   // inject size prop from responsive context provider

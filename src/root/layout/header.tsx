@@ -2,7 +2,6 @@ import { Anchor, Box, CheckBox, Heading } from 'grommet'
 import * as React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { toggleDarkMode } from '../../root/redux/layout'
 import { ApplicationState } from '../../typings'
 // local Components
 const Banner = styled(Heading)` font-family: 'Roboto Slab'`
@@ -42,7 +41,7 @@ export default () => {
           color="dark-5"
           checked={darkMode}
           label={<Anchor margin="none" label={`Toggle ${ darkMode ? 'Light' : 'Dark' } Mode`} color="dark-5"/>}
-          onChange={() => dispatch(toggleDarkMode())}
+          onChange={() => ({ action: 'fire hook in withLayout' })}
         />
       </Box>
     </>
