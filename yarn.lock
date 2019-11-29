@@ -973,7 +973,7 @@
     "@types/prop-types" "*"
     "@types/react" "*"
 
-"@types/react-query@^0.3.0":
+"@types/react-query@^0.3.0", "@types/react-query@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@types/react-query/-/react-query-0.3.4.tgz#6a225b8f90e162deedaa434011c99d730d069046"
   integrity sha512-lYBiEkfp+q/gSZ8XMm4YsnGvhMqBZSIUJxIQK9vMmAOCpjw7HbRDeMPC6WV0FuIhbXhTlamD3EepMOzujeChfg==
