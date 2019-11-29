@@ -3,7 +3,10 @@ import { DocumentProps, InitialProps } from '@jaredpalmer/after'
 import { ThunkAction } from 'redux-thunk'
 
 declare module '*.png'
-
+export interface ThemeContext {
+  mode: string,
+  toggleMode(): void | undefined;
+}
 type Merge<A, B> = (Omit<A, keyof B> & B) extends infer O
   ? { [K in keyof O]: O[K] }
   : never;
