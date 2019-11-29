@@ -1,5 +1,7 @@
 # A More Modern CourtListener
 
+## Now with 100% less Redux!!
+
 ## Stack - explanations below
 
 ### Server & Webpack Configuration: [After.js](https://github.com/@jaredpalmer/after.js)
@@ -14,13 +16,13 @@ Will save for further discussion. But it's what I know, it's predictable, and it
 
 Also typescript is great.
 
-### State Management: Redux Toolkit
+### State Management: React Context and React-Query (for data fetching)
 
-Here are the primary downsides: it's sometimes unecessary, it adds boilerplate, and there's a learning curve
+If the only state changes we really need to keep track of are (i) router (i.e. which page or view the should render, (ii) layout (i.e. which style and/or layout should be applied to the render), and (iii) asynchronous data requests (to/from localStorage or API), then we can accomplish all of those without Redux.
 
-However, once you learn it, it makes a whole lot of sense, and since everything is sequenced and logged, it is super easy to debug any problems.
+The router state is managed by React-Router. The Layout State is managed by a custom ThemeContextProvider based on React Context, and data requests are handled by React-Query.
 
-I'm open to swapping out Redux for something else, but take a look at the code I've written and you'll see it's not that bad especially with some of the newer toolkit tools and hooks.
+No need for anything fancy or cumbersome.
 
 ### CSS Library: [Grommet](https://v2.grommet.io) and Styled-Components
 
