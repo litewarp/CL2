@@ -1,17 +1,18 @@
+import { InitialProps } from '@jaredpalmer/after'
 import { Box, Button, CheckBox, Grid, Heading, Text, TextInput } from 'grommet'
 import React from 'react'
 import Helmet from 'react-helmet'
 import { prefetchQuery, useQuery } from 'react-query'
 import { fetchLatestAudio, fetchLatestOpinion } from '../../root/layout/api'
 import withLayout from '../../root/layout/withLayout'
-import { ApplicationState, CtxProps } from '../../typings'
+import { StatelessPage } from '../../typings'
 import { AboutCourtListener, AboutFreeLawProject } from './_about'
 import { ScotusNetwork, TheNumbers } from './_analytics'
 import { LatestAudioList, LatestOpinionList } from './_latest'
 import Newsletter from './_newsletter'
 import SearchBar from './_search'
 
-const Home = (props) => {
+const Home: StatelessPage<{}> = () => {
   const latestAudioData = useQuery('latestAudio', fetchLatestAudio)
   const latestOpinionData = useQuery('latestOpinion', fetchLatestOpinion)
   console.log(latestAudioData, latestOpinionData)
@@ -61,10 +62,11 @@ const Home = (props) => {
 }
 
 // Call getInitialProps prior to initial render
-Home.getInitialProps = async (props: CtxProps) => {
+Home.getInitialProps = async (props: InitialProps) => {
   const latestAudioData = prefetchQuery('latestAudio', fetchLatestAudio)
   const latestOpinionData = prefetchQuery('latestOpinions', fetchLatestOpinion)
-  return { ...props, latestAudioData, latestOpinionData }
+  const newProps = { ...props, latestAudioData, latestOpinionData}
+  return newProps
 }
 
 // wrap the page with our layout

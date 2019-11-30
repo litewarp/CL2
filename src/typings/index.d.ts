@@ -1,6 +1,5 @@
 // type definitions for Court Listener
 import { DocumentProps, InitialProps } from '@jaredpalmer/after'
-import { ThunkAction } from 'redux-thunk'
 
 declare module '*.png'
 export interface ThemeContext {
@@ -24,6 +23,9 @@ interface InjectedDocumentProps {
 
 export interface HtmlProps extends Merge<DocumentProps, InjectedDocumentProps> {}
 
+export interface StatelessPage<P = {}> extends React.FC<P> {
+  getInitialProps?: (ctx: any) => Promise<P>
+}
 export interface CtxProps {
   assets: Assets,
   req?: {},
@@ -34,10 +36,9 @@ export interface CtxProps {
   renderPage: (node: React.ReactNode) => {},
 }
 
-export interface ApplicationState {
-  layout: {
-    darkMode: boolean,
-  }
+interface HomePageData {
+  latestAudioData: {},
+  latestOpinionData: {},
 }
 
-export type ApiThunk = ThunkAction<void, RootState, null, Action<string>>
+export interface HomePageProps extends Merge<InitialProps, HomePageData> {}
