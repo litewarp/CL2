@@ -1,6 +1,21 @@
 import camelcaseKeys from 'camelcase-keys'
 const AUTH_TOKEN = 'dc182e614a6f23fe91b4a9923b4c6f5b0d645160'
 
+interface OpinionResult {
+  absoluteUrl: string,
+  caseName: string,
+  resourceUri: string,
+  dateCreated: string,
+  docket: string,
+  status?: string,
+  natureSuit?: string,
+  duration?: string
+}
+
+interface OpinionData {
+  results: OpinionResult[]
+}
+
 const endpoints = {
   ['aba-ratings']: 'https://www.courtlistener.com/api/rest/v3/aba-ratings',
   attorneys: 'https://www.courtlistener.com/api/rest/v3/attorneys',
@@ -38,7 +53,7 @@ const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
   method: 'GET'
 })
 
-export const fetchLatestAudio = () =>
+export const fetchLatestAudio: () => Promise<OpinionData> = () =>
   fetch(`${endpoints.audio}/?order_by=date`, {
     headers: new Headers(apiHeader),
     method: 'GET',
@@ -46,8 +61,8 @@ export const fetchLatestAudio = () =>
   .then((res) => (res.json()))
   .then((res) => (camelcaseKeys(res, { deep: true })))
 
-export const fetchLatestOpinion = () =>
-  fetch(`${endpoints.opinions}/?order_by=data`, {
+export const fetchLatestOpinion: () => Promise<OpinionData> = () =>
+  fetch(`${endpoints.clusters}/?order_by=date`, {
     headers: new Headers(apiHeader),
     method: 'GET',
   })
