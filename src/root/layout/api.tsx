@@ -1,4 +1,4 @@
-
+import camelcaseKeys from 'camelcase-keys'
 const AUTH_TOKEN = 'dc182e614a6f23fe91b4a9923b4c6f5b0d645160'
 
 const endpoints = {
@@ -48,4 +48,6 @@ export const fetchLatestOpinion = () =>
   fetch(`${endpoints.opinions}/?order_by=data`, {
     headers: new Headers(apiHeader),
     method: 'GET',
-  }).then((res) => (res.json()))
+  })
+  .then((res) => (res.json()))
+  .then((res) => (camelcaseKeys(res)))

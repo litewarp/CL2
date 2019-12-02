@@ -27,7 +27,6 @@ const Home: StatelessPage<{}> = () => {
       </Box>
 
       <Box direction="row-responsive" wrap>
-
         <Box basis="1/2">
           <AboutCourtListener />
         </Box>
@@ -47,6 +46,7 @@ const Home: StatelessPage<{}> = () => {
           <TheNumbers />
         </Box>
       </Box>
+
       <Box
         direction="row"
         pad="small"
@@ -65,8 +65,7 @@ const Home: StatelessPage<{}> = () => {
 Home.getInitialProps = async (props: InitialProps) => {
   const latestAudioData = prefetchQuery('latestAudio', fetchLatestAudio)
   const latestOpinionData = prefetchQuery('latestOpinions', fetchLatestOpinion)
-  const newProps = { ...props, latestAudioData, latestOpinionData}
-  return newProps
+  return { ...props, latestAudioData, latestOpinionData}
 }
 
 // wrap the page with our layout

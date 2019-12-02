@@ -1,11 +1,9 @@
 import { Anchor, Button, Heading, Text } from 'grommet'
 import * as React from 'react'
 import { FaRegFileAlt, FaVolumeUp } from 'react-icons/fa'
+import { useQuery } from 'react-query'
 import styled from 'styled-components'
-
-// mock api call
-import { fakeAudioData, fakeLatestData } from './_fakeData'
-
+import { fetchLatestAudio, fetchLatestOpinion } from './../../root/layout/api'
 // override grommet with styled-components
 const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`
 const SoundIcon = styled(FaVolumeUp)` margin-left: 1rem`
@@ -17,9 +15,9 @@ const FlatButton = styled(Button)`
 
 // local components
 const LatestOpinion = (props: {
-  caption: string,
-  link: string,
-  dateFiled: string,
+  caseName: string,
+  resourceUri: string,
+  dateCreated: string,
   docketNumber: string,
   status: string,
   natureSuit: string,
@@ -39,9 +37,9 @@ const LatestOpinion = (props: {
 }
 
 const LatestAudio = (props: {
-  caption: string,
-  link: string,
-  dateArgued: string,
+  caseName: string,
+  resourceUri: string,
+  dateCreated: string,
   docketNumber: string,
   duration: string
 }) => {
@@ -57,33 +55,38 @@ const LatestAudio = (props: {
 }
 
 // exported components
-export const LatestOpinionList = () => (
-  <>
-    <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >
-      Latest Opinions
-      <DocumentIcon />
-    </Heading>
-    <Text size="xxsmall" margin={{ vertical: 'small'}}>
-      We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
-    </Text>
-    {fakeLatestData.map((opinion, index) => <LatestOpinion key={`opinion_${index}`} {...opinion} />)}
-    <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary/>
-  </>
-)
+export const LatestOpinionList = () => {
+  const { data, isLoading, error } = useQuery('latestOpinions', fetchLatestOpinion)
+  return (
+    <>
+      <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >
+        Latest Opinions
+        <DocumentIcon />
+      </Heading>
+      <Text size="xxsmall" margin={{ vertical: 'small'}}>
+        We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
+      </Text>
+      {data && data.results.map((opinion, index) => <LatestOpinion key={`opinion_${index}`} {...opinion} />)}
+      <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary/>
+    </>
+  )
+}
+export const LatestAudioList = () => {
+  const { data, isLoading, error } = useQuery('latestAudio', fetchLatestAudio)
+  return (
+    <>
+      <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>Latest Oral Arguments<SoundIcon /></Heading>
+      <Text size="xxsmall" margin={{ vertical: 'small'}}>
+        We download oral arguments from many jurisdictions on an ongoing basis. Here are the most recent ones.
+      </Text>
 
-export const LatestAudioList = () => (
-  <>
-    <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>Latest Oral Arguments<SoundIcon /></Heading>
-    <Text size="xxsmall" margin={{ vertical: 'small'}}>
-      We download oral arguments from many jurisdictions on an ongoing basis. Here are the most recent ones.
-    </Text>
-
-    {fakeAudioData.map((opinion, index) => <LatestAudio key={`audio_${index}`} {...opinion} />)}
-    <FlatButton
-      label="See Recent Oral Arguments"
-      href="/?order_by=dateArgued+desc&type=OA"
-      color="accent-2"
-      primary
-    />
-  </>
-)
+      {data && data.results.map((opinion, index) => <LatestAudio key={`audio_${index}`} {...opinion} />)}
+      <FlatButton
+        label="See Recent Oral Arguments"
+        href="/?order_by=dateArgued+desc&type=OA"
+        color="accent-2"
+        primary
+      />
+    </>
+  )
+}

@@ -25,6 +25,7 @@
     "@types/react-router-dom": "^5.1.2",
     "@types/styled-components": "^4.4.0",
     "@types/webpack-env": "^1.14.1",
+    "camelcase-keys": "^6.1.1",
     "cross-fetch": "^3.0.4",
     "express": "^4.16.2",
     "grommet": "^2.8.1",
