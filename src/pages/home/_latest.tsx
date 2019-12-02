@@ -22,15 +22,15 @@ const LatestOpinion = (props: {
   status: string,
   natureSuit: string,
 }) => {
-  const dateString = `Date Filed: ${props.dateFiled}`
+  const dateString = `Date Filed: ${props.dateCreated}`
   const statusString = `Status: ${props.status}`
   const docketString = `Docket Number: ${props.docketNumber}`
   const natureString = `Nature of Suit: ${props.natureSuit}`
   return (
     <>
-      <Anchor size="medium" label={props.caption} href={props.link}/>
+      <Anchor size="medium" label={props.caseName} href={props.resourceUri}/>
       <Text size="small">
-        {dateString} {statusString} {docketString} {props.natureSuit && natureString}
+        {dateString} {props.status && statusString} {docketString} {props.natureSuit && natureString}
       </Text>
     </>
   )
@@ -43,12 +43,13 @@ const LatestAudio = (props: {
   docketNumber: string,
   duration: string
 }) => {
-  const dateString = `Date Argued: ${props.dateArgued}`
+  console.log(props)
+  const dateString = `Date Argued: ${props.dateCreated}`
   const docketString = `Docket Number: ${props.docketNumber}`
   const durationString = `Duration: ${props.duration}`
   return (
     <>
-      <Anchor size="medium" label={props.caption} href={props.link}/>
+      <Anchor size="medium" label={props.caseName} href={props.resourceUri}/>
       <Text size="small">{dateString} {docketString} {durationString}</Text>
     </>
   )

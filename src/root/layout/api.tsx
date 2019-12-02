@@ -42,7 +42,9 @@ export const fetchLatestAudio = () =>
   fetch(`${endpoints.audio}/?order_by=date`, {
     headers: new Headers(apiHeader),
     method: 'GET',
-  }).then((res) => (res.json()))
+  })
+  .then((res) => (res.json()))
+  .then((res) => (camelcaseKeys(res, { deep: true })))
 
 export const fetchLatestOpinion = () =>
   fetch(`${endpoints.opinions}/?order_by=data`, {
@@ -50,4 +52,4 @@ export const fetchLatestOpinion = () =>
     method: 'GET',
   })
   .then((res) => (res.json()))
-  .then((res) => (camelcaseKeys(res)))
+  .then((res) => (camelcaseKeys(res, { deep: true })))
