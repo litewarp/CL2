@@ -22,4 +22,13 @@ export default [
     name: 'About',
     path: '/about',
   },
+  {
+    component: asyncComponent({
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/donate/Donate'), // required
+    }),
+    exact: true,
+    name: 'Donate',
+    path: '/donate',
+  },
 ]
