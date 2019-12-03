@@ -8,10 +8,14 @@ import {
   FormikProps,
   withFormik,
 } from 'formik'
-import { Box, Button, CheckBox, Heading } from 'grommet'
+import { Box, Button, CheckBox, Heading, Select, TextInput } from 'grommet'
 import * as React from 'react'
 import { FaHeart } from 'react-icons/fa'
 import { DonationFormValues } from '../../typings/index'
+import states from './_states'
+
+
+console.log(states)
 
 const SimpleInput = (props: {
   as: string | React.ReactNode,
@@ -20,7 +24,7 @@ const SimpleInput = (props: {
 }) => (
   <Box>
     <Heading level={5}>{props.label}</Heading>
-    <Field as={props.as} name={props.name} />
+    <Field as={props.as} name={props.name} {...props} />
     <ErrorMessage name={props.name} />
   </Box>
 )
@@ -97,22 +101,22 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
 
     {(donationMethod === 'CreditCard' || donationMethod === 'PayPal') && (
       <Box direction="column">
-        <SimpleInput as="input" name="firstName" label="First Name" />
-        <SimpleInput as="input" name="lastName" label="Last Name" />
-        <SimpleInput as="input" name="email" label="Email Address" />
-        <SimpleInput as="input" name="firstName" label="First Name" />
-        <SimpleInput as="input" name="mailingAddress1" label="Address Line 1" />
-        <SimpleInput as="input" name="mailingAddress2" label="Address Line 2" />
-        <SimpleInput as="input" name="city" label="City" />
-        <SimpleInput as="select" name="state" label="State" />
-        <SimpleInput as="select" name="zipCode" label="ZipCode" />
+        <SimpleInput as={TextInput} name="firstName" label="First Name" />
+        <SimpleInput as={TextInput} name="lastName" label="Last Name" />
+        <SimpleInput as={TextInput} name="email" label="Email Address" />
+        <SimpleInput as={TextInput} name="firstName" label="First Name" />
+        <SimpleInput as={TextInput} name="mailingAddress1" label="Address Line 1" />
+        <SimpleInput as={TextInput} name="mailingAddress2" label="Address Line 2" />
+        <SimpleInput as={TextInput} name="city" label="City" />
+        <SimpleInput as={Select} name="state" label="State" options={Object.values(states)} />
+        <SimpleInput as={TextInput} name="zipCode" label="ZipCode" />
         <Field
           as={CheckBox}
           checked={values.donationReminderOptIn}
           name="donationReminderOptIn"
           label="Send me a reminder to donate again in one year"
         />
-        <ErrorMessage name="donationReminderOptIn" />
+        <ErrorMessage name="donationReminderOptIn"/>
         <Field
           as={CheckBox}
           checked={values.monthlyNewsletterOptIn}
