@@ -45,7 +45,6 @@ const endpoints = {
 }
 const tokenHeader = { Authorization: `Token ${AUTH_TOKEN}` }
 const contentHeader = { Accept: 'application/json' }
-
 const apiHeader = { ...tokenHeader, ...contentHeader }
 
 const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
@@ -53,7 +52,7 @@ const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
   method: 'GET'
 })
 
-export const fetchLatestAudio: () => Promise<OpinionData> = () =>
+export const fetchLatestAudio = () =>
   fetch(`${endpoints.audio}/?order_by=date`, {
     headers: new Headers(apiHeader),
     method: 'GET',
@@ -61,7 +60,7 @@ export const fetchLatestAudio: () => Promise<OpinionData> = () =>
   .then((res) => (res.json()))
   .then((res) => (camelcaseKeys(res, { deep: true })))
 
-export const fetchLatestOpinion: () => Promise<OpinionData> = () =>
+export const fetchLatestOpinion = () =>
   fetch(`${endpoints.clusters}/?order_by=date`, {
     headers: new Headers(apiHeader),
     method: 'GET',

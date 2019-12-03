@@ -13,4 +13,13 @@ export default [
     name: 'Home',
     path: '/',
   },
+  {
+    component: asyncComponent({
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/about/About'), // required
+    }),
+    exact: true,
+    name: 'About',
+    path: '/about',
+  },
 ]

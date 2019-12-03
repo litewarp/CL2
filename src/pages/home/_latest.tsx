@@ -4,6 +4,7 @@ import { FaRegFileAlt, FaVolumeUp } from 'react-icons/fa'
 import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
 import { fetchLatestAudio, fetchLatestOpinion } from './../../root/layout/api'
+
 // override grommet with styled-components
 const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`
 const SoundIcon = styled(FaVolumeUp)` margin-left: 1rem`
@@ -56,8 +57,8 @@ const LatestAudio = (props: OpinionResult) => {
 
 // exported components
 export const LatestOpinionList = () => {
-  const { data, isLoading } = useQuery('latestOpinions', fetchLatestOpinion)
-  const firstFiveResults = data && data.results.slice(0, 5)
+  const { data, isLoading }: QueryResult<{}, {}> = useQuery('latestOpinions', fetchLatestOpinion)
+  const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
       <Heading level={3} margin={{ top: 'medium', bottom: 'none' }} >
@@ -76,8 +77,8 @@ export const LatestOpinionList = () => {
 }
 
 export const LatestAudioList = () => {
-  const { data, isLoading, error } = useQuery('latestAudio', fetchLatestAudio)
-  const firstFiveResults = data && data.results.slice(0, 5)
+  const { data, isLoading }: QueryResult<{}, {}> = useQuery('latestAudio', fetchLatestAudio)
+  const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
       <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>
