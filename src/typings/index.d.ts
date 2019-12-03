@@ -42,3 +42,22 @@ interface HomePageData {
 }
 
 export interface HomePageProps extends Merge<InitialProps, HomePageData> {}
+
+interface DonationFormValues {
+  amount: string,
+  city: string,
+  creditCardCvc: string,
+  creditCardExpMonth: string,
+  creditCardExpYear: string,
+  creditCardNumber: string,
+  donationReminderOptIn: boolean,
+  email: string,
+  firstName: string,
+  frequency: string,
+  lastName: string,
+  mailingAddress1: string,
+  mailingAddress2: string,
+  monthlyNewsletterOptIn: boolean,
+  state: string,
+  zip: string,
+}

@@ -1,9 +1,8 @@
-import { FormikBag, withFormik } from 'formik'
+import { Field, Form, FormikProps, withFormik } from 'formik'
 import {
   Box,
   Button,
   CheckBox,
-  Form,
   FormField,
   Heading,
   RadioButton,
@@ -16,25 +15,23 @@ import {
 } from 'grommet'
 import * as React from 'react'
 import { FaHeart } from 'react-icons/fa'
+import { DonationFormValues } from '../../typings/index'
 
-const ControlledTextInput = (props) => (
-  <>
-    <TextInput {...props} />
-  </>
-)
+interface OtherProps {
+  paymentOption: string,
+  setPaymentOption: (label: string) => void
+}
 
-const DonationOption = (props: { paymentOption: string, setPaymentOption: (label: string) => void }) => {
-  const StatefulButton = (buttonProps: {label: string}) => (
-    <Button
-      label={buttonProps.label}
-      onClick={() => props.setPaymentOption(buttonProps.label)}
-      active={props.paymentOption === buttonProps.label}
-    />
-  )
+const DonationOption = (props: OtherProps) => {
+  const StatefulButton = (buttonProps: {label: string}) => {
+    const isActive = props.paymentOption === buttonProps.label
+    const handleClick = props.setPaymentOption(buttonProps.label)
+    return <Button label={buttonProps.label} onClick={handleClick} active={isActive}/>
+  }
   return (
     <>
       <Heading level={3}>How Would You Like to Donate?</Heading>
-      <Box directon="row">
+      <Box direction="row">
         <StatefulButton label="PayPal"/>
         <StatefulButton label="CreditCard"/>
         <StatefulButton label="Check" />
@@ -44,28 +41,17 @@ const DonationOption = (props: { paymentOption: string, setPaymentOption: (label
   )
 }
 
-const DonateForm = (props: FormikBag) => {
+const InnerForm = (props: OtherProps & FormikProps<DonationFormValues>) => {
   const [paymentOption, setPaymentOption] = React.useState('CreditCard')
-  const togglePaymentOption = (option) => setPaymentOption(option)
+  const togglePaymentOption = (option: string) => setPaymentOption(option)
+  const { touched, errors, values, handleBlur, handleChange, handleSubmit } = props
   return (
-    <Form onSubmit={props.handleSubmit}>
-      <FormField
+    <Form onSubmit={handleSubmit}>
+      <Field
         name="frequency"
         label="Donation Frequency"
-        component={RadioButtonGroup}
+        as={RadioButtonGroup}
         options={['Once', 'Monthly']}
-        errors={props.touched.name && props.errors.name}
-        value={props.values.name}
-        onBlur={props.handleBlur}
-        touched={props.touched.name}
-        onChange={props.handleChange}
-      />
-      <FormField
-        name="amount"
-        label="Donation Amount"
-        component={RadioButtonGroup}
-        options={['$5,000', '$1,000', '$500']}
-        errors={props.touched.name && props.errors.name}
       />
       <DonationOption paymentOption={paymentOption} setPaymentOption={setPaymentOption} />
       {(paymentOption === 'CreditCard' || paymentOption === 'PayPal') && (
@@ -73,49 +59,49 @@ const DonateForm = (props: FormikBag) => {
           <FormField
             name="firstName"
             label="First Name"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="lastName"
             label="Last Name"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="email"
             label="Email Address"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="mailingAddress1"
             label="Address Line 1"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="mailingAddress2"
             label="Address Line 2"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="city"
             label="City"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="state"
             label="State"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
             name="zipCode"
             label="Zip Code"
-            component={ControlledTextInput}
+            component={Field}
             {...props}
           />
           <FormField
@@ -138,9 +124,9 @@ const DonateForm = (props: FormikBag) => {
   )
 }
 
-const StatefulDonationForm = withFormik({
+const DonationForm = withFormik<{}, DonationFormValues>({
   displayName: 'Donation Form',
-  mapPropsToValues: () => ({
+  mapPropsToValues: (props: {}) => ({
     amount: '',
     city: '',
     creditCardCvc: '',
@@ -159,7 +145,7 @@ const StatefulDonationForm = withFormik({
     zip: '',
   }),
 
-  validate: (values) => ({}),
+  validate: (values: DonationFormValues) => ({}),
 
   handleSubmit: (values, {setSubmitting}) => {
     setTimeout(
@@ -169,6 +155,6 @@ const StatefulDonationForm = withFormik({
     },
     1000)
   },
-})(DonateForm)
+})(InnerForm)
 
-export default StatefulDonationForm
+export default DonationForm
