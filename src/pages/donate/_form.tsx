@@ -38,7 +38,7 @@ const DonationOption = (props: { paymentOption: string, setPaymentOption: (label
         <StatefulButton label="PayPal"/>
         <StatefulButton label="CreditCard"/>
         <StatefulButton label="Check" />
-        <StatefulButton label="Crytocurrency"/>
+        <StatefulButton label="Cryptocurrency"/>
       </Box>
     </>
   )
@@ -68,67 +68,72 @@ const DonateForm = (props: FormikBag) => {
         errors={props.touched.name && props.errors.name}
       />
       <DonationOption paymentOption={paymentOption} setPaymentOption={setPaymentOption} />
-      <FormField
-        name="firstName"
-        label="First Name"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="lastName"
-        label="Last Name"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="email"
-        label="Email Address"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="mailingAddress1"
-        label="Address Line 1"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="mailingAddress2"
-        label="Address Line 2"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="city"
-        label="City"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="state"
-        label="State"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="zipCode"
-        label="Zip Code"
-        component={ControlledTextInput}
-        {...props}
-      />
-      <FormField
-        name="donationReminderOptIn"
-        label="Send me a reminder to donate again in one year"
-        component={RadioButton}
-        {...props}
-      />
-      <FormField
-        name="monthlyNewsletterOptIn"
-        label="Send me the monthly Free Law Project newsletter"
-        component={RadioButton}
-        {...props}
-      />
-      <Button icon={<FaHeart />} label="Donate to Free Law Project"/>
+      {(paymentOption === 'CreditCard' || paymentOption === 'PayPal') && (
+        <>
+          <FormField
+            name="firstName"
+            label="First Name"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="lastName"
+            label="Last Name"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="email"
+            label="Email Address"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="mailingAddress1"
+            label="Address Line 1"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="mailingAddress2"
+            label="Address Line 2"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="city"
+            label="City"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="state"
+            label="State"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="zipCode"
+            label="Zip Code"
+            component={ControlledTextInput}
+            {...props}
+          />
+          <FormField
+            name="donationReminderOptIn"
+            label="Send me a reminder to donate again in one year"
+            component={RadioButton}
+            {...props}
+          />
+          <FormField
+            name="monthlyNewsletterOptIn"
+            label="Send me the monthly Free Law Project newsletter"
+            component={RadioButton}
+            {...props}
+          />
+          <Button icon={<FaHeart />} label="Donate to Free Law Project"/>
+        </>)}
+      {(paymentOption === 'Check') && <Heading level={4}>Check Placeholder</Heading>}
+      {(paymentOption === 'Cryptocurrency') && <Heading level={4}>Cryptocurrency Placeholder</Heading>}
     </Form>
   )
 }
