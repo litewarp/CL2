@@ -6,6 +6,7 @@ import {
   Form,
   FormikBag,
   FormikProps,
+  FormikValues,
   withFormik,
 } from 'formik'
 import { Anchor, Box, Button, CheckBox, Heading, Image, Paragraph, Select, Text, TextInput } from 'grommet'
@@ -41,7 +42,7 @@ const SelectInput = (props: {
   <Box>
     <Heading level={5}>{props.label}</Heading>
     <Field name={props.name} >
-      {({ field, form }: { field: FieldInputProps, form: FormikBag }) => (
+      {({ field, form }: { field: FieldInputProps<{ }>, form: FormikProps<{ }>}) => (
         <Select
           options={props.options}
           {...field}
@@ -60,7 +61,7 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
   return (
   <Form onSubmit={handleSubmit}>
     <Field name="donationFrequency">
-      {({ field, form }: { field: FieldInputProps, form: FormikBag }) => (
+      {({ field, form }: { field: FieldInputProps<{ }>, form: FormikProps<{ }> }) => (
       <>
         <Heading level={3}>Donation Frequency</Heading>
         <Box direction="row">
@@ -80,7 +81,7 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
     <ErrorMessage name="donationFrequency"/>
 
     <Field name="donationMethod">
-      {({ field, form }: { field: FieldInputProps, form: FormikBag }) => (
+      {({ field, form }: { field: FieldInputProps<{ }>, form: FormikProps<{ }> }) => (
         <>
           <Heading level={3}>How Would You Like to Donate?</Heading>
           <Box direction="row">
@@ -132,7 +133,7 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
             label="Send me the monthly Free Law Project newsletter"
           />
           <ErrorMessage name="monthlyNewsletterOptIn" />
-          <Button width="25%" icon={<FaHeart />} type="submit" label="Donate to Free Law Project"/>
+          <Button icon={<FaHeart />} type="submit" label="Donate to Free Law Project"/>
         </>
       )}
       {(values.donationMethod === 'Check') && (

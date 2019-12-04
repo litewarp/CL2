@@ -4,7 +4,7 @@ import withLayout from '../../root/layout/withLayout'
 import DonateForm from './_form2'
 
 const Donate = () => (
-  <Box>
+  <Box align="center">
     <Heading level={3}>
       Donate to Free Law Project
     </Heading>
@@ -16,7 +16,7 @@ const Donate = () => (
       CourtListener and RECAP are run by Free Law Project, a U.S.
       501(c)(3) non-profit, tax id #46-3342480.
     </Paragraph>
-    <Button primary label="Donation FAQ" size="large" href="/help/donations" />
+    <Button primary label="Donation FAQ" href="/help/donations" />
     <DonateForm />
     <Text size="xxsmall">
       Online donations are considered unrestricted and will be used to support

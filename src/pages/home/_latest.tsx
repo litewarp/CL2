@@ -25,6 +25,11 @@ interface OpinionResult {
   duration?: string
 }
 
+interface OpinionData {
+  count: string,
+  results: OpinionResult[]
+}
+
 // local components
 const LatestOpinion = (props: OpinionResult) => {
   const docketNumber = props.docket && props.docket.split('/')[props.docket.split('/').length - 2]
@@ -57,7 +62,7 @@ const LatestAudio = (props: OpinionResult) => {
 
 // exported components
 export const LatestOpinionList = () => {
-  const { data, isLoading }: QueryResult<{}, {}> = useQuery('latestOpinions', fetchLatestOpinion)
+  const { data, isLoading }: QueryResult<OpinionData, {}> = useQuery('latestOpinions', fetchLatestOpinion)
   const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
@@ -77,7 +82,7 @@ export const LatestOpinionList = () => {
 }
 
 export const LatestAudioList = () => {
-  const { data, isLoading }: QueryResult<{}, {}> = useQuery('latestAudio', fetchLatestAudio)
+  const { data, isLoading }: QueryResult<OpinionData, {}> = useQuery('latestAudio', fetchLatestAudio)
   const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
