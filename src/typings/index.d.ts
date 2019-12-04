@@ -50,6 +50,8 @@ interface DonationFormValues {
   creditCardExpMonth: string,
   creditCardExpYear: string,
   creditCardNumber: string,
+  donationFrequency: string,
+  donationMethod: string,
   donationReminderOptIn: boolean,
   email: string,
   firstName: string,
