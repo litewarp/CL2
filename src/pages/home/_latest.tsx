@@ -3,7 +3,7 @@ import * as React from 'react'
 import { FaRegFileAlt, FaVolumeUp } from 'react-icons/fa'
 import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
-import { fetchLatestAudio, fetchLatestOpinion } from './../../root/layout/api'
+import { fetchLatestAudio, fetchLatestOpinion } from './../../root/api'
 
 // override grommet with styled-components
 const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`

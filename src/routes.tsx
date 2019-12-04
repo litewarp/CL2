@@ -31,4 +31,13 @@ export default [
     name: 'Donate',
     path: '/donate',
   },
+  {
+    component: asyncComponent({
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/jurisdictions/Page'), // required
+    }),
+    exact: true,
+    name: 'Jurisdictions',
+    path: '/jurisdictions',
+  },
 ]
