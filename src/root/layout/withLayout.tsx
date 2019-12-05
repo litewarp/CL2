@@ -27,7 +27,7 @@ const Layout = ({children}: { children: React.ReactNode }) => {
       <Header />
     </Box>
     <OptionBar/>
-    <Box gridArea="content" pad="medium">
+    <Box gridArea="content" pad="medium" fill>
       {children}
     </Box>
     <Box direction="column" gridArea="footer">

@@ -13,7 +13,7 @@ export default class HtmlTemplate extends React.Component<HtmlProps> {
   }
 
   public render() {
-    const { helmet, assets, data, styleTags, serverState } = this.props
+    const { helmet, assets, data, styleTags } = this.props
     const htmlAttrs = helmet.htmlAttributes.toComponent()
     const bodyAttrs = helmet.bodyAttributes.toComponent()
 
@@ -33,7 +33,6 @@ export default class HtmlTemplate extends React.Component<HtmlProps> {
         <body {...bodyAttrs}>
           <AfterRoot />
           <AfterData data={data} />
-          <script dangerouslySetInnerHTML={{__html: `window.INITIAL_STATE = ${JSON.stringify(serverState)}` }}/>
           <script
             type="text/javascript"
             src={assets.client.js}

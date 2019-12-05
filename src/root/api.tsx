@@ -52,6 +52,14 @@ const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
   method: 'GET'
 })
 
+export const customFetch = ({ url }: { url: string }) =>
+  fetch((url), {
+    headers: new Headers(apiHeader),
+    method: 'GET'
+  })
+  .then((res) => res.json())
+  .then((res) => camelcaseKeys(res, { deep: true }))
+
 export const fetchLatestAudio = () =>
   fetch(`${endpoints.audio}/?order_by=date`, {
     headers: new Headers(apiHeader),
@@ -68,7 +76,7 @@ export const fetchLatestOpinion = () =>
   .then((res) => (res.json()))
   .then((res) => (camelcaseKeys(res, { deep: true })))
 
-export const fetchJurisidictions = () =>
+export const fetchCourts = () =>
   fetch(`${endpoints.courts}`, {
     headers: new Headers(apiHeader),
     method: 'GET',
