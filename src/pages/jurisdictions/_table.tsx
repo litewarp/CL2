@@ -1,7 +1,7 @@
 import { Box, Text } from 'grommet'
 import * as React from 'react'
 import { QueryResultPaginated, useQuery } from 'react-query'
-import { useAbsoluteLayout, useTable } from 'react-table'
+import { useBlockLayout, useTable } from 'react-table'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
@@ -61,7 +61,7 @@ const Table = () => {
     prepareRow,
   } = useTable(
     { columns, data },
-    useAbsoluteLayout
+    useBlockLayout
   )
 
   console.log(rows)
@@ -70,29 +70,31 @@ const Table = () => {
   const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
 
   const loadMore = () => {
-    const lastPage = (pages.length > 0) ? pages[pages.length - 1] : false
+    const lastPage = pages[pages.length - 1]
     return (!!lastPage && !isFetching) ? fetchMore({next: lastPage.next}) : null
   }
   const [rowHeight, setRowHeight] = React.useState(50)
 
-  // grab total item count from first page results
-  const totalItemCount = pages[0] && pages[0].count
-
   const Item = (itemProps: { index: number, style: {} }) => {
     const row = rows[itemProps.index]
-    prepareRow(row)
-    return(
-      <Box {...row.getRowProps}>
-        {row.cells.map(
-          (cell: { getCellProps: () => {}, render: (str: string) => React.ReactNode}, cellIndex: number) => (
-            <Box key={`cellIndex_${cellIndex}`} {...cell.getCellProps()}>
-              {cell.render('Cell')}
-            </Box>
-          )
-        )}
-      </Box>
-    )
+    if (!row) {
+      return <div>Loading...</div>
+    } else {
+
+      prepareRow(row)
+      return(
+        <Box direction="row" {...row.getRowProps}>
+          {row.cells.map(
+            (cell: { getCellProps: () => {}, render: (str: string) => React.ReactNode}, cellIndex: number) => (
+              <Box key={`cellIndex_${cellIndex}`} {...cell.getCellProps()}>
+                {cell.render('Cell')}
+              </Box>
+            )
+          )}
+        </Box>
+      )
   }
+}
 
   return (
     <Box fill {...getTableProps()}>
@@ -115,10 +117,11 @@ const Table = () => {
         loadMoreItems={loadMore}
       >
         {({ onItemsRendered, ref }) => (
-          <AutoSizer disableWidth>
-            {({height}) => (
+          <AutoSizer>
+            {({width, height}) => (
               <FixedSizeList
                 height={height}
+                width={width}
                 itemCount={itemCount}
                 itemSize={rowHeight}
                 onItemsRendered={onItemsRendered}
