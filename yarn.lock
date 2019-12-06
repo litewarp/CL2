@@ -1007,6 +1007,28 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-virtualized-auto-sizer@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-virtualized-auto-sizer/-/react-virtualized-auto-sizer-1.0.0.tgz#fc32f30a8dab527b5816f3a757e1e1d040c8f272"
+  integrity sha512-NMErdIdSnm2j/7IqMteRiRvRulpjoELnXWUwdbucYCz84xG9PHcoOrr7QfXwB/ku7wd6egiKFrzt/+QK4Imeeg==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-window-infinite-loader@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-window-infinite-loader/-/react-window-infinite-loader-1.0.2.tgz#dbca3a93dbf8d781bd68003e120003571200fe90"
+  integrity sha512-vBuiQiu6nuCy122qrSF1SBD4uu2zmvq6h4s89O2fakhQJriB6EADH8m7fM/S9x3uFw3dM3UBi/w+eboHvlLPiw==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-window" "*"
+
+"@types/react-window@*", "@types/react-window@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@types/react-window/-/react-window-1.8.1.tgz#6e1ceab2e6f2f78dbf1f774ee0e00f1bb0364bb3"
+  integrity sha512-V3k1O5cbfZIRa0VVbQ81Ekq/7w42CK1SuiB9U1oPMTxv270D9qUn7rHb3sZoqMkIJFfB1NZxaH7NRDlk+ToDsg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*":
   version "16.9.13"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.13.tgz#b3ea5dd443f4a680599e2abba8cc66f5e1ce0059"
@@ -7727,10 +7749,10 @@ react-side-effect@^1.1.0:
   dependencies:
     shallowequal "^1.0.1"
 
-react-table@^7.0.0-beta.26:
-  version "7.0.0-beta.26"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-beta.26.tgz#20ab9a7bd21f01930e764198410a642a3ae28e79"
-  integrity sha512-Pw/1T9kiAjV1cIf6K6bQV6yNQc3O7XUGin1RcSR1xFKw0RNGC5vl1VDPZrNep1BXDsbR6o8O63X45HFNVg6HzA==
+react-table@^7.0.0-rc.1:
+  version "7.0.0-rc.1"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-7.0.0-rc.1.tgz#33f61b904d246d862a46a05ac4d8eda6343ea83b"
+  integrity sha512-tAuZg+TY64UUgBPRts/q+0JguGZpliYdoQZl7lAnLAQ/reU/5c04sCx54QcpH7n/PYVHMJEYkIU0ito8ZZ011w==
 
 react-virtualized-auto-sizer@^1.0.2:
   version "1.0.2"

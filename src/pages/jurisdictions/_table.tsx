@@ -1,45 +1,36 @@
-import { Box, InfiniteScroll, Text } from 'grommet'
+import { Box, Text } from 'grommet'
 import * as React from 'react'
-import { useQuery } from 'react-query'
-import { useTable } from 'react-table'
+import { QueryResultPaginated, useQuery } from 'react-query'
+import { useAbsoluteLayout, useTable } from 'react-table'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { customFetch, fetchCourts } from '../../root/api'
-import { GetCourtsResponse } from '../../typings/api'
+import { CourtsData } from '../../typings/api'
 
-const Table = ({ height }: { height: number }) => {
-  // Set rowHeight in State for future plans to pass users ability to set their own row height
-  const [rowHeight, setRowHeight] = React.useState(50)
+const Table = () => {
 
-  const {
-    // rename data to avoid conflict
-    data: pages,
-    isLoading,
-    fetchMore,
-    canFetchMore
-  } = useQuery(
-    // name of the fetch query for caching and optimization
+  const courtData: QueryResult<CourtsData[], {}> = useQuery(
     'getCourts',
-    // fetch method
-    // if the currentPage has a next prop, then fetch the next url
-    // else fetch the first batch by running the normal fetchCourts function
-    ({ next } = {}) => !!next ? customFetch(next) : fetchCourts(),
-    // react-table configuration options
-    // getCanFetchMore lets hook know whether more data is available
-    // if the lastPage has no next
+    ({ next }= {}) => !!next ? customFetch(next) : fetchCourts(),
     {
-      getCanFetchMore: (lastPage, allPages) => lastPage && lastPage.next,
+      getCanFetchMore: (lastPage) => lastPage && !!lastPage.next,
       paginated: true,
     }
   )
-
-  // grab total item count from first page results
-  const totalItemCount = pages[0] && pages[0].count
+  // Set rowHeight in State for future plans to pass users ability to set their own row height
+  const {
+    data: pages,
+    isFetching,
+    isFetchingMore,
+    isLoading,
+    canFetchMore,
+    fetchMore
+  } = courtData
 
   const data = React.useMemo(
     () => {
-      const allData = []
-      console.log(pages)
+      const allData: any[] = []
       pages.map((page) => allData.push(...page.results))
       return allData
     },
@@ -62,33 +53,38 @@ const Table = ({ height }: { height: number }) => {
     []
   )
 
-  const loadMore = () => {
-    const lastPage = pages[pages.length - 1]
-    console.log(lastPage)
-    return (lastPage && canFetchMore) && fetchMore({next: lastPage.next})
-  }
-
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({
-    columns,
-    data
-  })
+  } = useTable(
+    { columns, data },
+    useAbsoluteLayout
+  )
+
+  console.log(rows)
 
   const itemCount = canFetchMore ? rows.length + 1 : rows.length
   const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
 
-  const Item = ({ index, style }) => {
-    const row = rows[index]
+  const loadMore = () => {
+    const lastPage = (pages.length > 0) ? pages[pages.length - 1] : false
+    return (!!lastPage && !isFetching) ? fetchMore({next: lastPage.next}) : null
+  }
+  const [rowHeight, setRowHeight] = React.useState(50)
+
+  // grab total item count from first page results
+  const totalItemCount = pages[0] && pages[0].count
+
+  const Item = (itemProps: { index: number, style: {} }) => {
+    const row = rows[itemProps.index]
     prepareRow(row)
-    return (
-      <Box >
-        {row && row.cells.map(
-          (cell, cellIndex) => (
+    return(
+      <Box {...row.getRowProps}>
+        {row.cells.map(
+          (cell: { getCellProps: () => {}, render: (str: string) => React.ReactNode}, cellIndex: number) => (
             <Box key={`cellIndex_${cellIndex}`} {...cell.getCellProps()}>
               {cell.render('Cell')}
             </Box>
@@ -100,39 +96,41 @@ const Table = ({ height }: { height: number }) => {
 
   return (
     <Box fill {...getTableProps()}>
-
       <Box>
-        {headerGroups.map((hG, index) => (
-          <Box direction="row" key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
-            {hG.headers.map((column, colIndex) => (
-              <Text key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
-                {column.render('Header')}
-              </Text>
+        {headerGroups.map(
+          (hG: { getHeaderGroupProps: () => {}, headers: any[] }, index: number) => (
+            <Box direction="row" key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
+              {hG.headers.map((column, colIndex) => (
+                <Text key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
+                  {column.render('Header')}
+                </Text>
             ))}
           </Box>
         ))}
       </Box>
 
-      <Box {...getTableBodyProps()}>
-        <InfiniteLoader
-          threshold={5}
-          isItemLoaded={isItemLoaded}
-          itemCount={itemCount}
-          loadMoreItems={loadMore}
-        >
-          {({ onItemsRendered, ref }) => (
-            <FixedSizeList
-              height={height ? height : 500}
-              itemCount={rows.length}
-              itemSize={rowHeight}
-              onItemsRendered={onItemsRendered}
-              ref={ref}
-            >
-              {Item}
-            </FixedSizeList>
-          )}
-        </InfiniteLoader>
-      </Box>
+      <InfiniteLoader
+        isItemLoaded={isItemLoaded}
+        itemCount={itemCount}
+        loadMoreItems={loadMore}
+      >
+        {({ onItemsRendered, ref }) => (
+          <AutoSizer disableWidth>
+            {({height}) => (
+              <FixedSizeList
+                height={height}
+                itemCount={itemCount}
+                itemSize={rowHeight}
+                onItemsRendered={onItemsRendered}
+                ref={ref}
+                {...getTableBodyProps()}
+              >
+                {Item}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
 
     </Box>
   )

@@ -1,4 +1,4 @@
-export interface GetCourtsResponse {
+export interface CourtsData {
   resourceUri: string,
   id: string,
   pacerCourtId: string,
