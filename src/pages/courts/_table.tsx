@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { Box, Text } from 'grommet'
 import * as React from 'react'
 import { QueryResultPaginated, useQuery } from 'react-query'
@@ -6,15 +7,15 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
 import { customFetch, fetchCourts } from '../../root/api'
-import { CourtsData } from '../../typings/api'
+import { CourtsApiResponse, CourtsData } from '../../typings/api'
 
 const Table = () => {
 
-  const courtData: QueryResult<CourtsData[], {}> = useQuery(
+  const courtData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ next }= {}) => !!next ? customFetch(next) : fetchCourts(),
+    ({{ next }= { }) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
     {
-      getCanFetchMore: (lastPage) => lastPage && !!lastPage.next,
+      getCanFetchMore: (lastPage: CourtsApiResponse) => !!lastPage && lastPage.next,
       paginated: true,
     }
   )
@@ -28,13 +29,15 @@ const Table = () => {
     fetchMore
   } = courtData
 
+  const nextUrl = pages && pages[0] && pages[0].next
+
   const data = React.useMemo(
     () => {
       const allData: any[] = []
       pages.map((page) => allData.push(...page.results))
       return allData
     },
-    [pages]
+    []
   )
 
   const columns = React.useMemo(
@@ -45,14 +48,14 @@ const Table = () => {
       { Header: 'Jurisdiction', accessor: 'jurisdiction', },
       { Header: 'Homepage', accessor: 'resourceUri', },
       { Header: 'Citation Abbreviation', accessor: 'citationString', },
-      { Header: 'Start Date', accessor: 'startDate', },
-      { Header: 'End Date', accessor: 'endDate', },
+      { Header: 'Start Date', accessor: (row: CourtsData) => dayjs(row.startDate).format('MM-DD-YYYY'), },
+      { Header: 'End Date', accessor: (row: CourtsData) => dayjs(row.endDate).format('MM-DD-YYYY') },
       { Header: 'In Use', accessor: 'inUse', },
-      { Header: 'Modified', accessor: 'dateModified', },
+      { Header: 'Modified', accessor: (row: CourtsData) => dayjs(row.dateModified).format('MM-DD-YYYY') },
     ],
     []
   )
-
+  console.log(pages && pages[0] && pages[0].next)
   const {
     getTableProps,
     getTableBodyProps,
@@ -64,14 +67,17 @@ const Table = () => {
     useBlockLayout
   )
 
-  console.log(rows)
-
   const itemCount = canFetchMore ? rows.length + 1 : rows.length
   const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
 
-  const loadMore = () => {
-    const lastPage = pages[pages.length - 1]
-    return (!!lastPage && !isFetching) ? fetchMore({next: lastPage.next}) : null
+  const loadMore = async () => {
+    try {
+      const { next } = pages[pages.length - 1]
+
+      await fetchMore({ next })
+    } catch {
+      console.log('ERROR')
+    }
   }
   const [rowHeight, setRowHeight] = React.useState(50)
 
@@ -80,7 +86,6 @@ const Table = () => {
     if (!row) {
       return <div>Loading...</div>
     } else {
-
       prepareRow(row)
       return(
         <Box direction="row" {...row.getRowProps}>
@@ -110,15 +115,15 @@ const Table = () => {
           </Box>
         ))}
       </Box>
-
       <InfiniteLoader
+        threshold={5}
         isItemLoaded={isItemLoaded}
         itemCount={itemCount}
         loadMoreItems={loadMore}
       >
         {({ onItemsRendered, ref }) => (
-          <AutoSizer>
-            {({width, height}) => (
+          <AutoSizer disableWidth>
+            {({height, width}) => (
               <FixedSizeList
                 height={height}
                 width={width}
@@ -134,7 +139,6 @@ const Table = () => {
           </AutoSizer>
         )}
       </InfiniteLoader>
-
     </Box>
   )
 }

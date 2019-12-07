@@ -52,14 +52,17 @@ const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
   method: 'GET'
 })
 
-export const customFetch = ({ url }: { url: string }) =>
-  fetch((url), {
+export const customFetch = ({ url }: { url: string }) => {
+
+  console.log(url)
+
+  return fetch((url), {
     headers: new Headers(apiHeader),
     method: 'GET'
   })
   .then((res) => res.json())
   .then((res) => camelcaseKeys(res, { deep: true }))
-
+}
 export const fetchLatestAudio = () =>
   fetch(`${endpoints.audio}/?order_by=date`, {
     headers: new Headers(apiHeader),

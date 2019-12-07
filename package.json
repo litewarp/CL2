@@ -30,6 +30,7 @@
     "@types/webpack-env": "^1.14.1",
     "camelcase-keys": "^6.1.1",
     "cross-fetch": "^3.0.4",
+    "dayjs": "^1.8.17",
     "express": "^4.16.2",
     "formik": "^2.0.6",
     "grommet": "^2.8.1",

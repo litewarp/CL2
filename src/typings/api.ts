@@ -17,3 +17,9 @@ export interface CourtsData {
   endDate: string,
   jurisdiction: string
 }
+
+export interface CourtsApiResponse {
+  count: number,
+  next: string,
+  results: CourtsData[]
+}

@@ -34,7 +34,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import(/* webpackChunkName: 'Home' */ './pages/jurisdictions/Page'), // required
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/courts/Page'), // required
     }),
     exact: true,
     name: 'Jurisdictions',

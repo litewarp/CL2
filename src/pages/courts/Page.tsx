@@ -1,16 +1,26 @@
+import { InitialProps } from '@jaredpalmer/after'
 import { Box, Heading, Paragraph, Text } from 'grommet'
 import * as React from 'react'
 import Helmet from 'react-helmet'
-import { prefetchQuery, useQuery } from 'react-query'
+import { prefetchQuery, QueryResultPaginated, useQuery } from 'react-query'
 import { customFetch, fetchCourts } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
 import { StatelessPage } from '../../typings'
-import { CourtsData } from '../../typings/api'
+import { CourtsApiResponse, CourtsData } from '../../typings/api'
 import Table from './_table'
 
-const Jurisdictions: StatelessPage<{}> = (props: { data: CourtsData[] }) => {
+const Jurisdictions: StatelessPage<{}> = () => {
 
-  const totalItemCount = props.data && props.data[0] && props.data[0].count
+  const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
+    'getCourts',
+    ({ next }= { next: '' }) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
+    {
+      getCanFetchMore: (lastPage: CourtsApiResponse) => !!lastPage && lastPage.next,
+      paginated: true,
+    }
+  )
+  console.log(courtsData)
+  const totalItemCount = courtsData.data && courtsData.data[0] && courtsData.data[0].count
 
   return (
     <>
@@ -35,8 +45,8 @@ const Jurisdictions: StatelessPage<{}> = (props: { data: CourtsData[] }) => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  const courtData = prefetchQuery('getCourts', fetchCourts)
-  return { ...props, ...courtData }
+  const courtData = await prefetchQuery('getCourts', fetchCourts, { paginated: true })
+  return { ...props }
 }
 
 // wrap the page with our layout
