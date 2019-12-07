@@ -9,16 +9,9 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { customFetch, fetchCourts } from '../../root/api'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 
-const Table = () => {
+const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
+  console.log(props)
 
-  const courtData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
-    'getCourts',
-    ({{ next }= { }) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
-    {
-      getCanFetchMore: (lastPage: CourtsApiResponse) => !!lastPage && lastPage.next,
-      paginated: true,
-    }
-  )
   // Set rowHeight in State for future plans to pass users ability to set their own row height
   const {
     data: pages,
@@ -27,7 +20,7 @@ const Table = () => {
     isLoading,
     canFetchMore,
     fetchMore
-  } = courtData
+  } = props
 
   const nextUrl = pages && pages[0] && pages[0].next
 

@@ -52,9 +52,9 @@ const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
   method: 'GET'
 })
 
-export const customFetch = ({ url }: { url: string }) => {
+export const customFetch = (url: string) => {
 
-  console.log(url)
+  console.log(`FETCH_URL=${url}`)
 
   return fetch((url), {
     headers: new Headers(apiHeader),

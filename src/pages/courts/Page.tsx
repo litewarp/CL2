@@ -9,17 +9,16 @@ import { StatelessPage } from '../../typings'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 import Table from './_table'
 
-const Jurisdictions: StatelessPage<{}> = () => {
+const Jurisdictions = (props) => {
 
   const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ next }= { next: '' }) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
+    ({ next }= {}) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
     {
-      getCanFetchMore: (lastPage: CourtsApiResponse) => !!lastPage && lastPage.next,
+      getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
       paginated: true,
     }
   )
-  console.log(courtsData)
   const totalItemCount = courtsData.data && courtsData.data[0] && courtsData.data[0].count
 
   return (
@@ -38,15 +37,21 @@ const Jurisdictions: StatelessPage<{}> = () => {
           If you are a legal researcher interested in helping us research this or other
           data, please get in touch via our contact form. We welcome your contribution.
         </Text>
-        <Table />
+        {courtsData.isLoading
+          ? <Heading level={3}>Loading ...</Heading>
+          : <Table {...courtsData}/>
+        }
       </Box>
     </>
   )
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  const courtData = await prefetchQuery('getCourts', fetchCourts, { paginated: true })
-  return { ...props }
+  const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = await prefetchQuery(
+    'getCourts',
+    () => customFetch('https://www.courtlistener.com/api/rest/v3/courts')
+  )
+  return { ...props  }
 }
 
 // wrap the page with our layout
