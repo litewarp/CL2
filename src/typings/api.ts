@@ -23,3 +23,20 @@ export interface CourtsApiResponse {
   next: string,
   results: CourtsData[]
 }
+
+export interface OpinionData {
+  absoluteUrl: string,
+  caseName: string,
+  resourceUri: string,
+  dateCreated: string,
+  docket: string,
+  status?: string,
+  natureSuit?: string,
+  duration?: string
+}
+
+export interface OpinionApiResponse {
+  count: number,
+  next: string,
+  results: OpinionData[]
+}

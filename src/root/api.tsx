@@ -1,20 +1,4 @@
 import camelcaseKeys from 'camelcase-keys'
-const AUTH_TOKEN = 'dc182e614a6f23fe91b4a9923b4c6f5b0d645160'
-
-interface OpinionResult {
-  absoluteUrl: string,
-  caseName: string,
-  resourceUri: string,
-  dateCreated: string,
-  docket: string,
-  status?: string,
-  natureSuit?: string,
-  duration?: string
-}
-
-interface OpinionData {
-  results: OpinionResult[]
-}
 
 const endpoints = {
   abaRatings: 'https://www.courtlistener.com/api/rest/v3/aba-ratings',
@@ -43,46 +27,22 @@ const endpoints = {
   sources: 'https://www.courtlistener.com/api/rest/v3/sources',
   tag: 'https://www.courtlistener.com/api/rest/v3/tag',
 }
+
+const AUTH_TOKEN = 'dc182e614a6f23fe91b4a9923b4c6f5b0d645160'
+
 const tokenHeader = { Authorization: `Token ${AUTH_TOKEN}` }
 const contentHeader = { Accept: 'application/json' }
 const apiHeader = { ...tokenHeader, ...contentHeader }
 
-const searchQuery = (query: {}, url: string) => fetch(`${url}/?q=${query}`, {
-  headers: new Headers(apiHeader),
-  method: 'GET'
-})
-
-export const customFetch = (url: string) => {
-
-  console.log(`FETCH_URL=${url}`)
-
-  return fetch((url), {
+export const apiFetch = (...args) => {
+  console.log('FETCH_ARGS', ...args)
+  return fetch(...args, {
     headers: new Headers(apiHeader),
     method: 'GET'
   })
   .then((res) => res.json())
   .then((res) => camelcaseKeys(res, { deep: true }))
 }
-export const fetchLatestAudio = () =>
-  fetch(`${endpoints.audio}/?order_by=date`, {
-    headers: new Headers(apiHeader),
-    method: 'GET',
-  })
-  .then((res) => (res.json()))
-  .then((res) => (camelcaseKeys(res, { deep: true })))
-
-export const fetchLatestOpinion = () =>
-  fetch(`${endpoints.clusters}/?order_by=date`, {
-    headers: new Headers(apiHeader),
-    method: 'GET',
-  })
-  .then((res) => (res.json()))
-  .then((res) => (camelcaseKeys(res, { deep: true })))
-
-export const fetchCourts = () =>
-  fetch(`${endpoints.courts}`, {
-    headers: new Headers(apiHeader),
-    method: 'GET',
-  })
-  .then((res) => (res.json()))
-  .then((res) => (camelcaseKeys(res, { deep: true })))
+export const fetchLatestAudio = () => apiFetch(`${endpoints.audio}/?order_by=date`)
+export const fetchLatestOpinion = () => apiFetch(`${endpoints.clusters}/?order_by=date`)
+export const fetchCourts = () => apiFetch(`${endpoints.courts}`)

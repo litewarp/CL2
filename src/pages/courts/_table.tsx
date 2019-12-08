@@ -6,7 +6,7 @@ import { useBlockLayout, useTable } from 'react-table'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList } from 'react-window'
 import InfiniteLoader from 'react-window-infinite-loader'
-import { customFetch, fetchCourts } from '../../root/api'
+import { apiFetch, fetchCourts } from '../../root/api'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 
 const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {

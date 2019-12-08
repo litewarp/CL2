@@ -1,4 +1,8 @@
-// type definitions for Court Listener
+// Type definitions for [COURT_LISTENER] [V.0.0.1]
+// Project: The Free Law Project (https://free.law)
+// Definitions by: Nick Sethi (nick@sethipc.com)
+
+
 import { DocumentProps, InitialProps } from '@jaredpalmer/after'
 
 declare module '*.png'
@@ -36,14 +40,14 @@ export interface CtxProps {
   renderPage: (node: React.ReactNode) => {},
 }
 
-interface HomePageData {
+export interface HomePageData {
   latestAudioData: {},
   latestOpinionData: {},
 }
 
 export interface HomePageProps extends Merge<InitialProps, HomePageData> {}
 
-interface DonationFormValues {
+export interface DonationFormValues {
   amount: string,
   city: string,
   creditCardCvc: string,

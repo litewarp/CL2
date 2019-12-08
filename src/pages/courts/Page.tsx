@@ -3,7 +3,7 @@ import { Box, Heading, Paragraph, Text } from 'grommet'
 import * as React from 'react'
 import Helmet from 'react-helmet'
 import { prefetchQuery, QueryResultPaginated, useQuery } from 'react-query'
-import { customFetch, fetchCourts } from '../../root/api'
+import { apiFetch, fetchCourts } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
 import { StatelessPage } from '../../typings'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
@@ -13,7 +13,7 @@ const Jurisdictions = (props) => {
 
   const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ next }= {}) => customFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
+    ({ next }= {}) => apiFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
     {
       getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
       paginated: true,
@@ -49,7 +49,8 @@ const Jurisdictions = (props) => {
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
   const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = await prefetchQuery(
     'getCourts',
-    () => customFetch('https://www.courtlistener.com/api/rest/v3/courts')
+    () => apiFetch('https://www.courtlistener.com/api/rest/v3/courts'),
+    { paginated: true }
   )
   return { ...props  }
 }

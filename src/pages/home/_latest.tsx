@@ -4,6 +4,7 @@ import { FaRegFileAlt, FaVolumeUp } from 'react-icons/fa'
 import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
 import { fetchLatestAudio, fetchLatestOpinion } from './../../root/api'
+import { OpinionApiResponse, OpinionData } from './../../typings/api'
 
 // override grommet with styled-components
 const DocumentIcon = styled(FaRegFileAlt)` margin-left: 1rem`
@@ -14,24 +15,8 @@ const FlatButton = styled(Button)`
   font-size: 1em;
 `
 
-interface OpinionResult {
-  absoluteUrl: string,
-  caseName: string,
-  resourceUri: string,
-  dateCreated: string,
-  docket: string,
-  status?: string,
-  natureSuit?: string,
-  duration?: string
-}
-
-interface OpinionData {
-  count: string,
-  results: OpinionResult[]
-}
-
 // local components
-const LatestOpinion = (props: OpinionResult) => {
+const LatestOpinion = (props: OpinionData) => {
   const docketNumber = props.docket && props.docket.split('/')[props.docket.split('/').length - 2]
   const dateString = `Date Filed: ${props.dateCreated}`
   const statusString = `Status: ${props.status}`
@@ -47,7 +32,7 @@ const LatestOpinion = (props: OpinionResult) => {
   )
 }
 
-const LatestAudio = (props: OpinionResult) => {
+const LatestAudio = (props: OpinionData) => {
   const docketNumber = props.docket && props.docket.split('/')[props.docket.split('/').length - 2]
   const dateString = `Date Argued: ${props.dateCreated}`
   const docketString = `Docket Number: ${docketNumber}`
@@ -62,7 +47,7 @@ const LatestAudio = (props: OpinionResult) => {
 
 // exported components
 export const LatestOpinionList = () => {
-  const { data, isLoading }: QueryResult<OpinionData, {}> = useQuery('latestOpinions', fetchLatestOpinion)
+  const { data, isLoading }: QueryResult<OpinionApiResponse, {}> = useQuery('latestOpinions', fetchLatestOpinion)
   const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
@@ -73,7 +58,7 @@ export const LatestOpinionList = () => {
       <Text size="xxsmall" margin={{ vertical: 'small'}}>
         We download opinions from many jurisdictions on an ongoing basis. Here are the most recent ones.
       </Text>
-      {data && firstFiveResults.map((opinion: OpinionResult, index: number) =>
+      {data && firstFiveResults.map((opinion: OpinionData, index: number) =>
         <LatestOpinion key={`opinion_${index}`} {...opinion} />)
       }
       <FlatButton label="See Recent Opinions" href="/?order_by=dateFiled+desc" color="accent-2" primary/>
@@ -82,7 +67,7 @@ export const LatestOpinionList = () => {
 }
 
 export const LatestAudioList = () => {
-  const { data, isLoading }: QueryResult<OpinionData, {}> = useQuery('latestAudio', fetchLatestAudio)
+  const { data, isLoading }: QueryResult<OpinionApiResult, {}> = useQuery('latestAudio', fetchLatestAudio)
   const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>
@@ -93,7 +78,7 @@ export const LatestAudioList = () => {
       <Text size="xxsmall" margin={{ vertical: 'small'}}>
         We download oral arguments from many jurisdictions on an ongoing basis. Here are the most recent ones.
       </Text>
-      {data && firstFiveResults.map((opinion: OpinionResult, index: number) =>
+      {data && firstFiveResults.map((opinion: OpinionData, index: number) =>
         <LatestAudio key={`audio_${index}`} {...opinion} />)
       }
       <FlatButton
