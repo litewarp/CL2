@@ -1,0 +1,173 @@
+import dayjs from 'dayjs'
+import { Box, Button, Text } from 'grommet'
+import * as React from 'react'
+import { QueryResultPaginated, useQuery } from 'react-query'
+import { useBlockLayout, useTable } from 'react-table'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList } from 'react-window'
+import InfiniteLoader from 'react-window-infinite-loader'
+import { apiFetch, fetchCourts } from '../../root/api'
+import { CourtsApiResponse, CourtsData } from '../../typings/api'
+
+interface TableProps {
+  isFetching: boolean,
+  isFetchingMore: boolean,
+  isLoading: boolean,
+  canFetchMore: boolean,
+  fetchMore: ({page}: { page: number }) => void,
+  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
+  nextUrl: string
+}
+
+const Table = (props: TableProps) => {
+  // destructure everything but data
+  const {
+    nextUrl,
+    isFetching,
+    isFetchingMore,
+    canFetchMore,
+    fetchMore
+  } = props
+
+  const data = props && props.data
+
+  const [scrollTrigger, setScrollTrigger] = React.useState(false)
+
+  React.useEffect(
+    () => {
+      if (nextUrl && !isFetchingMore) {
+        const nextPage = parseInt(nextUrl.slice(-1), 10)
+        fetchMore({ page: nextPage })
+      }
+      setScrollTrigger(false)
+    },
+    [scrollTrigger]
+  )
+
+  React.useEffect(
+    () => {
+      const table = document.getElementById('table')
+      if (props.scrollable) {
+        // list has fixed height
+        list.addEventListener('scroll', (e: Event) => {
+          const target = e.target
+          console.log(target)
+          if (target.scrollTop + target.clientHeight === target.scrollHeight) {
+            setScrollTrigger(true)
+          }
+        })
+      } else {
+        // list has auto height
+        window.addEventListener('scroll', () => {
+          if (window.scrollY + window.innerHeight === list.clientHeight + list.offsetTop) {
+            setScrollTrigger(true)
+          }
+        })
+        }
+    },
+    []
+  )
+
+
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'Name',
+        accessor: 'fullName',
+      },
+        // need to provide from api, accessor: 'count',
+      {
+        Header: 'Count',
+        acessor: 'count'
+      },
+      { Header: 'Jurisdiction', accessor: 'jurisdiction', },
+      { Header: 'Homepage', accessor: 'resourceUri', },
+      { Header: 'Citation Abbreviation', accessor: 'citationString', },
+      { Header: 'Start Date', accessor: (row: CourtsData) => dayjs(row.startDate).format('MM-DD-YYYY'), },
+      { Header: 'End Date', accessor: (row: CourtsData) => dayjs(row.endDate).format('MM-DD-YYYY') },
+      { Header: 'In Use', accessor: 'inUse', },
+      { Header: 'Modified', accessor: (row: CourtsData) => dayjs(row.dateModified).format('MM-DD-YYYY') },
+    ],
+    []
+  )
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useBlockLayout
+  )
+
+  React.useEffect(
+    () => {
+      const table = document.getElementById('table')
+
+      if (table.clientHeight <= window.innerHeight && table.clientHeight) {
+        setScrollTrigger(true)
+      }
+    },
+    [rows]
+  )
+
+  const itemCount = canFetchMore ? rows.length + 1 : rows.length
+  const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
+
+  const loadMore = () => {
+    const next = props.nextUrl
+    const nextPage = parseInt(next.slice(-1), 10)
+    if (!isFetchingMore) { fetchMore({ page: nextPage }) }
+  }
+
+  const Item = ({index, style}: { index: number, style: {} }) => {
+    const row = rows[index]
+    if (!row) {
+      return <div>Loading...</div>
+    } else {
+      prepareRow(row)
+      return (
+        <Box direction="row" {...row.getRowProps}>
+          {row.cells.map(
+            (cell: { getCellProps: () => {}, render: (str: string) => React.ReactNode}, cellIndex: number) => (
+            <Box key={`cellIndex_${cellIndex}`} {...cell.getCellProps()}>
+              {cell.render('Cell')}
+            </Box>
+          ))}
+        </Box>
+      )
+    }
+  }
+
+  console.log('PRIOR TO RENDER', props)
+  return (
+    <Box
+      fill
+      direction="column"
+      {...getTableProps()}
+    >
+      {headerGroups.map(
+        (hG: { getHeaderGroupProps: () => {}, headers: any[] }, index: number) => (
+          <Box direction="row" key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
+            {hG.headers.map((column, colIndex) => (
+              <Text key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </Text>
+          ))}
+        </Box>
+      ))}
+      <div id="table" {...getTableBodyProps()}>
+        {rows.map((row, rowIndex) => (
+          <Item index={rowIndex} key={rowIndex * 21} style={} />
+        ))}
+      </div>
+    </Box>
+  )
+}
+
+export default Table

@@ -7,13 +7,14 @@ import { apiFetch, fetchCourts } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
 import { StatelessPage } from '../../typings'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
-import Table from './_table'
+import CourtsTable from './_table'
 
 const Jurisdictions = () => {
 
   const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ page }= {}) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
+    ({ page }: {page: number} = {}) =>
+      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     {
       getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
       paginated: true,
@@ -31,6 +32,7 @@ const Jurisdictions = () => {
   const totalItemCount = data && data[0] && data[0].count
 
   const flattenData = (responses: CourtsApiResponse[]) => {
+    console.log(responses)
     const results: CourtsData[]  = []
     responses.map(
       (res) => res.results ? results.push(...res.results) : null
@@ -43,14 +45,14 @@ const Jurisdictions = () => {
     [data]
   )
 
-  const nextUrl = (data.length > 0) ? data[data.length - 1].next : null
+  const nextUrl = (data && data.length > 0) ? data[data.length - 1].next : ''
 
   return (
     <>
       <Helmet>
         <title>Available Jurisdictions</title>
       </Helmet>
-      <Box fill>
+      <Box>
         <Heading level={3} margin="none">Available Jurisdictions</Heading>
         <Text size="small">
           We currently have {totalItemCount} jurisdictions available on CourtListener.
@@ -65,7 +67,7 @@ const Jurisdictions = () => {
           ? <Heading level={3}>Loading ...</Heading>
           : data
             ? (
-              <Table
+              <CourtsTable
                 data={tableData}
                 canFetchMore={canFetchMore}
                 isFetchingMore={isFetchingMore}
@@ -82,6 +84,15 @@ const Jurisdictions = () => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
+  const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = prefetchQuery(
+    'getCourts',
+    ({ page }: {page: number} = {}) =>
+      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
+    {
+      getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
+      paginated: true,
+    }
+  )
   return { ...props  }
 }
 

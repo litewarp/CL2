@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useQuery } from 'react-query'
 import { apiFetch } from '../../root/api'
+import { CourtsApiResponse } from '../../typings/api'
 
 const DataFetcher = () => {
   const {
@@ -12,10 +13,11 @@ const DataFetcher = () => {
     canFetchMore
   } = useQuery(
     'getData',
-    ({ page }={}) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
+    ({ page }: { page?: number }) =>
+      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     {
-      paginated: true,
       getCanFetchMore: (lastPage) => lastPage && !!lastPage.next
+      paginated: true,
     }
   )
   const loadMore = async () => {
@@ -25,7 +27,9 @@ const DataFetcher = () => {
       const nextPage = parseInt(next.slice(-1), 10)
       console.log(nextPage)
       await fetchMore({ page: nextPage })
-    } catch {}
+    } catch {
+      console.log('LOAD MORE ERROR', data)
+    }
   };
   return isLoading ? (
       <p>Loading ...</p>
@@ -43,7 +47,7 @@ const DataFetcher = () => {
           )}
         </div>
         {data.map(
-          (p,i) => <p key={i*22}>{JSON.stringify(p)}</p>
+          (p: CourtsApiResponse, i: number) => <p key={i * 22}>{JSON.stringify(p)}</p>
         )}
         <div>
           {isFetching && !isFetchingMore ? 'Background Updating...' : null}

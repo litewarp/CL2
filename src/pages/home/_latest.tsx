@@ -67,7 +67,7 @@ export const LatestOpinionList = () => {
 }
 
 export const LatestAudioList = () => {
-  const { data, isLoading }: QueryResult<OpinionApiResult, {}> = useQuery('latestAudio', fetchLatestAudio)
+  const { data, isLoading }: QueryResult<OpinionApiResponse, {}> = useQuery('latestAudio', fetchLatestAudio)
   const firstFiveResults = data ? data.results.slice(0, 5) : []
   return (
     <>

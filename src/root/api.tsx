@@ -1,4 +1,5 @@
 import camelcaseKeys from 'camelcase-keys'
+import { Response } from 'express'
 
 const endpoints = {
   abaRatings: 'https://www.courtlistener.com/api/rest/v3/aba-ratings',
@@ -34,13 +35,16 @@ const tokenHeader = { Authorization: `Token ${AUTH_TOKEN}` }
 const contentHeader = { Accept: 'application/json' }
 const apiHeader = { ...tokenHeader, ...contentHeader }
 
+// need to learn to type rest parameters
+// @ts-ignore
 export const apiFetch = (...args) =>
+  // @ts-ignore
   fetch(...args, {
     headers: new Headers(apiHeader),
     method: 'GET'
   })
-  .then((res) => res.json())
-  .then((res) => camelcaseKeys(res, { deep: true }))
+  .then((res: Response) => res.json())
+  .then((res: Response) => camelcaseKeys(res, { deep: true }))
 
 export const fetchLatestAudio = () => apiFetch(`${endpoints.audio}/?order_by=date`)
 export const fetchLatestOpinion = () => apiFetch(`${endpoints.clusters}/?order_by=date`)
