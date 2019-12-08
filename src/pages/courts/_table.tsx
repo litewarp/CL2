@@ -9,9 +9,17 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { apiFetch, fetchCourts } from '../../root/api'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 
-const Table = (props) => {
-  console.log(props)
+interface TableProps {
+  isFetching: boolean,
+  isFetchingMore: boolean,
+  isLoading: boolean,
+  canFetchMore: boolean,
+  fetchMore: ({page}: { page: number }) => void,
+  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
+  nextUrl: string
+}
 
+const Table = (props: TableProps) => {
   // destructure everything but data
   const {
     isFetching,
@@ -49,21 +57,21 @@ const Table = (props) => {
     {
       columns,
       data
-    },
-    useBlockLayout
-  )
+    }
+)
 
-  console.log(rows)
   const itemCount = canFetchMore ? rows.length + 1 : rows.length
   const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
 
   const loadMore = async () => {
     try {
-      const next = await props.nextUrl
+      const next = props.nextUrl
       const nextPage = parseInt(next.slice(-1), 10)
-      await fetchMore({ page: nextPage })
+      if (!isFetchingMore) {
+        fetchMore({ page: nextPage })
+      }
     } catch {
-      console.log('LOAD MORE ERROR', data, props)
+      console.log('LOAD MORE ERROR')
     }
   }
 
@@ -84,47 +92,49 @@ const Table = (props) => {
           )}
         </Box>
       )
+    }
   }
-}
 
   return (
-    <Box fill {...getTableProps()}>
-      <Box>
-        {headerGroups.map(
-          (hG: { getHeaderGroupProps: () => {}, headers: any[] }, index: number) => (
-            <Box direction="row" key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
-              {hG.headers.map((column, colIndex) => (
-                <Text key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </Text>
-            ))}
-          </Box>
-        ))}
-      </Box>
-      <InfiniteLoader
-        threshold={5}
-        isItemLoaded={isItemLoaded}
-        itemCount={itemCount}
-        loadMoreItems={loadMore}
-      >
-        {({ onItemsRendered, ref }) => (
-          <AutoSizer disableWidth>
-            {({height, width}) => (
-              <FixedSizeList
-                height={height}
-                width={width}
-                itemCount={itemCount}
-                itemSize={50}
-                onItemsRendered={onItemsRendered}
-                ref={ref}
-                {...getTableBodyProps()}
-              >
-                {Item}
-              </FixedSizeList>
-            )}
-          </AutoSizer>
+    <Box
+      fill
+      direction="column"
+      {...getTableProps()}
+    >
+      {headerGroups.map(
+        (hG: { getHeaderGroupProps: () => {}, headers: any[] }, index: number) => (
+          <Box direction="row" key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
+            {hG.headers.map((column, colIndex) => (
+              <Text key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </Text>
+          ))}
+        </Box>
+      ))}
+      <AutoSizer>
+        {({height, width}) => (
+        <InfiniteLoader
+          threshold={5}
+          isItemLoaded={isItemLoaded}
+          itemCount={itemCount}
+          loadMoreItems={loadMore}
+        >
+          {({ onItemsRendered, ref }) => (
+            <FixedSizeList
+              height={height}
+              width={width}
+              itemCount={itemCount}
+              itemSize={50}
+              onItemsRendered={onItemsRendered}
+              ref={ref}
+              {...getTableBodyProps()}
+            >
+              {Item}
+            </FixedSizeList>
+          )}
+        </InfiniteLoader>
         )}
-      </InfiniteLoader>
+      </AutoSizer>
     </Box>
   )
 }
