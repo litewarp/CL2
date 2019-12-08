@@ -1,12 +1,8 @@
 import * as React from 'react'
 import { useQuery } from 'react-query'
+import { apiFetch } from '../../root/api'
 
 const DataFetcher = () => {
-  const customFetch = async (...args) => {
-    console.log("fetchParams", ...args);
-    const res = await fetch(...args);
-    return await res.json();
-  };
   const {
     data,
     isLoading,
@@ -16,7 +12,7 @@ const DataFetcher = () => {
     canFetchMore
   } = useQuery(
     'getData',
-    ({ page }={}) => customFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
+    ({ page }={}) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     {
       paginated: true,
       getCanFetchMore: (lastPage) => lastPage && !!lastPage.next

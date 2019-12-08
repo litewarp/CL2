@@ -9,17 +9,41 @@ import { StatelessPage } from '../../typings'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 import Table from './_table'
 
-const Jurisdictions = (props) => {
+const Jurisdictions = () => {
 
-  const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
+  const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ next }= {}) => apiFetch(next || 'https://www.courtlistener.com/api/rest/v3/courts'),
+    ({ page }= {}) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     {
       getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
       paginated: true,
     }
   )
-  const totalItemCount = courtsData.data && courtsData.data[0] && courtsData.data[0].count
+  const {
+    data,
+    isLoading,
+    isFetching,
+    isFetchingMore,
+    fetchMore,
+    canFetchMore
+  } = courtsQuery
+
+  const totalItemCount = data && data[0] && data[0].count
+
+  const flattenData = (responses: CourtsApiResponse[]) => {
+    const results: CourtsData[]  = []
+    responses.map(
+      (res) => res.results ? results.push(...res.results) : null
+    )
+    return results
+  }
+
+  const tableData = React.useMemo(
+    () => flattenData(data),
+    [data]
+  )
+
+  const nextUrl = (data.length > 0) ? data[data.length - 1].next : null
 
   return (
     <>
@@ -37,9 +61,20 @@ const Jurisdictions = (props) => {
           If you are a legal researcher interested in helping us research this or other
           data, please get in touch via our contact form. We welcome your contribution.
         </Text>
-        {courtsData.isLoading
+        {isLoading
           ? <Heading level={3}>Loading ...</Heading>
-          : <Table {...courtsData}/>
+          : data
+            ? (
+              <Table
+                data={tableData}
+                canFetchMore={canFetchMore}
+                isFetchingMore={isFetchingMore}
+                fetchMore={fetchMore}
+                isFetching={isFetching}
+                nextUrl={nextUrl}
+              />
+            )
+            : null
         }
       </Box>
     </>
@@ -47,11 +82,6 @@ const Jurisdictions = (props) => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  const courtsData: QueryResultPaginated<CourtsApiResponse, {}> = await prefetchQuery(
-    'getCourts',
-    () => apiFetch('https://www.courtlistener.com/api/rest/v3/courts'),
-    { paginated: true }
-  )
   return { ...props  }
 }
 

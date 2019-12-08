@@ -34,15 +34,14 @@ const tokenHeader = { Authorization: `Token ${AUTH_TOKEN}` }
 const contentHeader = { Accept: 'application/json' }
 const apiHeader = { ...tokenHeader, ...contentHeader }
 
-export const apiFetch = (...args) => {
-  console.log('FETCH_ARGS', ...args)
-  return fetch(...args, {
+export const apiFetch = (...args) =>
+  fetch(...args, {
     headers: new Headers(apiHeader),
     method: 'GET'
   })
   .then((res) => res.json())
   .then((res) => camelcaseKeys(res, { deep: true }))
-}
+
 export const fetchLatestAudio = () => apiFetch(`${endpoints.audio}/?order_by=date`)
 export const fetchLatestOpinion = () => apiFetch(`${endpoints.clusters}/?order_by=date`)
 export const fetchCourts = () => apiFetch(`${endpoints.courts}`)

@@ -9,12 +9,11 @@ import InfiniteLoader from 'react-window-infinite-loader'
 import { apiFetch, fetchCourts } from '../../root/api'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 
-const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
+const Table = (props) => {
   console.log(props)
 
-  // Set rowHeight in State for future plans to pass users ability to set their own row height
+  // destructure everything but data
   const {
-    data: pages,
     isFetching,
     isFetchingMore,
     isLoading,
@@ -22,16 +21,7 @@ const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
     fetchMore
   } = props
 
-  const nextUrl = pages && pages[0] && pages[0].next
-
-  const data = React.useMemo(
-    () => {
-      const allData: any[] = []
-      pages.map((page) => allData.push(...page.results))
-      return allData
-    },
-    []
-  )
+  const data = props && props.data
 
   const columns = React.useMemo(
     () => [
@@ -48,7 +38,7 @@ const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
     ],
     []
   )
-  console.log(pages && pages[0] && pages[0].next)
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -56,23 +46,26 @@ const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
     rows,
     prepareRow,
   } = useTable(
-    { columns, data },
+    {
+      columns,
+      data
+    },
     useBlockLayout
   )
 
+  console.log(rows)
   const itemCount = canFetchMore ? rows.length + 1 : rows.length
   const isItemLoaded = (index: number) => (!canFetchMore || index < rows.length)
 
   const loadMore = async () => {
     try {
-      const { next } = pages[pages.length - 1]
-
-      await fetchMore({ next })
+      const next = await props.nextUrl
+      const nextPage = parseInt(next.slice(-1), 10)
+      await fetchMore({ page: nextPage })
     } catch {
-      console.log('ERROR')
+      console.log('LOAD MORE ERROR', data, props)
     }
   }
-  const [rowHeight, setRowHeight] = React.useState(50)
 
   const Item = (itemProps: { index: number, style: {} }) => {
     const row = rows[itemProps.index]
@@ -121,7 +114,7 @@ const Table = (props: QueryResultPaginated<CourtsApiResponse, {}> ) => {
                 height={height}
                 width={width}
                 itemCount={itemCount}
-                itemSize={rowHeight}
+                itemSize={50}
                 onItemsRendered={onItemsRendered}
                 ref={ref}
                 {...getTableBodyProps()}
