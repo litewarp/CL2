@@ -45,12 +45,41 @@ export const FooterIcons = () => (
   </Box>
 )
 
+
+const FooterLinks = () => {
+
+  const chunkColumns = () => {
+    const chunks = []
+    const links = footerLinks
+    while (links.length) {
+      chunks.push(links.splice(0, 4))
+    }
+    return chunks
+  }
+  const linkColumns = chunkColumns()
+  return linkColumns.map(
+    (column, index) => (
+      <Box alignSelf="start">
+        {column.map(
+          (link, linkIndex) => (
+            <Anchor
+              key={linkIndex * 23}
+              size="small"
+              color="white"
+              label={link.label}
+              href={link.link}
+            />
+          )
+        )}
+      </Box>
+    )
+  )
+}
+
 export const PageFooter = () => (
   <Footer background="dark-1" pad="medium">
-    {footerLinks.map((l, index) => (
-      <Anchor key={index * 23} size="small" color="white" label={l.label} href={l.link} />
-    ))}
     <DonateButton />
+    <FooterLinks />
     <Text size="small" margin={{ top: 'small'}}>
       CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
     </Text>

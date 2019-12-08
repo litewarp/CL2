@@ -46,7 +46,8 @@ const CourtsTable = (props: CourtsTableProps) => {
       },
       {
         Header: 'Homepage',
-        accessor: (row: CourtsData) => row.resourceUri.replace('https://www.courtlistener.com', ''),
+        accessor: (row: CourtsData) =>
+          row.resourceUri.replace('https://www.courtlistener.com', ''),
       },
       {
         Header: 'Citation Abbreviation',
