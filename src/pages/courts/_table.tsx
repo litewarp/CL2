@@ -1,31 +1,18 @@
 import dayjs from 'dayjs'
 import {
-  Box,
-  Button,
   InfiniteScroll,
   Table,
   TableBody,
   TableCell,
   TableHeader,
   TableRow,
-  Text
 } from 'grommet'
 import * as React from 'react'
-import { QueryResultPaginated, useQuery } from 'react-query'
-import { useBlockLayout, useTable } from 'react-table'
-import { apiFetch, fetchCourts } from '../../root/api'
-import { CourtsApiResponse, CourtsData } from '../../typings/api'
+import { useTable } from 'react-table'
+import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
+import { HeaderColumn, HeaderGroup, ReactTableCell } from '../../typings/reactTable'
 
-interface TableProps {
-  isFetching: boolean,
-  isFetchingMore: boolean,
-  canFetchMore: boolean,
-  fetchMore: ({page}: { page: number }) => void,
-  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
-  nextUrl: string
-}
-
-const CourtsTable = (props: TableProps) => {
+const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data
   const {
     nextUrl,
@@ -36,6 +23,11 @@ const CourtsTable = (props: TableProps) => {
   } = props
 
   const data = props && props.data
+
+  const formatDates = (date: string) => {
+    const isValid = dayjs(date).isValid()
+    return isValid ? dayjs(date).format('MM-DD-YYYY') : ''
+  }
 
   const columns = React.useMemo(
     () => [
@@ -54,7 +46,7 @@ const CourtsTable = (props: TableProps) => {
       },
       {
         Header: 'Homepage',
-        accessor: 'resourceUri',
+        accessor: (row: CourtsData) => row.resourceUri.replace('https://www.courtlistener.com', ''),
       },
       {
         Header: 'Citation Abbreviation',
@@ -62,11 +54,11 @@ const CourtsTable = (props: TableProps) => {
       },
       {
         Header: 'Start Date',
-        accessor: (row: CourtsData) => dayjs(row.startDate).format('MM-DD-YYYY'),
+        accessor: (row: CourtsData) => formatDates(row.startDate),
       },
       {
         Header: 'End Date',
-        accessor: (row: CourtsData) => dayjs(row.endDate).format('MM-DD-YYYY'),
+        accessor: (row: CourtsData) => formatDates(row.endDate),
       },
       {
         Header: 'In Use',
@@ -74,7 +66,7 @@ const CourtsTable = (props: TableProps) => {
       },
       {
         Header: 'Modified',
-        accessor: (row: CourtsData) => dayjs(row.dateModified).format('MM-DD-YYYY'),
+        accessor: (row: CourtsData) => formatDates(row.dateModified),
       },
     ],
     []
@@ -97,53 +89,38 @@ const CourtsTable = (props: TableProps) => {
     const next = props.nextUrl
     const nextPage = parseInt(next.slice(-1), 10)
     if (canFetchMore) {
-      console.log("loading more", !isFetchingMore, nextPage)
       if (!isFetchingMore) { fetchMore({ page: nextPage }) }
     } else {
       console.info('Nothing left to fetch')
     }
   }
 
-  const Item = ({index, style}: { index: number, style: {} }) => {
-    const row = rows[index]
-    if (!row) {
+  const Headers = () => headerGroups.map(
+    (headerGroup: HeaderGroup, index: number) => {
+      const { key, style } = headerGroup.getHeaderGroupProps()
       return (
-        <TableRow>
-          <TableCell>Loading...</TableCell>
-        </TableRow>
-      )
-    } else {
-      prepareRow(row)
-      return (
-        <TableRow {...row.getRowProps}>
-          {row.cells.map(
-            (cell: { getCellProps: () => {}, render: (str: string) => React.ReactNode}, cellIndex: number) => (
-              <TableCell key={`cellIndex_${cellIndex}`} {...cell.getCellProps()}>
-                {cell.render('Cell')}
-              </TableCell>
-            )
-          )}
-        </TableRow>
+        <TableHeader key={key} style={style}>
+          <TableRow>
+            <HeaderColumns headers={headerGroup.headers} />
+          </TableRow>
+        </TableHeader>
       )
     }
-  }
+  )
 
-  console.log('PRIOR TO RENDER', props)
+  const HeaderColumns = (headerProps: { headers: HeaderColumn[] }) =>
+    headerProps.headers.map(
+      (column: HeaderColumn, index: number) => {
+        const { key, style } = column.getHeaderProps()
+        return (
+          <TableCell key={key} style={style}>{column.render('Header')}</TableCell>
+        )
+      }
+    )
+
   return (
     <Table {...getTableProps()} >
-      {headerGroups.map(
-        (hG: { getHeaderGroupProps: () => {}, headers: any[] }, index: number) => (
-          <TableHeader key={`hG_${index}`} {...hG.getHeaderGroupProps()}>
-            <TableRow>
-              {hG.headers.map((column, colIndex) => (
-                <TableCell key={`col_index_${colIndex}`} {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHeader>
-        )
-      )}
+      <Headers />
       <TableBody {...getTableBodyProps()} >
         <InfiniteScroll
           renderMarker={(marker) => (
@@ -154,11 +131,27 @@ const CourtsTable = (props: TableProps) => {
           scrollableAncestor="window"
           items={rows}
           onMore={() => loadMore()}
-          step={25}
+          step={21}
         >
-          {(result, index) => (
-            <Item key={index} index={index} style={}/>
-          )}
+          {(result, index) => {
+            const row = rows[index]
+            prepareRow(row)
+            const rowProps = row.getRowProps()
+            return (
+              <TableRow key={rowProps.key} style={rowProps.style}>
+                {row.cells.map(
+                  (cell: ReactTableCell) => {
+                    const { key, style } = cell.getCellProps()
+                    return (
+                      <TableCell key={key} style={style} >
+                        {cell.render('Cell')}
+                      </TableCell>
+                    )
+                  }
+                )}
+              </TableRow>
+            )
+          }}
         </InfiniteScroll>
       </TableBody>
     </Table>

@@ -1,4 +1,4 @@
-import { Anchor, Box, Button, Heading, Image, Text, TextInput } from 'grommet'
+import { Anchor, Box, Button, Footer, Heading, Image, Text, TextInput } from 'grommet'
 import * as React from 'react'
 import { FaGithub, FaLink, FaRegNewspaper, FaTwitter } from 'react-icons/fa'
 import styled from 'styled-components'
@@ -28,14 +28,13 @@ const footerLinks = [
 ]
 
 const DonateButton = () => (
-  <Button
-    hoverIndicator
-    href="/donate/?referrer=footer-link"
-  >
-    <Heading level={3} color="accent-1" margin="none">Donate</Heading>
-    <Heading level={5} margin="none">to</Heading>
-    <Heading level={4} color="neutral-1" margin="none">Support our work</Heading>
-  </Button>
+  <Box direction="row-responsive" gap="xsmall">
+    <Box align="center" gap="small">
+      <Text color="accent-1" margin="none">Donate</Text>
+      <Text>to</Text>
+      <Text color="neutral-1">Support our work</Text>
+    </Box>
+  </Box>
 )
 export const FooterIcons = () => (
   <Box direction="row" justify="center" gap="medium">
@@ -46,19 +45,14 @@ export const FooterIcons = () => (
   </Box>
 )
 
-export const Footer = () => (
-  <>
-    <Box basis="1/2" direction="row" margin={{ right: 'auto' }} wrap>
-        {footerLinks.map((l, index) => (
-          <Anchor size="xsmall" label={l.label} href={l.link} key={`footer_${index}`} />
-        ))}
-
-    </Box>
+export const PageFooter = () => (
+  <Footer background="dark-1" pad="medium">
+    {footerLinks.map((l, index) => (
+      <Anchor key={index * 23} size="small" color="white" label={l.label} href={l.link} />
+    ))}
+    <DonateButton />
     <Text size="small" margin={{ top: 'small'}}>
       CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
     </Text>
-    <Box margin={{ left: 'auto'}} alignSelf="start">
-      <DonateButton />
-    </Box>
-  </>
+  </Footer>
 )

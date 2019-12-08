@@ -33,7 +33,7 @@
     "dayjs": "^1.8.17",
     "express": "^4.16.2",
     "formik": "^2.0.6",
-    "grommet": "^2.8.1",
+    "grommet": "https://github.com/grommet/grommet/tarball/stable",
     "history": "^4.10.1",
     "razzle": "latest",
     "razzle-heroku": "^3.0.0",

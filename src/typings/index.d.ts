@@ -67,3 +67,12 @@ export interface DonationFormValues {
   state: string,
   zip: string,
 }
+
+export interface CourtsTableProps {
+  isFetching: boolean,
+  isFetchingMore: boolean,
+  canFetchMore: boolean,
+  fetchMore: ({page}: { page: number }) => void,
+  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
+  nextUrl: string
+}

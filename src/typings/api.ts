@@ -40,3 +40,26 @@ export interface OpinionApiResponse {
   next: string,
   results: OpinionData[]
 }
+export interface HeaderColumn {
+  getHeaderProps: () => { key: string, style: {} },
+  render: (name: string) => React.ReactNode
+}
+
+export interface ReactTableCell {
+  getCellProps: () => { key: string, style: {} },
+  render: (name: string) => React.ReactNode
+}
+
+export interface HeaderGroup {
+  getHeaderGroupProps: () => { key: string, style: {} },
+  headers: any[]
+}
+
+export interface CourtsTableProps {
+  isFetching: boolean,
+  isFetchingMore: boolean,
+  canFetchMore: boolean,
+  fetchMore: ({page}: { page: number }) => void,
+  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
+  nextUrl: string
+}
