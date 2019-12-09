@@ -89,9 +89,7 @@ const CourtsTable = (props: CourtsTableProps) => {
   const loadMore = () => {
       const next = props.nextUrl
       const nextPage = parseInt(next.slice(-1), 10)
-      console.log("PRIOR TO FETCH", props)
       if (!isFetchingMore) {
-        console.log("IS FETCHING", nextPage)
         fetchMore({ page: nextPage })
       } else {
         console.info('Nothing left to fetch', props)
@@ -134,7 +132,7 @@ const CourtsTable = (props: CourtsTableProps) => {
           scrollableAncestor="document"
           items={rows}
           onMore={() => loadMore()}
-          step={40}
+          step={5}
         >
           {(result, index) => {
             const row = rows[index]
