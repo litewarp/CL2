@@ -46,7 +46,9 @@ const SelectInput = (props: {
         <Select
           options={props.options}
           {...field}
-          onChange={(option) => form.setFieldValue(field.name, option)}
+          // setFieldValue's first argument is typed as never
+          // see https://github.com/jaredpalmer/formik/issues/323
+          onChange={(option: string) => form.setFieldValue(field.name as never, option)}
         />
       )}
     </Field>
@@ -71,7 +73,9 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
               active={field.value === button}
               key={`donationFrequency__${index}`}
               label={button}
-              onClick={() => form.setFieldValue(field.name, button)}
+              // setFieldValue's first argument is typed as never
+              // see https://github.com/jaredpalmer/formik/issues/323
+              onClick={() => form.setFieldValue(field.name as never, button)}
             />
           ))}
         </Box>
@@ -91,7 +95,9 @@ const DonationInnerForm = (props: FormikProps<DonationFormValues>) => {
                 active={field.value === button}
                 key={`donationMethod__${index}`}
                 label={button}
-                onClick={() => form.setFieldValue(field.name, button)}
+                // setFieldValue's first argument is typed as never
+                // see https://github.com/jaredpalmer/formik/issues/323
+                onClick={() => form.setFieldValue(field.name as never, button)}
               />
             ))}
           </Box>

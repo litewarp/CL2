@@ -45,7 +45,11 @@ export const FooterIcons = () => (
   </Box>
 )
 
-const FooterLinks = () => {
+// use any as type until the bug that prevents
+// typescript from processing a component that has
+// multiple root elements (i.e. an array) is solved
+// see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
+const FooterLinks: any = () => {
 
   const chunkColumns = () => {
     const chunks = []
@@ -88,7 +92,7 @@ export const PageFooter = () => (
       </Box>
     </Box>
 
-    <Box direction="row-responsive" gap="xsmall" pad="small" alignSelf="center" border="white">
+    <Box direction="row-responsive" gap="xsmall" pad="small" alignSelf="center" border="all">
       <DonateButton />
     </Box>
   </Footer>

@@ -1,6 +1,5 @@
-import { deepFreeze } from 'grommet/utils'
 
-export default deepFreeze({
+export default ({
   defaultMode: 'light',
   global: {
     colors: {

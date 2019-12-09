@@ -11,7 +11,7 @@ const Toggle = styled(CheckBox)`
 `
 const FreeLawLink = <Anchor href="https://free.law" label="Free Law Project" color="accent-1"/>
 
-const HeaderAnchor = (props: { href: string, label: string }) => (
+const HeaderAnchor = (props: { href?: string, label: string }) => (
   <Anchor {...props} margin={{ horizontal: 'small' }} color="dark-5" size="small"/>
 )
 

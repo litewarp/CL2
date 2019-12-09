@@ -109,7 +109,11 @@ const CourtsTable = (props: CourtsTableProps) => {
     }
   )
 
-  const HeaderColumns = (headerProps: { headers: HeaderColumn[] }) =>
+  // use any as type until the bug that prevents
+  // typescript from processing a component that has
+  // multiple root elements (i.e. an array) is solved
+  // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
+  const HeaderColumns: any = (headerProps: { headers: HeaderColumn[] }) =>
     headerProps.headers.map(
       (column: HeaderColumn, index: number) => {
         const { key, style } = column.getHeaderProps()

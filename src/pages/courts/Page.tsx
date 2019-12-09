@@ -1,24 +1,27 @@
 import { InitialProps } from '@jaredpalmer/after'
-import { Box, Heading, Paragraph, Text } from 'grommet'
+import { Box, Heading, Text } from 'grommet'
 import * as React from 'react'
 import Helmet from 'react-helmet'
-import { prefetchQuery, QueryResultPaginated, useQuery } from 'react-query'
-import { apiFetch, fetchCourts } from '../../root/api'
+import { prefetchQuery, QueryOptionsPaginated, QueryResult, QueryResultPaginated, useQuery } from 'react-query'
+import { apiFetch } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
-import { StatelessPage } from '../../typings'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 import CourtsTable from './_table'
 
 const Jurisdictions = () => {
 
+  // type lastPage as any until it is properly typed as a data object
+  // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/40899
+  const paginationOptions: QueryOptionsPaginated<CourtsApiResponse> = {
+    getCanFetchMore: (lastPage: any) => lastPage && !!lastPage.next,
+    paginated: true,
+  }
+
   const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
     'getCourts',
-    ({ page }: {page: number} = {}) =>
+    ({ page }: {page?: number} = {}) =>
       apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
-    {
-      getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
-      paginated: true,
-    }
+    paginationOptions
   )
   const {
     data,
@@ -31,12 +34,13 @@ const Jurisdictions = () => {
 
   const totalItemCount = data && data[0] && data[0].count
 
-  const flattenData = (responses: CourtsApiResponse[]) => {
-    console.log(responses)
+  const flattenData = (responses: CourtsApiResponse[] | null) => {
     const results: CourtsData[]  = []
-    responses.map(
-      (res) => res.results ? results.push(...res.results) : null
-    )
+    if (responses) {
+      responses.map(
+        (res) => res.results ? results.push(...res.results) : null
+      )
+    }
     return results
   }
 
@@ -65,7 +69,7 @@ const Jurisdictions = () => {
         data, please get in touch via our contact form. We welcome your contribution.
       </Text>
       <Heading level={3}>{isFetchingMore ? 'Loading Courts ...' : `Courts Loaded: ${tableData.length}`}</Heading>
-      <Box border="white" overflow={{ vertical: 'auto' }} margin={{ vertical: 'medium' }}>
+      <Box border="all" overflow={{ vertical: 'auto' }} margin={{ vertical: 'medium' }}>
         {isLoading
           ? <Heading level={3}>Loading ...</Heading>
           : data
@@ -87,14 +91,10 @@ const Jurisdictions = () => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = prefetchQuery(
+  prefetchQuery(
     'getCourts',
-    ({ page }: {page: number} = {}) =>
-      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
-    {
-      getCanFetchMore: (lastPage: CourtsApiResponse) => lastPage && !!lastPage.next,
-      paginated: true,
-    }
+    () =>
+      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=1')
   )
   return { ...props  }
 }

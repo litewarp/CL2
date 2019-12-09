@@ -60,6 +60,6 @@ export interface CourtsTableProps {
   isFetchingMore: boolean,
   canFetchMore: boolean,
   fetchMore: ({page}: { page: number }) => void,
-  data: Promise<CourtsApiResponse[]> | CourtsApiResponse[],
+  data: CourtsData[] | null,
   nextUrl: string
 }
