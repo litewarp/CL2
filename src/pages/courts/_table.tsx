@@ -1,5 +1,8 @@
 import dayjs from 'dayjs'
 import {
+  Box,
+  Button,
+  Heading,
   InfiniteScroll,
   Table,
   TableBody,
@@ -15,6 +18,11 @@ import { HeaderColumn, HeaderGroup, ReactTableCell } from '../../typings/reactTa
 const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data
   const {
+    infiniteScrollEnabled,
+    setItemsPerPage,
+    setActivePageIndex,
+    activePageIndex,
+    itemsPerPage,
     nextUrl,
     isFetching,
     isFetchingMore,
@@ -79,18 +87,29 @@ const CourtsTable = (props: CourtsTableProps) => {
     headerGroups,
     rows,
     prepareRow,
+    page,
+    pages,
+    pageOptions,
+    canNextPage,
+    canPreviousPage,
+    gotoPage,
+    nextPage,
+    previousPage,
+    state: { pageIndex, pageSize }
   } = useTable(
     {
       columns,
-      data
+      data,
+      manualPagination: true,
+      useControlledState: (state) => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage })
     }
   )
 
   const loadMore = () => {
       const next = props.nextUrl
-      const nextPage = parseInt(next.slice(-1), 10)
+      const nextPageUrl = parseInt(next.slice(-1), 10)
       if (!isFetchingMore) {
-        fetchMore({ page: nextPage })
+        fetchMore({ page: nextPageUrl })
       } else {
         console.info('Nothing left to fetch', props)
     }
@@ -123,14 +142,42 @@ const CourtsTable = (props: CourtsTableProps) => {
       }
     )
 
+  const Row = ({ result, index }: {
+    result?: CourtsData,
+    index: number,
+  }) => {
+    const row = rows[index]
+    prepareRow(row)
+    const rowProps = row.getRowProps()
+    return (
+      <TableRow {...result} key={rowProps.key} style={rowProps.style}>
+        {row.cells.map(
+          (cell: ReactTableCell) => {
+            const { key, style } = cell.getCellProps()
+            return (
+              <TableCell key={key} style={style} >
+                {cell.render('Cell')}
+              </TableCell>
+            )
+          }
+        )}
+      </TableRow>
+    )
+  }
+
   return (
+    <>
+
     <Table {...getTableProps()} >
       <Headers />
+      {infiniteScrollEnabled ? (
       <TableBody {...getTableBodyProps()} >
         <InfiniteScroll
           renderMarker={(marker) => (
             <TableRow>
-              <TableCell>{marker}</TableCell>
+              <TableCell>
+                {marker}
+              </TableCell>
             </TableRow>
           )}
           scrollableAncestor="document"
@@ -138,28 +185,35 @@ const CourtsTable = (props: CourtsTableProps) => {
           onMore={() => loadMore()}
           step={5}
         >
-          {(result, index) => {
-            const row = rows[index]
-            prepareRow(row)
-            const rowProps = row.getRowProps()
-            return (
-              <TableRow key={rowProps.key} style={rowProps.style}>
-                {row.cells.map(
-                  (cell: ReactTableCell) => {
-                    const { key, style } = cell.getCellProps()
-                    return (
-                      <TableCell key={key} style={style} >
-                        {cell.render('Cell')}
-                      </TableCell>
-                    )
-                  }
-                )}
-              </TableRow>
-            )
-          }}
+          {(result, index) => <Row result={result} index={index} />}
         </InfiniteScroll>
       </TableBody>
+      ) : (
+      rows.map(
+        (row, rowIndex) => <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />
+      )
+    )}
     </Table>
+    {infiniteScrollEnabled && (
+        <Box direction="row" gap="large" pad="medium">
+          <Button
+            onClick={() => previousPage()}
+            disabled={!canPreviousPage}
+          >
+            Previous Page
+          </Button>
+          <Button
+            onClick={() => nextPage()}
+            disabled={!canNextPage}
+          >
+            Next Page
+          </Button>
+          <Heading level={4}>
+            Current Page: {pageIndex + 1}
+          </Heading>
+        </Box>
+      )}
+    </>
   )
 }
 

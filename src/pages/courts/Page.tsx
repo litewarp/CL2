@@ -10,6 +10,10 @@ import CourtsTable from './_table'
 
 const Jurisdictions = () => {
 
+  const [activePageIndex, setActivePageIndex] = React.useState(0)
+  const [itemsPerPage, setItemsPerPage] = React.useState(20)
+  const [infiniteScrollEnabled, toggleInfiniteScroll] = React.useState(true)
+
   // type lastPage as any until it is properly typed as a data object
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/40899
   const paginationOptions: QueryOptionsPaginated<CourtsApiResponse> = {
@@ -17,11 +21,16 @@ const Jurisdictions = () => {
     paginated: true,
   }
 
-  const courtsQuery: QueryResultPaginated<CourtsApiResponse, { page?: number }> = useQuery(
-    'getCourts',
+  const infiniteQuery: QueryResultPaginated<CourtsApiResponse, { page?: number }> = useQuery(
+    'getInfiniteCourtPage',
     ({ page }: {page?: number} = {}) =>
       apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     paginationOptions
+  )
+
+  const singlePageQuery: QueryResult<CourtsApiResponse, { page: number }> = useQuery(
+    !infiniteScrollEnabled && ['getSingleCourtPage', { page: activePageIndex + 1 }],
+    ({ page }) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + page)
   )
 
   const {
@@ -31,7 +40,7 @@ const Jurisdictions = () => {
     isFetchingMore,
     fetchMore,
     canFetchMore
-  } = courtsQuery
+  } = infiniteQuery
 
   const totalItemCount = data && data[0] && data[0].count
 
@@ -46,8 +55,8 @@ const Jurisdictions = () => {
   }
 
   const tableData = React.useMemo(
-    () => flattenData(data),
-    [data]
+    () => infiniteScrollEnabled ? flattenData(data) : flattenData([singlePageQuery.data] || null),
+    [data, singlePageQuery.data]
   )
 
   const nextUrl = (data && data.length > 0) ? data[data.length - 1].next : ''
@@ -76,11 +85,16 @@ const Jurisdictions = () => {
           : data
             ? (
               <CourtsTable
+                activePageIndex={activePageIndex}
+                setActivePageIndex={setActivePageIndex}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
                 data={tableData}
                 canFetchMore={canFetchMore}
                 isFetchingMore={isFetchingMore}
                 fetchMore={fetchMore}
                 isFetching={isFetching}
+                infiniteScrollEnabled={infiniteScrollEnabled}
                 nextUrl={nextUrl}
               />
             )
