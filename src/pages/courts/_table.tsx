@@ -1,15 +1,7 @@
+/** @format */
+
 import dayjs from 'dayjs'
-import {
-  Box,
-  Button,
-  Heading,
-  InfiniteScroll,
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableRow,
-} from 'grommet'
+import { Box, Button, Heading, InfiniteScroll, Table, TableBody, TableCell, TableHeader, TableRow } from 'grommet'
 import * as React from 'react'
 import { useTable } from 'react-table'
 import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
@@ -27,7 +19,7 @@ const CourtsTable = (props: CourtsTableProps) => {
     isFetching,
     isFetchingMore,
     canFetchMore,
-    fetchMore
+    fetchMore,
   } = props
 
   const data = props && props.data
@@ -43,7 +35,7 @@ const CourtsTable = (props: CourtsTableProps) => {
         Header: 'Name',
         accessor: 'fullName',
       },
-        // need to provide from api, accessor: 'count',
+      // need to provide from api, accessor: 'count',
       {
         Header: 'Count',
         acessor: 'count',
@@ -54,8 +46,7 @@ const CourtsTable = (props: CourtsTableProps) => {
       },
       {
         Header: 'Homepage',
-        accessor: (row: CourtsData) =>
-          row.resourceUri.replace('https://www.courtlistener.com', ''),
+        accessor: (row: CourtsData) => row.resourceUri.replace('https://www.courtlistener.com', ''),
       },
       {
         Header: 'Citation Abbreviation',
@@ -95,28 +86,26 @@ const CourtsTable = (props: CourtsTableProps) => {
     gotoPage,
     nextPage,
     previousPage,
-    state: { pageIndex, pageSize }
-  } = useTable(
-    {
-      columns,
-      data,
-      manualPagination: true,
-      useControlledState: (state) => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage })
-    }
-  )
+    state: { pageIndex, pageSize },
+  } = useTable({
+    columns,
+    data,
+    manualPagination: true,
+    useControlledState: state => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage }),
+  })
 
   const loadMore = () => {
-      const next = props.nextUrl
-      const nextPageUrl = parseInt(next.slice(-1), 10)
-      if (!isFetchingMore) {
-        fetchMore({ page: nextPageUrl })
-      } else {
-        console.info('Nothing left to fetch', props)
+    const next = props.nextUrl
+    const nextPageUrl = parseInt(next.slice(-1), 10)
+    if (!isFetchingMore) {
+      fetchMore({ page: nextPageUrl })
+    } else {
+      console.info('Nothing left to fetch', props)
     }
   }
 
-  const Headers = () => headerGroups.map(
-    (headerGroup: HeaderGroup, index: number) => {
+  const Headers = () =>
+    headerGroups.map((headerGroup: HeaderGroup, index: number) => {
       const { key, style } = headerGroup.getHeaderGroupProps()
       return (
         <TableHeader key={key} style={style}>
@@ -125,92 +114,73 @@ const CourtsTable = (props: CourtsTableProps) => {
           </TableRow>
         </TableHeader>
       )
-    }
-  )
+    })
 
   // use any as type until the bug that prevents
   // typescript from processing a component that has
   // multiple root elements (i.e. an array) is solved
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
   const HeaderColumns: any = (headerProps: { headers: HeaderColumn[] }) =>
-    headerProps.headers.map(
-      (column: HeaderColumn, index: number) => {
-        const { key, style } = column.getHeaderProps()
-        return (
-          <TableCell key={key} style={style}>{column.render('Header')}</TableCell>
-        )
-      }
-    )
+    headerProps.headers.map((column: HeaderColumn, index: number) => {
+      const { key, style } = column.getHeaderProps()
+      return (
+        <TableCell key={key} style={style}>
+          {column.render('Header')}
+        </TableCell>
+      )
+    })
 
-  const Row = ({ result, index }: {
-    result?: CourtsData,
-    index: number,
-  }) => {
+  const Row = ({ result, index }: { result?: CourtsData; index: number }) => {
     const row = rows[index]
     prepareRow(row)
     const rowProps = row.getRowProps()
     return (
       <TableRow {...result} key={rowProps.key} style={rowProps.style}>
-        {row.cells.map(
-          (cell: ReactTableCell) => {
-            const { key, style } = cell.getCellProps()
-            return (
-              <TableCell key={key} style={style} >
-                {cell.render('Cell')}
-              </TableCell>
-            )
-          }
-        )}
+        {row.cells.map((cell: ReactTableCell) => {
+          const { key, style } = cell.getCellProps()
+          return (
+            <TableCell key={key} style={style}>
+              {cell.render('Cell')}
+            </TableCell>
+          )
+        })}
       </TableRow>
     )
   }
 
   return (
     <>
-
-    <Table {...getTableProps()} >
-      <Headers />
-      {infiniteScrollEnabled ? (
-      <TableBody {...getTableBodyProps()} >
-        <InfiniteScroll
-          renderMarker={(marker) => (
-            <TableRow>
-              <TableCell>
-                {marker}
-              </TableCell>
-            </TableRow>
-          )}
-          scrollableAncestor="document"
-          items={rows}
-          onMore={() => loadMore()}
-          step={5}
-        >
-          {(result, index) => <Row result={result} index={index} />}
-        </InfiniteScroll>
-      </TableBody>
-      ) : (
-      rows.map(
-        (row, rowIndex) => <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />
-      )
-    )}
-    </Table>
-    {infiniteScrollEnabled && (
+      <Table {...getTableProps()}>
+        <Headers />
+        {infiniteScrollEnabled ? (
+          <TableBody {...getTableBodyProps()}>
+            <InfiniteScroll
+              renderMarker={marker => (
+                <TableRow>
+                  <TableCell>{marker}</TableCell>
+                </TableRow>
+              )}
+              scrollableAncestor="document"
+              items={rows}
+              onMore={() => loadMore()}
+              step={5}
+            >
+              {(result, index) => <Row result={result} index={index} />}
+            </InfiniteScroll>
+          </TableBody>
+        ) : (
+          rows.map((row, rowIndex) => <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />)
+        )}
+      </Table>
+      {infiniteScrollEnabled && (
         <Box direction="row" gap="large" pad="medium">
-          <Button
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-          >
+          <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
             Previous Page
           </Button>
-          <Button
-            onClick={() => nextPage()}
-            disabled={!canNextPage}
-          >
+          <Button onClick={() => nextPage()} disabled={!canNextPage}>
             Next Page
           </Button>
-          <Heading level={4}>
-            Current Page: {pageIndex + 1}
-          </Heading>
+          <Heading level={4}>Current Page: {pageIndex + 1}</Heading>
         </Box>
       )}
     </>
