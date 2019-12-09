@@ -17,12 +17,13 @@ const Jurisdictions = () => {
     paginated: true,
   }
 
-  const courtsQuery: QueryResultPaginated<CourtsApiResponse, {}> = useQuery(
+  const courtsQuery: QueryResultPaginated<CourtsApiResponse, { page?: number }> = useQuery(
     'getCourts',
     ({ page }: {page?: number} = {}) =>
       apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
     paginationOptions
   )
+
   const {
     data,
     isLoading,
@@ -91,12 +92,12 @@ const Jurisdictions = () => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  prefetchQuery(
+  const prefetchedData: Promise<CourtsApiResponse> = prefetchQuery(
     'getCourts',
     () =>
       apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=1')
   )
-  return { ...props  }
+  return { ...props, ...prefetchedData }
 }
 
 // wrap the page with our layout
