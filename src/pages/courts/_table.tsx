@@ -3,13 +3,14 @@
 import dayjs from 'dayjs'
 import { Box, Button, Heading, InfiniteScroll, Table, TableBody, TableCell, TableHeader, TableRow } from 'grommet'
 import * as React from 'react'
-import { useTable } from 'react-table'
+import { usePagination, useTable } from 'react-table'
 import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
 import { HeaderColumn, HeaderGroup, ReactTableCell } from '../../typings/reactTable'
 
 const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data
   const {
+    totalPageCount,
     infiniteScrollEnabled,
     setItemsPerPage,
     setActivePageIndex,
@@ -87,12 +88,16 @@ const CourtsTable = (props: CourtsTableProps) => {
     nextPage,
     previousPage,
     state: { pageIndex, pageSize },
-  } = useTable({
-    columns,
-    data,
-    manualPagination: true,
-    useControlledState: state => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage }),
-  })
+  } = useTable(
+    {
+      columns,
+      data,
+      manualPagination: true,
+      pageCount: totalPageCount,
+      useControlledState: state => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage }),
+    },
+    usePagination
+  )
 
   const loadMore = () => {
     const next = props.nextUrl
@@ -172,12 +177,12 @@ const CourtsTable = (props: CourtsTableProps) => {
           rows.map((row, rowIndex) => <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />)
         )}
       </Table>
-      {infiniteScrollEnabled && (
+      {!infiniteScrollEnabled && (
         <Box direction="row" gap="large" pad="medium">
-          <Button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <Button onClick={() => setActivePageIndex(pageIndex - 1)} disabled={!canPreviousPage}>
             Previous Page
           </Button>
-          <Button onClick={() => nextPage()} disabled={!canNextPage}>
+          <Button onClick={() => setActivePageIndex(pageIndex + 1)} disabled={!canNextPage}>
             Next Page
           </Button>
           <Heading level={4}>Current Page: {pageIndex + 1}</Heading>
