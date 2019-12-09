@@ -28,13 +28,13 @@ const footerLinks = [
 ]
 
 const DonateButton = () => (
-  <Box direction="row-responsive" gap="xsmall">
-    <Box align="center" gap="small">
+  <>
+    <Box align="center" gap="xsmall">
       <Text color="accent-1" margin="none">Donate</Text>
       <Text>to</Text>
       <Text color="neutral-1">Support our work</Text>
     </Box>
-  </Box>
+  </>
 )
 export const FooterIcons = () => (
   <Box direction="row" justify="center" gap="medium">
@@ -44,7 +44,6 @@ export const FooterIcons = () => (
     <Anchor icon={<FaGithub />} href="https://github.com/freelawproject" size="xxlarge"/>
   </Box>
 )
-
 
 const FooterLinks = () => {
 
@@ -59,13 +58,13 @@ const FooterLinks = () => {
   const linkColumns = chunkColumns()
   return linkColumns.map(
     (column, index) => (
-      <Box alignSelf="start">
+      <Box key={'column_index_' + index} alignSelf="start" gap="small" pad="medium">
         {column.map(
           (link, linkIndex) => (
             <Anchor
               key={linkIndex * 23}
               size="small"
-              color="white"
+              color="light-1"
               label={link.label}
               href={link.link}
             />
@@ -77,11 +76,20 @@ const FooterLinks = () => {
 }
 
 export const PageFooter = () => (
-  <Footer background="dark-1" pad="medium">
-    <DonateButton />
-    <FooterLinks />
-    <Text size="small" margin={{ top: 'small'}}>
-      CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
-    </Text>
+  <Footer background="dark-1" direction="row" pad="large">
+    <Box direction="column">
+      <Box direction="row">
+        <FooterLinks />
+      </Box>
+      <Box pad="medium" >
+        <Text size="small">
+          CourtListener is sponsored by the non-profit {<Anchor label="Free Law Project" href="https://free.law" />}.
+        </Text>
+      </Box>
+    </Box>
+
+    <Box direction="row-responsive" gap="xsmall" pad="small" alignSelf="center" border="white">
+      <DonateButton />
+    </Box>
   </Footer>
 )
