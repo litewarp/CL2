@@ -67,8 +67,8 @@ export interface CourtsTableProps {
   isFetching: boolean
   isFetchingMore: boolean
   canFetchMore: boolean
-  fetchMore: ({ page }: { page: number }) => void
+  fetchMore: ({ page }: { page: string }) => void
   data: CourtsApiResponse[] | []
   sortBy: Array<{ id: string; desc: boolean }>
-  setSortBy: (arg: Array<{ id: string; desc: boolean }>) => void
+  setSortBy: (arg: never[]) => void
 }

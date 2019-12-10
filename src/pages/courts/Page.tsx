@@ -18,24 +18,17 @@ import { CourtsApiResponse } from '../../typings/api'
 import CourtsTable from './_table'
 
 const Jurisdictions = () => {
-  const [pageIndex, setPageIndex] = React.useState(0)
-  const [pageSize, setPageSize] = React.useState(20)
-  const [sortBy, setSortBy] = React.useState([])
-  const [infiniteScrollEnabled, toggleInfiniteScroll] = React.useState(true)
+  const [pageIndex, setPageIndex] = React.useState<number>(0)
+  const [pageSize, setPageSize] = React.useState<number>(20)
+  const [sortBy, setSortBy] = React.useState<Array<{ id: string; desc: boolean }>>([])
+  const [infiniteScrollEnabled, toggleInfiniteScroll] = React.useState<boolean>(true)
 
-  const sortByToApi = () => {
-    console.log('FIRE API')
-    const createSortString = () => {
-      if (sortBy.length > 0 && sortBy[0].id) {
-        return sortBy[0].desc ? '-' + sortBy[0].id : sortBy[0].id
-      }
-    }
-    const sortString = createSortString()
-    if (sortString) {
-      console.log(sortString)
-      return { sort_by: sortString }
-    }
-  }
+  const sortByParams =
+    sortBy.length > 0 && sortBy[0].id
+      ? sortBy[0].desc
+        ? { sort_by: '-' + sortBy[0].id }
+        : { sort_by: sortBy[0].id }
+      : null
 
   // type lastPage as any until it is properly typed as a data object
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/40899
@@ -44,6 +37,7 @@ const Jurisdictions = () => {
     paginated: true,
   }
 
+  // @ts-ignore
   const infiniteQuery: QueryResultPaginated<CourtsApiResponse, { page?: string }> = useQuery(
     ['getInfiniteCourtPage', { sortBy }],
     ({ page }: { page?: string } = {}) => {
@@ -55,7 +49,7 @@ const Jurisdictions = () => {
           url: 'https://www.courtlistener.com/api/rest/v3/courts/',
           params: {
             page: 1,
-            ...sortByToApi(),
+            ...sortByParams,
           },
         })
       }

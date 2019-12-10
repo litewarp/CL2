@@ -1,4 +1,5 @@
 /** @format */
+
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dayjs from 'dayjs'
@@ -15,9 +16,16 @@ import {
 } from 'grommet'
 import * as React from 'react'
 import { setQueryData } from 'react-query'
+// @ts-ignore
 import { usePagination, useSortBy, useTable } from 'react-table'
 import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
-import { HeaderColumn, HeaderGroup, ReactTableCell, TableState } from '../../typings/reactTable'
+import {
+  HeaderColumn,
+  HeaderGroup,
+  ReactTableCell,
+  RowProps,
+  TableState,
+} from '../../typings/reactTable'
 
 const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data
@@ -83,13 +91,22 @@ const CourtsTable = (props: CourtsTableProps) => {
     []
   )
 
-  const dataMemo = React.useMemo(() => {
-    const results: CourtsData[] = []
-    if (data) {
-      data.map(res => (res === null ? null : results.push(...res.results)))
-    }
-    return results
-  }, [data])
+  // prettier-ignore
+  const dataMemo = React.useMemo(
+    () => {
+      const results: CourtsData[] = []
+      if (data) {
+        // @ts-ignore
+        data.map(
+          (res: any) => {
+            if (!!res) { results.push(...res.results) }
+          }
+        )
+      }
+      return results
+    },
+    [data]
+  )
 
   const sortByMemo = React.useMemo(() => sortBy, [sortBy])
 
@@ -158,9 +175,9 @@ const CourtsTable = (props: CourtsTableProps) => {
       const toggleColumnSort = (id: string) => {
         // refetch data on sort
         if (!!sortBy[0] && sortBy[0].id === id) {
-          sortBy[0].desc ? setSortBy([{ id: id, desc: false }]) : setSortBy([])
+          sortBy[0].desc ? setSortBy([{ id: id, desc: false }] as never) : setSortBy([])
         } else {
-          setSortBy([{ id: id, desc: true }])
+          setSortBy([{ id: id, desc: true }] as never)
         }
       }
       const { key, style } = column.getHeaderProps()
@@ -218,7 +235,8 @@ const CourtsTable = (props: CourtsTableProps) => {
             </InfiniteScroll>
           </TableBody>
         ) : (
-          rows.map((row, rowIndex: number) => (
+          // type row as any for now
+          rows.map((row: any, rowIndex: number) => (
             <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />
           ))
         )}

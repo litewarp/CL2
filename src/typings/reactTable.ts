@@ -32,3 +32,18 @@ export interface TableState {
   groupBy: []
   sortBy: SortByState[]
 }
+
+export interface CellProps {
+  render: (name: string) => React.ReactNode
+}
+
+export interface RowProps {
+  cells: CellProps[]
+  values: { columnId: any }
+  getRowProps: (props?: any) => void
+  index: number
+  original: {}
+  path: string[]
+  subRows: Array<[]>
+  state: {}
+}
