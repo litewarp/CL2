@@ -39,6 +39,7 @@
     "formik": "^2.0.6",
     "grommet": "https://github.com/grommet/grommet/tarball/stable",
     "history": "^4.10.1",
+    "prettier": "^1.19.1",
     "razzle": "latest",
     "razzle-heroku": "^3.0.0",
     "razzle-plugin-typescript": "^3.0.0",
@@ -50,11 +51,9 @@
     "react-table": "^7.0.0-rc.1",
     "styled-components": "^4.4.1",
     "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^4.1.0",
     "typescript": "^3.7.2"
-  },
-  "devDependencies": {
-    "prettier": "^1.19.1",
-    "tslint-plugin-prettier": "^2.0.1"
   }
 }

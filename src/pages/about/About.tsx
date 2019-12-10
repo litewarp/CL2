@@ -1,3 +1,5 @@
+/** @format */
+
 import { Anchor, Box, Heading, Image, List } from 'grommet'
 import * as React from 'react'
 import withLayout from '../../root/layout/withLayout'

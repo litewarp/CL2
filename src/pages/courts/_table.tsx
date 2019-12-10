@@ -125,11 +125,11 @@ const CourtsTable = (props: CourtsTableProps) => {
       manualSorting: true,
       pageCount: totalPageCount,
       useControlledState: (state: TableState) => ({
-          ...state,
-          pageIndex: pageIndex,
-          pageSize: pageSize,
-          sortBy: sortByMemo,
-        }),
+        ...state,
+        pageIndex: pageIndex,
+        pageSize: pageSize,
+        sortBy: sortByMemo,
+      }),
     },
     useSortBy,
     usePagination
@@ -184,9 +184,9 @@ const CourtsTable = (props: CourtsTableProps) => {
           style={style}
           {...column.getSortByToggleProps()}
           onClick={() => toggleColumnSort(column.id)}>
-          {column.isSorted &&
+          {column.isSorted && (
             <FontAwesomeIcon icon={column.isSortedDesc ? faCaretDown : faCaretUp} />
-          }
+          )}
           {column.render('Header')}
         </TableCell>
       )
@@ -214,14 +214,14 @@ const CourtsTable = (props: CourtsTableProps) => {
     <>
       <Table {...getTableProps()}>
         <Headers />
-        {infiniteScrollEnabled ?
+        {infiniteScrollEnabled ? (
           <TableBody {...getTableBodyProps()}>
             <InfiniteScroll
-              renderMarker={marker =>
+              renderMarker={marker => (
                 <TableRow>
                   <TableCell>{marker}</TableCell>
                 </TableRow>
-              }
+              )}
               scrollableAncestor="document"
               items={rows}
               onMore={() => loadMore()}
@@ -233,10 +233,10 @@ const CourtsTable = (props: CourtsTableProps) => {
           // type row as any for now
           rows.map((row: any, rowIndex: number) => (
             <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />
-          )
-        }
+          ))
+        )}
       </Table>
-      {!infiniteScrollEnabled &&
+      {!infiniteScrollEnabled && (
         <Box direction="row" gap="large" pad="medium">
           <Button onClick={() => setPageIndex(pageIndex - 1)} disabled={!canPreviousPage}>
             Previous Page
@@ -246,7 +246,7 @@ const CourtsTable = (props: CourtsTableProps) => {
           </Button>
           <Heading level={4}>Current Page: {pageIndex + 1}</Heading>
         </Box>
-      }
+      )}
     </>
   )
 }

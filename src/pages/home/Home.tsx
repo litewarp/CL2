@@ -1,3 +1,5 @@
+/** @format */
+
 import { InitialProps } from '@jaredpalmer/after'
 import { Box, Button, CheckBox, Grid, Heading, Text, TextInput } from 'grommet'
 import React from 'react'
@@ -49,8 +51,7 @@ const Home: StatelessPage<{}> = () => (
       align="center"
       justify="start"
       background="dark-2"
-      gridArea="newsletter"
-    >
+      gridArea="newsletter">
       <Newsletter />
     </Box>
   </>
@@ -60,8 +61,8 @@ const Home: StatelessPage<{}> = () => (
 Home.getInitialProps = async (props: InitialProps) => {
   const latestAudioData = prefetchQuery('latestAudio', fetchLatestAudio)
   const latestOpinionData = prefetchQuery('latestOpinions', fetchLatestOpinion)
-  return { ...props, latestAudioData, latestOpinionData}
+  return { ...props, latestAudioData, latestOpinionData }
 }
 
 // wrap the page with our layout
-export default (withLayout(Home))
+export default withLayout(Home)

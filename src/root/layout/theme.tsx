@@ -1,5 +1,6 @@
+/** @format */
 
-export default ({
+export default {
   defaultMode: 'light',
   global: {
     colors: {
@@ -7,32 +8,32 @@ export default ({
       'accent-2': '#f99157', // orange
       'accent-3': '#fac863', // yellow
       'accent-4': '#99c794', // green
-      'active': 'rgba(102,102,102,0.5)',
+      active: 'rgba(102,102,102,0.5)',
       'active-background': 'background-weak',
       'active-text': 'text-strong',
-      'background': {
+      background: {
         dark: '#282828',
-        light: '#f9f5d7'
+        light: '#f9f5d7',
       },
       'background-strong': {
         dark: '#1d2021',
-        light: '#f9f5d7'
+        light: '#f9f5d7',
       },
       'background-weak': {
         dark: '#3c3836',
-        light: '#ebdbb2'
+        light: '#ebdbb2',
       },
       'background-xweak': {
         dark: '#504945',
-        light: '#d5c4a1'
+        light: '#d5c4a1',
       },
-      'border': 'background-xweak',
-      'brand': '#fb4934',
+      border: 'background-xweak',
+      brand: '#fb4934',
       'dark-1': '#1d2021',
       'dark-2': '#282828',
       'dark-3': '#3c3836',
       'dark-4': '#504945',
-      'focus': '#d65d0e',
+      focus: '#d65d0e',
       'light-1': '#f9f5d7',
       'light-2': '#fbf1c7',
       'light-3': '#ebdbb2',
@@ -48,21 +49,21 @@ export default ({
       'status-ok': '#b8bb26',
       'status-unknown': '#a899984',
       'status-warning': '#fabd2f',
-      'text': {
+      text: {
         dark: 'light-2',
-        light: 'dark-2'
+        light: 'dark-2',
       },
       'text-strong': {
         dark: 'light-1',
-        light: 'dark-1'
+        light: 'dark-1',
       },
       'text-weak': {
         dark: 'light-3',
-        light: 'dark-3'
+        light: 'dark-3',
       },
       'text-xweak': {
         dark: 'light-4',
-        light: 'dark-4'
+        light: 'dark-4',
       },
     },
     font: {
@@ -72,16 +73,12 @@ export default ({
     },
     graph: {
       colors: {
-        dark: [
-          'brand'
-        ],
-        light: [
-          'brand'
-        ]
-      }
-    }
+        dark: ['brand'],
+        light: ['brand'],
+      },
+    },
   },
   name: 'CourtListener',
   rounding: 4,
   spacing: 20,
-})
+}
