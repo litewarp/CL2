@@ -1,3 +1,5 @@
+/** @format */
+
 import camelcaseKeys from 'camelcase-keys'
 import { Response } from 'express'
 
@@ -13,7 +15,8 @@ const endpoints = {
   fjcIntegratedDatabase: 'https://www.courtlistener.com/api/rest/v3/fjc-integrated-database',
   opinions: 'https://www.courtlistener.com/api/rest/v3/opinions',
   opinionsCited: 'https://www.courtlistener.com/api/rest/v3/opinions-cited',
-  originatingCourtInformation: 'https://www.courtlistener.com/api/rest/v3/originating-court-information',
+  originatingCourtInformation:
+    'https://www.courtlistener.com/api/rest/v3/originating-court-information',
   parties: 'https://www.courtlistener.com/api/rest/v3/parties',
   people: 'https://www.courtlistener.com/api/rest/v3/people',
   politicalAffiliations: 'https://www.courtlistener.com/api/rest/v3/political-affiliations',
@@ -35,17 +38,28 @@ const tokenHeader = { Authorization: `Token ${AUTH_TOKEN}` }
 const contentHeader = { Accept: 'application/json' }
 const apiHeader = { ...tokenHeader, ...contentHeader }
 
-// need to learn to type rest parameters
-// @ts-ignore
-export const apiFetch = (...args) =>
-  // @ts-ignore
-  fetch(...args, {
+export const apiFetch = async (args: any): Promise<any> => {
+  // build url from params
+  const url = new URL(args.url)
+  if (Object.entries(args.params).length !== 0) {
+    Object.keys(args.params).forEach(key => url.searchParams.append(key, args.params[key]))
+  }
+  // need to type url as any because fetch expects string
+  return fetch(url.toString(), {
     headers: new Headers(apiHeader),
-    method: 'GET'
+    ...args,
   })
-  .then((res: Response) => res.json())
-  .then((res: Response) => camelcaseKeys(res, { deep: true }))
+    .then(res => res.json() as Promise<any>)
+    .then(res => camelcaseKeys(res, { deep: true }))
+}
+export const fetchLatestAudio = () =>
+  apiFetch({
+    url: endpoints.audio,
+    params: { order_by: 'date' },
+  })
 
-export const fetchLatestAudio = () => apiFetch(`${endpoints.audio}/?order_by=date`)
-export const fetchLatestOpinion = () => apiFetch(`${endpoints.clusters}/?order_by=date`)
-export const fetchCourts = () => apiFetch(`${endpoints.courts}`)
+export const fetchLatestOpinion = () =>
+  apiFetch({
+    url: endpoints.clusters,
+    params: { order_by: 'date' },
+  })

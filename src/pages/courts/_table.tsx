@@ -35,10 +35,8 @@ const CourtsTable = (props: CourtsTableProps) => {
 
   const data = props && props.data
 
-  const formatDates = (date: string) => {
-    const isValid = dayjs(date).isValid()
-    return isValid ? dayjs(date).format('MM-DD-YYYY') : ''
-  }
+  const formatDate = (date: string) =>
+    dayjs(date).isValid() ? dayjs(date).format('MM-DD-YYYY') : ''
 
   const columns = React.useMemo(
     () => [
@@ -65,11 +63,11 @@ const CourtsTable = (props: CourtsTableProps) => {
       },
       {
         Header: 'Start Date',
-        accessor: (row: CourtsData) => formatDates(row.startDate),
+        accessor: (row: CourtsData) => formatDate(row.startDate),
       },
       {
         Header: 'End Date',
-        accessor: (row: CourtsData) => formatDates(row.endDate),
+        accessor: (row: CourtsData) => formatDate(row.endDate),
       },
       {
         Header: 'In Use',
@@ -77,7 +75,7 @@ const CourtsTable = (props: CourtsTableProps) => {
       },
       {
         Header: 'Modified',
-        accessor: (row: CourtsData) => formatDates(row.dateModified),
+        accessor: (row: CourtsData) => formatDate(row.dateModified),
       },
     ],
     []
@@ -188,7 +186,9 @@ const CourtsTable = (props: CourtsTableProps) => {
             </InfiniteScroll>
           </TableBody>
         ) : (
-          rows.map((row, rowIndex) => <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />)
+          rows.map((row, rowIndex: number) => (
+            <Row key={`row_${rowIndex}`} result={row} index={rowIndex} />
+          ))
         )}
       </Table>
       {!infiniteScrollEnabled && (

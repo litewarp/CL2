@@ -1,9 +1,10 @@
 /** @format */
 
+import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons'
+import { faLink, faNewspaper } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Anchor, Box, Button, Footer, Heading, Image, Text, TextInput } from 'grommet'
 import * as React from 'react'
-import { FaGithub, FaLink, FaRegNewspaper, FaTwitter } from 'react-icons/fa'
-import styled from 'styled-components'
 
 const footerLinks = [
   { label: 'About', link: '/about' },
@@ -42,10 +43,22 @@ const DonateButton = () => (
 )
 export const FooterIcons = () => (
   <Box direction="row" justify="center" gap="medium">
-    <Anchor icon={<FaLink />} href="https://free.law" size="xxlarge" />
-    <Anchor icon={<FaTwitter />} href="https://twitter.com/freelawproject" size="xxlarge" />
-    <Anchor icon={<FaRegNewspaper />} href="https://free.law/newsletter" size="xxlarge" />
-    <Anchor icon={<FaGithub />} href="https://github.com/freelawproject" size="xxlarge" />
+    <Anchor icon={<FontAwesomeIcon icon={faLink} />} href="https://free.law" size="xxlarge" />
+    <Anchor
+      icon={<FontAwesomeIcon icon={faTwitter} />}
+      href="https://twitter.com/freelawproject"
+      size="xxlarge"
+    />
+    <Anchor
+      icon={<FontAwesomeIcon icon={faNewspaper} />}
+      href="https://free.law/newsletter"
+      size="xxlarge"
+    />
+    <Anchor
+      icon={<FontAwesomeIcon icon={faGithub} />}
+      href="https://github.com/freelawproject"
+      size="xxlarge"
+    />
   </Box>
 )
 

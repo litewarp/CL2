@@ -1,8 +1,9 @@
 /** @format */
 
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Anchor, Box, Button, CheckBox, Header, Heading, Menu } from 'grommet'
 import * as React from 'react'
-import { FaHeart } from 'react-icons/fa'
 import styled from 'styled-components'
 import { ManageThemeContext } from './themeProvider'
 // local Components
@@ -41,7 +42,12 @@ const OptionsBox = () => (
       ]}
       size="small"
     />
-    <Anchor label="Donate" size="small" href="/donate/?referrer=navbar-v2" icon={<FaHeart />} />
+    <Anchor
+      label="Donate"
+      size="small"
+      href="/donate/?referrer=navbar-v2"
+      icon={<FontAwesomeIcon icon={faHeart} />}
+    />
   </Box>
 )
 export default () => {

@@ -32,19 +32,32 @@ const Jurisdictions = () => {
   const infiniteQuery: QueryResultPaginated<CourtsApiResponse, { page?: number }> = useQuery(
     'getInfiniteCourtPage',
     ({ page }: { page?: number } = {}) =>
-      apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + (page || 1)),
+      apiFetch({
+        url: 'https://www.courtlistener.com/api/rest/v3/courts/',
+        params: {
+          page: page || 1,
+        },
+      }),
     paginationOptions
   )
 
-  const singlePageQuery: QueryResult<
-    CourtsApiResponse,
-    { page: number }
-  > = useQuery(
+  const singlePageQuery: QueryResult<CourtsApiResponse, { page: number }> = useQuery(
     !infiniteScrollEnabled && ['getSingleCourtPage', { page: activePageIndex + 1 }],
-    ({ page }) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + page)
+    ({ page }) =>
+      apiFetch({
+        url: 'https://www.courtlistener.com/api/rest/v3/courts/',
+        params: {
+          page: page,
+        },
+      })
   )
 
-  const data = infiniteScrollEnabled ? infiniteQuery.data : [singlePageQuery.data]
+  const data = infiniteScrollEnabled
+    ? infiniteQuery.data
+    : singlePageQuery.data
+    ? [singlePageQuery.data]
+    : []
+
   const isLoading = infiniteScrollEnabled ? infiniteQuery.isLoading : singlePageQuery.isLoading
 
   const { isFetching, isFetchingMore, canFetchMore, fetchMore } = infiniteQuery
@@ -122,8 +135,11 @@ const Jurisdictions = () => {
 }
 
 Jurisdictions.getInitialProps = async (props: InitialProps) => {
-  const prefetchedData: Promise<CourtsApiResponse> = prefetchQuery('getCourts', () =>
-    apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=1')
+  const prefetchedData: Promise<CourtsApiResponse> = prefetchQuery('getInfiniteCourtPage', () =>
+    apiFetch({
+      url: 'https://www.courtlistener.com/api/rest/v3/courts',
+      params: { page: 1 },
+    })
   )
   return { ...props, ...prefetchedData }
 }
