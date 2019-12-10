@@ -41,7 +41,7 @@ const apiHeader = { ...tokenHeader, ...contentHeader }
 export const apiFetch = async (args: any): Promise<any> => {
   // build url from params
   const url = new URL(args.url)
-  if (Object.entries(args.params).length !== 0) {
+  if (args.params && Object.entries(args.params).length !== 0) {
     Object.keys(args.params).forEach(key => url.searchParams.append(key, args.params[key]))
   }
   // need to type url as any because fetch expects string

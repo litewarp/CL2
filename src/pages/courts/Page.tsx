@@ -14,13 +14,28 @@ import {
 import { apiFetch } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
 import Spinner from '../../root/spinner'
-import { CourtsApiResponse, CourtsData } from '../../typings/api'
+import { CourtsApiResponse } from '../../typings/api'
 import CourtsTable from './_table'
 
 const Jurisdictions = () => {
-  const [activePageIndex, setActivePageIndex] = React.useState(0)
-  const [itemsPerPage, setItemsPerPage] = React.useState(20)
+  const [pageIndex, setPageIndex] = React.useState(0)
+  const [pageSize, setPageSize] = React.useState(20)
+  const [sortBy, setSortBy] = React.useState([])
   const [infiniteScrollEnabled, toggleInfiniteScroll] = React.useState(true)
+
+  const sortByToApi = () => {
+    console.log('FIRE API')
+    const createSortString = () => {
+      if (sortBy.length > 0 && sortBy[0].id) {
+        return sortBy[0].desc ? '-' + sortBy[0].id : sortBy[0].id
+      }
+    }
+    const sortString = createSortString()
+    if (sortString) {
+      console.log(sortString)
+      return { sort_by: sortString }
+    }
+  }
 
   // type lastPage as any until it is properly typed as a data object
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/40899
@@ -29,20 +44,27 @@ const Jurisdictions = () => {
     paginated: true,
   }
 
-  const infiniteQuery: QueryResultPaginated<CourtsApiResponse, { page?: number }> = useQuery(
-    'getInfiniteCourtPage',
-    ({ page }: { page?: number } = {}) =>
-      apiFetch({
-        url: 'https://www.courtlistener.com/api/rest/v3/courts/',
-        params: {
-          page: page || 1,
-        },
-      }),
+  const infiniteQuery: QueryResultPaginated<CourtsApiResponse, { page?: string }> = useQuery(
+    ['getInfiniteCourtPage', { sortBy }],
+    ({ page }: { page?: string } = {}) => {
+      // use the server nextPage url if present
+      if (!!page) {
+        return apiFetch({ url: page })
+      } else {
+        return apiFetch({
+          url: 'https://www.courtlistener.com/api/rest/v3/courts/',
+          params: {
+            page: 1,
+            ...sortByToApi(),
+          },
+        })
+      }
+    },
     paginationOptions
   )
 
   const singlePageQuery: QueryResult<CourtsApiResponse, { page: number }> = useQuery(
-    !infiniteScrollEnabled && ['getSingleCourtPage', { page: activePageIndex + 1 }],
+    !infiniteScrollEnabled && ['getSingleCourtPage', { page: pageIndex + 1 }],
     ({ page }) =>
       apiFetch({
         url: 'https://www.courtlistener.com/api/rest/v3/courts/',
@@ -63,20 +85,7 @@ const Jurisdictions = () => {
   const { isFetching, isFetchingMore, canFetchMore, fetchMore } = infiniteQuery
 
   const totalItemCount = data && data[0] && data[0].count
-
-  const flattenData = (responses: CourtsApiResponse[] | null) => {
-    const results: CourtsData[] = []
-    if (responses) {
-      responses.map(res => (res === null ? null : results.push(...res.results)))
-    }
-    return results
-  }
-
-  const tableData = React.useMemo(() => flattenData(data), [data])
-
-  const nextUrl =
-    !infiniteScrollEnabled || !data ? '' : data.length > 0 ? data[data.length - 1].next : ''
-  const totalPageCount = totalItemCount ? totalItemCount / itemsPerPage : 1
+  const totalPageCount = totalItemCount ? totalItemCount / pageSize : 1
 
   return (
     <>
@@ -116,17 +125,18 @@ const Jurisdictions = () => {
         ) : data ? (
           <CourtsTable
             totalPageCount={totalPageCount}
-            activePageIndex={activePageIndex}
-            setActivePageIndex={setActivePageIndex}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
-            data={tableData}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            data={data}
             canFetchMore={canFetchMore}
             isFetchingMore={isFetchingMore}
             fetchMore={fetchMore}
             isFetching={isFetching}
             infiniteScrollEnabled={infiniteScrollEnabled}
-            nextUrl={nextUrl}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
           />
         ) : null}
       </Box>

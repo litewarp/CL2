@@ -1,5 +1,6 @@
 /** @format */
-
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import dayjs from 'dayjs'
 import {
   Box,
@@ -13,32 +14,33 @@ import {
   TableRow,
 } from 'grommet'
 import * as React from 'react'
-import { usePagination, useTable } from 'react-table'
+import { setQueryData } from 'react-query'
+import { usePagination, useSortBy, useTable } from 'react-table'
 import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
-import { HeaderColumn, HeaderGroup, ReactTableCell } from '../../typings/reactTable'
+import { HeaderColumn, HeaderGroup, ReactTableCell, TableState } from '../../typings/reactTable'
 
 const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data
   const {
     totalPageCount,
+    pageIndex,
+    setPageIndex,
+    pageSize,
+    setPageSize,
+    data,
     infiniteScrollEnabled,
-    setItemsPerPage,
-    setActivePageIndex,
-    activePageIndex,
-    itemsPerPage,
-    nextUrl,
     isFetching,
     isFetchingMore,
     canFetchMore,
     fetchMore,
+    sortBy,
+    setSortBy,
   } = props
-
-  const data = props && props.data
 
   const formatDate = (date: string) =>
     dayjs(date).isValid() ? dayjs(date).format('MM-DD-YYYY') : ''
 
-  const columns = React.useMemo(
+  const columnsMemo = React.useMemo(
     () => [
       {
         Header: 'Name',
@@ -81,43 +83,54 @@ const CourtsTable = (props: CourtsTableProps) => {
     []
   )
 
+  const dataMemo = React.useMemo(() => {
+    const results: CourtsData[] = []
+    if (data) {
+      data.map(res => (res === null ? null : results.push(...res.results)))
+    }
+    return results
+  }, [data])
+
+  const sortByMemo = React.useMemo(() => sortBy, [sortBy])
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-    page,
-    pages,
-    pageOptions,
     canNextPage,
     canPreviousPage,
-    gotoPage,
-    nextPage,
-    previousPage,
-    state: { pageIndex, pageSize },
   } = useTable(
     {
-      columns,
-      data,
+      columns: columnsMemo,
+      data: dataMemo,
       manualPagination: true,
+      manualSorting: true,
       pageCount: totalPageCount,
-      useControlledState: state => ({
-        ...state,
-        pageIndex: activePageIndex,
-        pageSize: itemsPerPage,
-      }),
+      useControlledState: (state: TableState) => {
+        return {
+          ...state,
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          sortBy: sortByMemo,
+        }
+      },
     },
+    useSortBy,
     usePagination
   )
 
-  const loadMore = () => {
-    const next = props.nextUrl
-    const nextPageUrl = parseInt(next.slice(-1), 10)
-    if (!isFetchingMore) {
-      fetchMore({ page: nextPageUrl })
-    } else {
-      console.info('Nothing left to fetch', props)
+  const loadMore = async () => {
+    try {
+      const nextUrl = await data[data.length - 1].next
+      const nextPageUrl = parseInt(nextUrl.slice(-1), 10)
+      console.log('LOADING MORE', nextUrl)
+      if (!isFetchingMore) {
+        fetchMore({ page: nextUrl })
+      }
+    } catch (err) {
+      console.error(err)
     }
   }
 
@@ -139,9 +152,28 @@ const CourtsTable = (props: CourtsTableProps) => {
   // see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
   const HeaderColumns: any = (headerProps: { headers: HeaderColumn[] }) =>
     headerProps.headers.map((column: HeaderColumn, index: number) => {
+      // function to toggle the sortby State
+      // first check if we are already sorting by the requested columnId
+      // if so, cycle through the states (descending => ascending => reset)
+      const toggleColumnSort = (id: string) => {
+        // refetch data on sort
+        if (!!sortBy[0] && sortBy[0].id === id) {
+          sortBy[0].desc ? setSortBy([{ id: id, desc: false }]) : setSortBy([])
+        } else {
+          setSortBy([{ id: id, desc: true }])
+        }
+      }
       const { key, style } = column.getHeaderProps()
       return (
-        <TableCell key={key} style={style}>
+        <TableCell
+          key={key}
+          style={style}
+          {...column.getSortByToggleProps()}
+          onClick={() => toggleColumnSort(column.id)}
+        >
+          {column.isSorted && (
+            <FontAwesomeIcon icon={column.isSortedDesc ? faCaretDown : faCaretUp} />
+          )}
           {column.render('Header')}
         </TableCell>
       )
@@ -182,7 +214,7 @@ const CourtsTable = (props: CourtsTableProps) => {
               onMore={() => loadMore()}
               step={5}
             >
-              {(result, index) => <Row result={result} index={index} />}
+              {(result, index) => <Row key={`row_${index}`} result={result} index={index} />}
             </InfiniteScroll>
           </TableBody>
         ) : (
@@ -193,10 +225,10 @@ const CourtsTable = (props: CourtsTableProps) => {
       </Table>
       {!infiniteScrollEnabled && (
         <Box direction="row" gap="large" pad="medium">
-          <Button onClick={() => setActivePageIndex(pageIndex - 1)} disabled={!canPreviousPage}>
+          <Button onClick={() => setPageIndex(pageIndex - 1)} disabled={!canPreviousPage}>
             Previous Page
           </Button>
-          <Button onClick={() => setActivePageIndex(pageIndex + 1)} disabled={!canNextPage}>
+          <Button onClick={() => setPageIndex(pageIndex + 1)} disabled={!canNextPage}>
             Next Page
           </Button>
           <Heading level={4}>Current Page: {pageIndex + 1}</Heading>

@@ -60,14 +60,15 @@ export interface HeaderGroup {
 export interface CourtsTableProps {
   totalPageCount: number
   infiniteScrollEnabled: boolean
-  setItemsPerPage: (arg: number) => void
-  setActivePageIndex: (arg: number) => void
-  activePageIndex: number
-  itemsPerPage: number
+  setPageSize: (arg: number) => void
+  setPageIndex: (arg: number) => void
+  pageIndex: number
+  pageSize: number
   isFetching: boolean
   isFetchingMore: boolean
   canFetchMore: boolean
   fetchMore: ({ page }: { page: number }) => void
-  data: CourtsData[] | null
-  nextUrl: string
+  data: CourtsApiResponse[] | []
+  sortBy: Array<{ id: string; desc: boolean }>
+  setSortBy: (arg: Array<{ id: string; desc: boolean }>) => void
 }

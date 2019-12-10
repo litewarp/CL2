@@ -228,13 +228,10 @@ const DonationForm = withFormik<{}, DonationFormValues>({
   validate: (values: DonationFormValues) => ({}),
 
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(
-      () => {
+    setTimeout(() => {
       alert(JSON.stringify(values, null, 2))
       setSubmitting(false)
-      },
-      1000
-    )
+    }, 1000)
   },
 })(DonationInnerForm)
 
