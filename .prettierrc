@@ -1,8 +1,11 @@
 {
-  "insertPragma": true,
-  "tabWidth": 2,
-  "printWidth": 100,
-  "semi": false,
-  "singleQuote": true,
-  "trailingComma": "es5"
+  insertPragma: true,
+  semi: false,
+  singleQuote: true,
+  trailingComma: "es5",
+  printWidth: 100,
+  tabWidth: 2,
+  arrowParens: "avoid",
+  jsxSingleQuote: false,
+  jsxBracketSameLine: true
 }
