@@ -1,3 +1,5 @@
+/** @format */
+
 // client.tsx - entrypoint for the client bundle
 
 import { After, ensureReady } from '@jaredpalmer/after'
@@ -9,15 +11,15 @@ import routes from './routes'
 // placement of app in the DOM
 const root = document.getElementById('root')
 
-ensureReady(routes).then((data) =>
+ensureReady(routes).then(data =>
   hydrate(
     <BrowserRouter>
-      <After data={data} routes={routes}/>
+      <After data={data} routes={routes} />
     </BrowserRouter>,
     root
   )
-);
+)
 
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept()
 }

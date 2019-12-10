@@ -1,7 +1,17 @@
 /** @format */
 
 import dayjs from 'dayjs'
-import { Box, Button, Heading, InfiniteScroll, Table, TableBody, TableCell, TableHeader, TableRow } from 'grommet'
+import {
+  Box,
+  Button,
+  Heading,
+  InfiniteScroll,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from 'grommet'
 import * as React from 'react'
 import { usePagination, useTable } from 'react-table'
 import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
@@ -94,7 +104,11 @@ const CourtsTable = (props: CourtsTableProps) => {
       data,
       manualPagination: true,
       pageCount: totalPageCount,
-      useControlledState: state => ({ ...state, pageIndex: activePageIndex, pageSize: itemsPerPage }),
+      useControlledState: state => ({
+        ...state,
+        pageIndex: activePageIndex,
+        pageSize: itemsPerPage,
+      }),
     },
     usePagination
   )

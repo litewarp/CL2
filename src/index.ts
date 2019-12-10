@@ -1,3 +1,5 @@
+/** @format */
+
 // index.js - entrypoint for the application
 // inject hot module reloader and deploy server
 
@@ -25,6 +27,7 @@ export default express()
   .use((req, res) => app.handle(req, res))
   .listen(port, () => {
     console.log(`> Started on port ${port}`)
-  }).on('error', (err: Error) => {
+  })
+  .on('error', (err: Error) => {
     console.log(err)
   })

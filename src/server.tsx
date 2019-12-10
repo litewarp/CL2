@@ -1,3 +1,5 @@
+/** @format */
+
 // server.tsx - entrypoint for the server
 // request hits server, server dispatches
 // getInitialProps functions and serves
@@ -29,13 +31,13 @@ server
         document: HtmlTemplate,
         req,
         res,
-        routes
-      });
-      res.send(html);
+        routes,
+      })
+      res.send(html)
     } catch (error) {
-      console.log(error);
-      res.json(error);
+      console.log(error)
+      res.json(error)
     }
-  });
+  })
 
 export default server

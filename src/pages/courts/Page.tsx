@@ -1,12 +1,19 @@
 /** @format */
 
 import { InitialProps } from '@jaredpalmer/after'
-import { Box, Button, Heading, Text } from 'grommet'
+import { Anchor, Box, Button, CheckBox, Heading, Text } from 'grommet'
 import * as React from 'react'
 import Helmet from 'react-helmet'
-import { prefetchQuery, QueryOptionsPaginated, QueryResult, QueryResultPaginated, useQuery } from 'react-query'
+import {
+  prefetchQuery,
+  QueryOptionsPaginated,
+  QueryResult,
+  QueryResultPaginated,
+  useQuery,
+} from 'react-query'
 import { apiFetch } from '../../root/api'
 import withLayout from '../../root/layout/withLayout'
+import Spinner from '../../root/spinner'
 import { CourtsApiResponse, CourtsData } from '../../typings/api'
 import CourtsTable from './_table'
 
@@ -29,7 +36,10 @@ const Jurisdictions = () => {
     paginationOptions
   )
 
-  const singlePageQuery: QueryResult<CourtsApiResponse, { page: number }> = useQuery(
+  const singlePageQuery: QueryResult<
+    CourtsApiResponse,
+    { page: number }
+  > = useQuery(
     !infiniteScrollEnabled && ['getSingleCourtPage', { page: activePageIndex + 1 }],
     ({ page }) => apiFetch('https://www.courtlistener.com/api/rest/v3/courts/?page=' + page)
   )
@@ -51,7 +61,8 @@ const Jurisdictions = () => {
 
   const tableData = React.useMemo(() => flattenData(data), [data])
 
-  const nextUrl = !infiniteScrollEnabled || !data ? '' : data.length > 0 ? data[data.length - 1].next : ''
+  const nextUrl =
+    !infiniteScrollEnabled || !data ? '' : data.length > 0 ? data[data.length - 1].next : ''
   const totalPageCount = totalItemCount ? totalItemCount / itemsPerPage : 1
 
   return (
@@ -59,20 +70,33 @@ const Jurisdictions = () => {
       <Helmet>
         <title>Available Jurisdictions</title>
       </Helmet>
-      <Heading level={3}>
-        <strong>Available Jurisdictions</strong>
-      </Heading>
-      <Text size="small">
-        We currently have {totalItemCount} jurisdictions available on CourtListener. These jurisdictions are available
-        via our API or can be used in our bulk data queries.
-      </Text>
-      <Text size="small">
-        Some of the data below is incomplete, missing dates or other information. If you are a legal researcher
-        interested in helping us research this or other data, please get in touch via our contact form. We welcome your
-        contribution.
-      </Text>
-      <Heading level={3}>{isFetchingMore ? 'Loading Courts ...' : `Courts Loaded: ${tableData.length}`}</Heading>
-      <Button onClick={() => toggleInfiniteScroll(!infiniteScrollEnabled)}>Toggle IS</Button>
+
+      <Box direction="row-responsive" pad="medium" gap="large" align="center">
+        <Heading level={3} margin={{ right: 'auto' }}>
+          <strong>Available Jurisdictions</strong>
+        </Heading>
+        <Box direction="row" gap="large">
+          {infiniteScrollEnabled && isFetchingMore && <Text size="small">Loading</Text>}
+          {infiniteScrollEnabled && isFetchingMore && <Spinner spin size="2x" />}
+          <CheckBox
+            reverse
+            toggle
+            onChange={() => toggleInfiniteScroll(!infiniteScrollEnabled)}
+            label={`Toggle ${infiniteScrollEnabled ? 'Pagination' : 'Infinite Scroll'}`}
+          />
+        </Box>
+      </Box>
+      <Box direction="column" pad="medium" gap="medium">
+        <Text size="small">
+          We currently have {totalItemCount} jurisdictions available on CourtListener. These
+          jurisdictions are available via our API or can be used in our bulk data queries.
+        </Text>
+        <Text size="small">
+          Some of the data below is incomplete, missing dates or other information. If you are a
+          legal researcher interested in helping us research this or other data, please get in touch
+          via our contact form. We welcome your contribution.
+        </Text>
+      </Box>
       <Box border="all" overflow={{ vertical: 'auto' }} margin={{ vertical: 'medium' }}>
         {isLoading ? (
           <Heading level={3}>Loading ...</Heading>
