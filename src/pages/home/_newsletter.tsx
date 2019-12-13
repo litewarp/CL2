@@ -21,7 +21,7 @@ const Newsletter = () => (
         Sign up to receive the Free Law Project newsletter with tips and announcements
       </Text>
     </Box>
-    <Box direction="row" margin={{ left: 'auto' }} gap="small">
+    <Box direction="row" gap="small" margin={{ left: 'auto' }}>
       <TextInput placeholder="Email Address" size="xsmall" />
       <SubscribeButton
         icon={<FontAwesomeIcon icon={faNewspaper} />}

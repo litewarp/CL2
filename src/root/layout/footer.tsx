@@ -93,9 +93,20 @@ const FooterLinks: any = () => {
 
 export const PageFooter = () => (
   <Footer background="dark-1" direction="row" pad="large">
-    <Box direction="column">
-      <Box direction="row">
-        <FooterLinks />
+    <Box direction="column" fill="horizontal">
+      <Box direction="row" justify="end">
+        <Box direction="row">
+          <FooterLinks />
+        </Box>
+        <Box
+          margin={{ left: 'auto' }}
+          direction="row-responsive"
+          gap="xsmall"
+          pad="small"
+          alignSelf="center"
+          border="all">
+          <DonateButton />
+        </Box>
       </Box>
       <Box pad="medium">
         <Text size="small">
@@ -103,10 +114,8 @@ export const PageFooter = () => (
           {<Anchor label="Free Law Project" href="https://free.law" />}.
         </Text>
       </Box>
-    </Box>
 
-    <Box direction="row-responsive" gap="xsmall" pad="small" alignSelf="center" border="all">
-      <DonateButton />
+      <FooterIcons />
     </Box>
   </Footer>
 )

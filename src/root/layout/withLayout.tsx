@@ -16,9 +16,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const darkMode = mode === 'dark'
   return (
     <Grommet theme={theme} themeMode={darkMode ? 'dark' : 'light'} full>
-      <Header />
-      <Main pad="small">{children}</Main>
-      <PageFooter />
+      <Box>
+        <Header />
+        <Main fill>{children}</Main>
+        <PageFooter />
+      </Box>
     </Grommet>
   )
 }

@@ -7,6 +7,7 @@ import * as React from 'react'
 import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
 import { fetchLatestAudio, fetchLatestOpinion } from './../../root/api'
+import Spinner from './../../root/spinner'
 import { OpinionApiResponse, OpinionData } from './../../typings/api'
 
 // override grommet with styled-components
@@ -62,7 +63,9 @@ export const LatestOpinionList = () => {
     fetchLatestOpinion
   )
   const firstFiveResults = data ? data.results.slice(0, 5) : []
-  return (
+  return isLoading ? (
+    <Spinner size="4x" spin />
+  ) : (
     <>
       <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>
         Latest Opinions
@@ -92,7 +95,9 @@ export const LatestAudioList = () => {
     fetchLatestAudio
   )
   const firstFiveResults = data ? data.results.slice(0, 5) : []
-  return (
+  return isLoading ? (
+    <Spinner size="4x" spin />
+  ) : (
     <>
       <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>
         Latest Oral Arguments

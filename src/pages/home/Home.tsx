@@ -19,40 +19,32 @@ const Home: StatelessPage<{}> = () => (
     <Helmet>
       <title>Non-Profit Free Legal Search Engine and Alert System</title>
     </Helmet>
-
-    <Box align="center" pad="small">
+    <Box gap="medium" align="center" alignSelf="center" width="1440px">
       <SearchBar />
-    </Box>
+      <Box direction="row" wrap>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <AboutCourtListener />
+        </Box>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <AboutFreeLawProject />
+        </Box>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <LatestOpinionList />
+        </Box>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <LatestAudioList />
+        </Box>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <ScotusNetwork />
+        </Box>
+        <Box basis="1/2" pad="medium" gap="medium">
+          <TheNumbers />
+        </Box>
 
-    <Box direction="row-responsive" wrap>
-      <Box basis="1/2">
-        <AboutCourtListener />
+        <Box direction="row" pad="medium" align="center" fill="horizontal">
+          <Newsletter />
+        </Box>
       </Box>
-      <Box basis="1/2">
-        <AboutFreeLawProject />
-      </Box>
-      <Box basis="1/2">
-        <LatestOpinionList />
-      </Box>
-      <Box basis="1/2">
-        <LatestAudioList />
-      </Box>
-      <Box basis="1/2">
-        <ScotusNetwork />
-      </Box>
-      <Box basis="1/2">
-        <TheNumbers />
-      </Box>
-    </Box>
-
-    <Box
-      direction="row"
-      pad="small"
-      align="center"
-      justify="start"
-      background="dark-2"
-      gridArea="newsletter">
-      <Newsletter />
     </Box>
   </>
 )

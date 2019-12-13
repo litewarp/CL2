@@ -42,4 +42,22 @@ export default [
     name: 'Jurisdictions',
     path: '/jurisdictions',
   },
+  {
+    component: asyncComponent({
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import('./pages/citations'),
+    }),
+    exact: true,
+    name: 'Citations',
+    path: '/c',
+  },
+  {
+    component: asyncComponent({
+      Placeholder: () => <div>...LOADING...</div>,
+      loader: () => import('./pages/opinions/Search'),
+    }),
+    exact: true,
+    name: 'Opinions',
+    path: '/opinion',
+  },
 ]
