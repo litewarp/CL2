@@ -11,6 +11,10 @@ import Header from './header'
 import theme from './theme'
 import { ManageThemeContext, ThemeManager } from './themeProvider'
 
+interface LayoutProps {
+  mode: string
+}
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { mode, toggleMode } = React.useContext(ManageThemeContext)
   const darkMode = mode === 'dark'
@@ -25,10 +29,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default (Component: React.ComponentType<{ props: any }>) => (...props: any) => (
+const withLayout = <P extends object>(Component: React.ComponentType<P>) => (
+  props: P & LayoutProps
+) => (
   <ThemeManager>
     <Layout>
-      <Component {...props} />
+      <Component {...(props as P)} mode={props.mode} />
     </Layout>
   </ThemeManager>
 )
+
+export default withLayout

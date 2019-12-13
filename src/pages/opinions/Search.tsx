@@ -1,23 +1,23 @@
 /** @format */
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button, CheckBox, Heading, Layer, List, Select, Text, TextInput } from 'grommet'
-import * as React from 'react'
 import {
   ErrorMessage,
-  FieldInputProps,
-  FormikProps,
-  FormikErrors,
-  Form,
   Field,
+  FieldInputProps,
+  Form,
+  FormikErrors,
+  FormikProps,
   withFormik,
 } from 'formik'
-import withLayout from '../../root/layout/withLayout'
+import { Box, Button, CheckBox, Heading, Layer, List, Select, Text, TextInput } from 'grommet'
+import * as React from 'react'
 import styled from 'styled-components'
+import withLayout from '../../root/layout/withLayout'
 import PrecedentialStatusField from './_form'
 
-interface AdvancedSearchFormProps {
-  jurisdictions: string[]
+export interface AdvancedSearchFormProps {
+  jurisdictions: never[]
   caseName: string
   citation: string
   neutralCitation: string
@@ -28,13 +28,15 @@ interface AdvancedSearchFormProps {
   minCites: number
   maxCites: number
   docketNumber: string
-  precedentialStatus: string[]
+  precedentialStatus: never[]
 }
 
 const SelectInput = (props: {
   name: string
   label: string
-  options: string[] | [{ label: string; value: string }]
+  options: string[] | Array<{ label: string; value: string }>
+  labelKey?: string
+  valueKey?: string
 }) => (
   <Box>
     <Heading level={5}>{props.label}</Heading>
@@ -53,7 +55,12 @@ const SelectInput = (props: {
   </Box>
 )
 
-const SimpleInput = (props: { as: string | React.ReactNode; name: string; label: string }) => (
+const SimpleInput = (props: {
+  as: string | React.ReactNode
+  name: string
+  label: string
+  placeholder?: string
+}) => (
   <Box>
     <Heading level={5}>{props.label}</Heading>
     <Field as={props.as} name={props.name} {...props} />
@@ -162,21 +169,27 @@ const AdvancedOpinionSearch = withFormik({
     filedAfter: '',
     filedBefore: '',
     precedentialStatus: [],
-    minCites: '',
-    maxCites: '',
+    minCites: 0,
+    maxCites: 0,
     docketNumber: '',
     citation: '',
     neutralCitation: '',
+    jurisdictions: [],
+    judge: '',
+    searchResultsOrder: '',
   }),
 
   validate: () => {
     return []
   },
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2))
-      setSubmitting(false)
-    }, 1000)
+    // prettier-ignore
+    setTimeout(
+      () => {
+        alert(JSON.stringify(values, null, 2))
+        setSubmitting(false)
+      }, 
+      1000)
   },
 })(AdvancedSearchForm)
 

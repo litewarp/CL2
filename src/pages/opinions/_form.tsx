@@ -1,7 +1,8 @@
 /** @format */
-import * as React from 'react'
-import { Field } from 'formik'
+import { Field, FieldInputProps, FormikProps } from 'formik'
 import { CheckBox, Heading, List, Text } from 'grommet'
+import * as React from 'react'
+import { AdvancedSearchFormProps } from './Search'
 
 const precedentOptions = [
   { name: 'Precedential', count: '(3,609,604)', value: 'precedential' },
@@ -16,49 +17,54 @@ const PrecedentialStatusField = () => {
   const [showPrecedentOptions, setShowPrecedentOptions] = React.useState(false)
   return (
     <Field name="precedentialStatus">
-      {({ field, form: { touched, errors, setFieldValue }, meta }) => {
-        console.log(field)
-        return (
-          <>
-            <Heading level={5}>Precedential Status: </Heading>
-            <List
-              primaryKey={(item, index) => (
-                <CheckBox
-                  name={item.value}
-                  key={`precedential_status_${index}`}
-                  checked={field.value ? field.value.includes(item.value) : false}
-                  label={<Text size="xsmall">{item.name}</Text>}
-                  onBlur={() => setShowPrecedentOptions(false)}
-                  onChange={event => {
-                    if (event.target.name === 'seeMore') {
-                      setShowPrecedentOptions(true)
-                    } else {
-                      field.value && field.value.includes(event.target.name)
-                        ? setFieldValue(
-                            field.name,
-                            field.value.filter(i => i !== event.target.name)
-                          )
-                        : setFieldValue(field.name, [...field.value, event.target.name])
-                    }
-                  }}
-                />
-              )}
-              secondaryKey={(item, index) => (
-                <Text size="xsmall" key={`precedential_status2_${index}`}>
-                  {item.count}
-                </Text>
-              )}
-              data={
-                showPrecedentOptions
-                  ? precedentOptions
-                  : precedentOptions
-                      .slice(0, 2)
-                      .concat([{ name: 'See More', count: '', value: 'seeMore' }])
-              }
-            />
-          </>
-        )
-      }}
+      {({
+        field: { name, value },
+        form: { touched, errors, setFieldValue },
+      }: {
+        field: FieldInputProps<[]>
+        form: FormikProps<AdvancedSearchFormProps>
+      }) => (
+        <>
+          <Heading level={5}>Precedential Status: </Heading>
+          <List
+            primaryKey={(item, index) => (
+              <CheckBox
+                name={item.value}
+                key={`precedential_status_${index}`}
+                // workaround: type item.value as never
+                checked={value ? value.includes(item.value as never) : false}
+                label={<Text size="xsmall">{item.name}</Text>}
+                onBlur={() => setShowPrecedentOptions(false)}
+                onChange={({ target }: { target: HTMLInputElement }) => {
+                  if (target.name === 'seeMore') {
+                    setShowPrecedentOptions(true)
+                  } else {
+                    // workaround: type target.name as never
+                    value && value.includes(target.name as never)
+                      ? setFieldValue(
+                          name,
+                          value.filter(i => i !== target.name)
+                        )
+                      : setFieldValue(name, [...value, target.name])
+                  }
+                }}
+              />
+            )}
+            secondaryKey={(item, index) => (
+              <Text size="xsmall" key={`precedential_status2_${index}`}>
+                {item.count}
+              </Text>
+            )}
+            data={
+              showPrecedentOptions
+                ? precedentOptions
+                : precedentOptions
+                    .slice(0, 2)
+                    .concat([{ name: 'See More', count: '', value: 'seeMore' }])
+            }
+          />
+        </>
+      )}
     </Field>
   )
 }

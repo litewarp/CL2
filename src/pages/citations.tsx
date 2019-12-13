@@ -1,13 +1,12 @@
 /** @format */
 
-//!Todo: abstract form inputs and dedupe
+// Todo: abstract form inputs and dedupe
 
+import { ErrorMessage, Field, Form, FormikErrors, FormikProps, withFormik } from 'formik'
+import { Anchor, Box, Button, Heading, Paragraph, Text, TextInput } from 'grommet'
 import * as React from 'react'
-
-import { Anchor, Box, Button, Heading, Paragraph, Text, TextInput, Paragraph } from 'grommet'
-import { ErrorMessage, FormikProps, FormikErrors, Form, Field, withFormik } from 'formik'
-import withLayout from '../root/layout/withLayout'
 import styled from 'styled-components'
+import withLayout from '../root/layout/withLayout'
 
 interface SimpleSearchCitationFormValues {
   volume: string
@@ -68,7 +67,7 @@ const CitationPage = (props: FormikProps<SimpleSearchCitationFormValues>) => (
   </Box>
 )
 
-const Citations = withFormik<{}, SimpleSearchCitationFormValues>({
+const Citations = withFormik<{ props: any }, SimpleSearchCitationFormValues>({
   displayName: 'SimpleCitationSearchForm',
   mapPropsToValues: props => ({
     volume: '',
@@ -81,10 +80,13 @@ const Citations = withFormik<{}, SimpleSearchCitationFormValues>({
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2))
-      setSubmitting(false)
-    }, 1000)
+    // prettier-ignore
+    setTimeout(
+      () => {
+        alert(JSON.stringify(values, null, 2))
+        setSubmitting(false)
+      }, 
+      1000)
   },
 })(CitationPage)
 
