@@ -119,7 +119,7 @@ const Home: StatelessPage<{}> = () => (
   </>
 )
 
-// Call getInitialProps prior to initial render
+// Call getInitialProps on the server to prefetch data
 Home.getInitialProps = async (props: InitialProps) => {
   const latestAudioData = prefetchQuery('latestAudio', fetchLatestAudio)
   const latestOpinionData = prefetchQuery('latestOpinions', fetchLatestOpinion)

@@ -8,7 +8,7 @@ import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
 import { fetchLatestAudio, fetchLatestOpinion } from './../root/api'
 import Spinner from './../root/spinner'
-import { OpinionApiResponse, OpinionData, CourtsData, CourtsApiResponse } from './../typings/api'
+import { OpinionApiResponse, OpinionData } from './../typings/api'
 
 // tslint:disable:no-var-requires
 const scotusChart = require('./_assets/scotusChart.png')
@@ -52,7 +52,10 @@ const LatestAudio = (props: OpinionData) => (
 )
 
 // exported components
-export const LatestOpinionList = (props: { data: CourtsApiResponse[]; isLoading: boolean }) => {
+export const LatestOpinionList = (props: {
+  data: OpinionApiResponse | null
+  isLoading: boolean
+}) => {
   const firstFiveResults = props.data ? props.data.results.slice(0, 5) : []
   return props.isLoading ? (
     <Spinner size="4x" spin />
@@ -80,7 +83,7 @@ export const LatestOpinionList = (props: { data: CourtsApiResponse[]; isLoading:
   )
 }
 
-export const LatestAudioList = (props: { data: CourtsApiResponse[]; isLoading: boolean }) => {
+export const LatestAudioList = (props: { data: OpinionApiResponse | null; isLoading: boolean }) => {
   const firstFiveResults = props.data ? props.data.results.slice(0, 5) : []
   return props.isLoading ? (
     <Spinner size="4x" spin />
@@ -137,7 +140,17 @@ const FixedText = styled(Text)`
   padding-right: 2em;
 `
 
-export const TheNumbers = (props: { data: { [key: any]: string } }) => {
+interface HomePageNumbersProps {
+  opinions: string
+  opinionsLastTenDays: string
+  oralArgLength: string
+  oralArgsAdded: string
+  queriesLastTenDays: string
+  alertEmails: string
+  apiCalls: string
+}
+
+export const TheNumbers = (props: { data: HomePageNumbersProps }) => {
   const precedentLink = <Anchor label="precedential opinions" href="/?order_by=dateFiled+desc" />
   const oralArgLink = <Anchor label="oral arguments" href="/?type=OA" />
   const alertEmailLink = <Anchor label="alert emails" href="/faq/#explain-alerts" />
@@ -199,10 +212,10 @@ export default () => {
   return (
     <>
       <Box basis="1/2" pad="medium" gap="medium">
-        <LatestOpinionList {...latestOpinions} />
+        <LatestOpinionList data={latestOpinions.data} isLoading={latestOpinions.isLoading} />
       </Box>
       <Box basis="1/2" pad="medium" gap="medium">
-        <LatestAudioList {...latestAudio} />
+        <LatestAudioList data={latestAudio.data} isLoading={latestAudio.isLoading} />
       </Box>
       <Box basis="1/2" pad="medium" gap="medium">
         <ScotusNetwork />

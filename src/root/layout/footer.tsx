@@ -91,7 +91,7 @@ const FooterLinks: any = () => {
   ))
 }
 
-export const PageFooter = () => (
+export const PageFooter = (props: any) => (
   <Footer background="dark-1" direction="row" pad="large">
     <Box direction="column" fill="horizontal">
       <Box direction="row" justify="end">
