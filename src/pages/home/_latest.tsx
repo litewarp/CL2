@@ -2,7 +2,7 @@
 
 import { faFileAlt, faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Anchor, Button, Heading, Text } from 'grommet'
+import { Anchor, Box, Button, Heading, Text } from 'grommet'
 import * as React from 'react'
 import { QueryResult, useQuery } from 'react-query'
 import styled from 'styled-components'
@@ -49,9 +49,11 @@ const LatestAudio = (props: OpinionData) => {
   return (
     <>
       <Anchor size="medium" label={props.caseName} href={props.absoluteUrl} />
-      <Text size="small">
-        {dateString} {docketString} {durationString}
-      </Text>
+      <Box direction="row" gap="large">
+        <Text size="small">{dateString}</Text>
+        <Text size="small">{docketString}</Text>
+        <Text size="small">{durationString}</Text>
+      </Box>
     </>
   )
 }
