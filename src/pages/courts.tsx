@@ -11,11 +11,11 @@ import {
   QueryResultPaginated,
   useQuery,
 } from 'react-query'
-import { apiFetch } from '../../root/api'
-import withLayout from '../../root/layout/withLayout'
-import Spinner from '../../root/spinner'
-import { CourtsApiResponse } from '../../typings/api'
-import CourtsTable from './_table'
+import { apiFetch } from '../root/api'
+import withLayout from '../root/layout/withLayout'
+import Spinner from '../root/spinner'
+import { CourtsApiResponse } from '../typings/api'
+import CourtsTable from './_courtsTable'
 
 const Jurisdictions = () => {
   const [pageIndex, setPageIndex] = React.useState<number>(0)

@@ -2,8 +2,8 @@
 
 import { Anchor, Box, Button, Heading, Paragraph, Text } from 'grommet'
 import * as React from 'react'
-import withLayout from '../../root/layout/withLayout'
-import DonateForm from './_form2'
+import withLayout from '../root/layout/withLayout'
+import DonateForm from './_donateForm'
 
 const Donate = () => (
   <Box align="center">

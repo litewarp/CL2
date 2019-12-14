@@ -8,11 +8,10 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import { prefetchQuery, useQuery } from 'react-query'
 import styled from 'styled-components'
-import { fetchLatestAudio, fetchLatestOpinion } from '../../root/api'
-import withLayout from '../../root/layout/withLayout'
-import { StatelessPage } from '../../typings'
-import { ScotusNetwork, TheNumbers } from './_analytics'
-import { LatestAudioList, LatestOpinionList } from './_latest'
+import { fetchLatestAudio, fetchLatestOpinion } from '../root/api'
+import withLayout from '../root/layout/withLayout'
+import { StatelessPage } from '../typings'
+import DataComponents from './_homeComponents'
 
 const links = [
   {
@@ -96,23 +95,10 @@ const Home: StatelessPage<{}> = () => (
             {<Link name="recap" />}
           </Paragraph>
         </Box>
-
-        <Box basis="1/2" pad="medium" gap="medium">
-          <LatestOpinionList />
-        </Box>
-        <Box basis="1/2" pad="medium" gap="medium">
-          <LatestAudioList />
-        </Box>
-        <Box basis="1/2" pad="medium" gap="medium">
-          <ScotusNetwork />
-        </Box>
-        <Box basis="1/2" pad="medium" gap="medium">
-          <TheNumbers />
-        </Box>
-
+        <DataComponents />
         <Box direction="row" pad="medium" align="center" fill="horizontal">
           <Box direction="column">
-            <Heading level={6} margin="none">
+            <Heading level={4} margin="none">
               Newsletter
             </Heading>
             <Text size="small" margin="none">

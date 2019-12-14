@@ -12,9 +12,8 @@ import {
 } from 'formik'
 import { Box, Button, CheckBox, Heading, Layer, List, Select, Text, TextInput } from 'grommet'
 import * as React from 'react'
-import styled from 'styled-components'
-import withLayout from '../../root/layout/withLayout'
-import PrecedentialStatusField from './_form'
+import withLayout from '../root/layout/withLayout'
+import PrecedentialStatusField from './_opinionSearchForm'
 
 export interface AdvancedSearchFormProps {
   jurisdictions: never[]
@@ -188,7 +187,7 @@ const AdvancedOpinionSearch = withFormik({
       () => {
         alert(JSON.stringify(values, null, 2))
         setSubmitting(false)
-      }, 
+      },
       1000)
   },
 })(AdvancedSearchForm)

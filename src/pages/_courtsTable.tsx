@@ -14,17 +14,16 @@ import {
   TableRow,
 } from 'grommet'
 import * as React from 'react'
-import { setQueryData } from 'react-query'
 // @ts-ignore
 import { usePagination, useSortBy, useTable } from 'react-table'
-import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../../typings/api'
+import { CourtsApiResponse, CourtsData, CourtsTableProps } from '../typings/api'
 import {
   HeaderColumn,
   HeaderGroup,
   ReactTableCell,
   RowProps,
   TableState,
-} from '../../typings/reactTable'
+} from '../typings/reactTable'
 
 const CourtsTable = (props: CourtsTableProps) => {
   // destructure everything but data

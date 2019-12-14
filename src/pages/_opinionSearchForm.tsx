@@ -2,7 +2,7 @@
 import { Field, FieldInputProps, FormikProps } from 'formik'
 import { CheckBox, Heading, List, Text } from 'grommet'
 import * as React from 'react'
-import { AdvancedSearchFormProps } from './Search'
+import { AdvancedSearchFormProps } from './opinions'
 
 const precedentOptions = [
   { name: 'Precedential', count: '(3,609,604)', value: 'precedential' },

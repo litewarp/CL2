@@ -9,7 +9,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import(/* webpackChunkName: 'Home' */ './pages/home/Home'), // required
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/home'), // required
     }),
     exact: true,
     name: 'Home',
@@ -18,7 +18,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import(/* webpackChunkName: 'Home' */ './pages/about/About'), // required
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/about'), // required
     }),
     exact: true,
     name: 'About',
@@ -27,7 +27,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import(/* webpackChunkName: 'Home' */ './pages/donate/Donate'), // required
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/donate'), // required
     }),
     exact: true,
     name: 'Donate',
@@ -36,7 +36,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import(/* webpackChunkName: 'Home' */ './pages/courts/Page'), // required
+      loader: () => import(/* webpackChunkName: 'Home' */ './pages/courts'), // required
     }),
     exact: true,
     name: 'Jurisdictions',
@@ -54,7 +54,7 @@ export default [
   {
     component: asyncComponent({
       Placeholder: () => <div>...LOADING...</div>,
-      loader: () => import('./pages/opinions/Search'),
+      loader: () => import('./pages/opinions'),
     }),
     exact: true,
     name: 'Opinions',

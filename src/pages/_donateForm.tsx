@@ -26,15 +26,15 @@ import {
   TextInput,
 } from 'grommet'
 import * as React from 'react'
-import { DonationFormValues } from '../../typings/index'
-import states from './_states'
+import { DonationFormValues } from '../typings/index'
+import states from './_assets/states'
 
 // tslint:disable:no-var-requires
-const bitcoin = require('./bitcoin.png')
+const bitcoin = require('./_assets/bitcoin.png')
 // tslint:disable:no-var-requires
-const bitcoinCash = require('./bitcoinCash.png')
+const bitcoinCash = require('./_assets/bitcoinCash.png')
 // tslint:disable:no-var-requires
-const ethereum = require('./ethereum.png')
+const ethereum = require('./_assets/ethereum.png')
 
 const SimpleInput = (props: { as: string | React.ReactNode; name: string; label: string }) => (
   <Box>
