@@ -1,10 +1,14 @@
 /** @format */
 
 // Base HTML Template Used by Server-Side Renderer
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { config } from '@fortawesome/fontawesome-svg-core'
 import { AfterData, AfterRoot } from '@jaredpalmer/after'
 import * as React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 import { CtxProps, HtmlProps } from '../../typings'
+
+config.autoAddCss = false
 
 export default class HtmlTemplate extends React.Component<HtmlProps> {
   public static async getInitialProps({ assets, data, renderPage }: CtxProps) {

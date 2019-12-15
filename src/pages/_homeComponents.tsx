@@ -12,6 +12,7 @@ import { OpinionApiResponse, OpinionData } from './../typings/api'
 
 // tslint:disable:no-var-requires
 const scotusChart = require('./_assets/scotusChart.png')
+
 // override grommet with styled-components
 const StyledIcon = styled(FontAwesomeIcon)`
   margin-left: 1rem;
@@ -30,9 +31,10 @@ const LatestOpinion = (props: OpinionData) => (
       <Text size="small">
         Docket Number: {props.docket && props.docket.split('/')[props.docket.split('/').length - 2]}
       </Text>
-      <Text size="small">Duration: {props.duration}</Text>
       <Text size="small">
-        {props.status && <Text size="small">{`Status: ${props.status}`} </Text>}
+        {props.precedentialStatus && (
+          <Text size="small">{`Status: ${props.precedentialStatus}`} </Text>
+        )}
       </Text>
     </Box>
   </>
@@ -61,24 +63,26 @@ export const LatestOpinionList = (props: {
     <Spinner size="4x" spin />
   ) : (
     <>
-      <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>
+      <Heading level={3}>
         Latest Opinions
         <StyledIcon icon={faFileAlt} />
       </Heading>
-      <Text size="xxsmall" margin={{ vertical: 'small' }}>
-        We download opinions from many jurisdictions on an ongoing basis. Here are the most recent
-        ones.
-      </Text>
-      {props.data &&
-        firstFiveResults.map((opinion: OpinionData, index: number) => (
-          <LatestOpinion key={`opinion_${index}`} {...opinion} />
-        ))}
-      <FlatButton
-        label="See Recent Opinions"
-        href="/?order_by=dateFiled+desc"
-        color="accent-2"
-        primary
-      />
+      <Box gap="small">
+        <Text size="xxsmall">
+          We download opinions from many jurisdictions on an ongoing basis. Here are the most recent
+          ones.
+        </Text>
+        {props.data &&
+          firstFiveResults.map((opinion: OpinionData, index: number) => (
+            <LatestOpinion key={`opinion_${index}`} {...opinion} />
+          ))}
+        <FlatButton
+          label="See Recent Opinions"
+          href="/?order_by=dateFiled+desc"
+          color="accent-2"
+          primary
+        />
+      </Box>
     </>
   )
 }
@@ -89,24 +93,26 @@ export const LatestAudioList = (props: { data: OpinionApiResponse | null; isLoad
     <Spinner size="4x" spin />
   ) : (
     <>
-      <Heading level={3} margin={{ top: 'medium', bottom: 'none' }}>
+      <Heading level={3}>
         Latest Oral Arguments
         <StyledIcon icon={faVolumeUp} />
       </Heading>
-      <Text size="xxsmall" margin={{ vertical: 'small' }}>
-        We download oral arguments from many jurisdictions on an ongoing basis. Here are the most
-        recent ones.
-      </Text>
-      {props.data &&
-        firstFiveResults.map((opinion: OpinionData, index: number) => (
-          <LatestAudio key={`audio_${index}`} {...opinion} />
-        ))}
-      <FlatButton
-        label="See Recent Oral Arguments"
-        href="/?order_by=dateArgued+desc&type=OA"
-        color="accent-2"
-        primary
-      />
+      <Box gap="small">
+        <Text size="xxsmall">
+          We download oral arguments from many jurisdictions on an ongoing basis. Here are the most
+          recent ones.
+        </Text>
+        {props.data &&
+          firstFiveResults.map((opinion: OpinionData, index: number) => (
+            <LatestAudio key={`audio_${index}`} {...opinion} />
+          ))}
+        <FlatButton
+          label="See Recent Oral Arguments"
+          href="/?order_by=dateArgued+desc&type=OA"
+          color="accent-2"
+          primary
+        />
+      </Box>
     </>
   )
 }
@@ -117,19 +123,21 @@ export const ScotusNetwork = () => (
       Supreme Court Network Visualizations
       <StyledIcon icon={faChartLine} />
     </Heading>
-    <Text size="xxsmall">
-      Supreme Court Network Visualizations allow you to see and analyze lines of precedent in
-      Supreme Court cases.
-    </Text>
-    <Image src={scotusChart} fit="contain" margin="small" />
-    <Box direction="row" justify="between">
-      <FlatButton label="See Gallery" color="light-1" href="/visualizations/gallery" />
-      <FlatButton
-        primary
-        label="Learn More About SCOTUS Networks"
-        color="accent-2"
-        href="/visualizations/scotus-mapper"
-      />
+    <Box direction="column" gap="medium">
+      <Text size="small">
+        Supreme Court Network Visualizations allow you to see and analyze lines of precedent in
+        Supreme Court cases.
+      </Text>
+      <Image src={scotusChart} fit="contain" margin="small" />
+      <Box direction="row" justify="between">
+        <FlatButton label="See Gallery" color="light-1" href="/visualizations/gallery" />
+        <FlatButton
+          primary
+          label="Learn More About SCOTUS Networks"
+          color="accent-2"
+          href="/visualizations/scotus-mapper"
+        />
+      </Box>
     </Box>
   </>
 )
@@ -157,33 +165,33 @@ export const TheNumbers = (props: { data: HomePageNumbersProps }) => {
   const apiLink = <Anchor label="API calls" href="/api" />
   return (
     <>
-      <Heading level={3} margin="none">
+      <Heading level={3}>
         The Numbers
         <StyledIcon icon={faChartPie} />
       </Heading>
       <Box direction="column">
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.opinions}</FixedText>
           <Text>Number of {precedentLink} in CourtListener.</Text>
         </Box>
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.opinionsLastTenDays}</FixedText>
           <Text>Opinions added in last ten days.</Text>
         </Box>
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.oralArgLength}</FixedText>
           <Text>Duration of {oralArgLink} in CourtListener, in days.</Text>
         </Box>
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.oralArgsAdded}</FixedText>
           <Text>Number of queries made in the last ten days.</Text>
         </Box>
 
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.alertEmails}</FixedText>
           <Text>Number of {alertEmailLink} sent in the last ten days.</Text>
         </Box>
-        <Box direction="row" pad="medium" align="center">
+        <Box direction="row" pad="small" align="center">
           <FixedText>{props.data.apiCalls}</FixedText>
           <Text>{apiLink} made against our system in last ten days.</Text>
         </Box>
