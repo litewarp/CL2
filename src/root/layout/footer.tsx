@@ -30,6 +30,26 @@ const footerLinks = [
   { label: 'Vulnerability Policies', link: 'https://free.law/vulnerability-disclosure-policy' },
 ]
 
+const Newsletter = () => (
+  <Box direction="row" pad="medium" align="center" fill="horizontal">
+    <Box direction="column">
+      <Heading level={4} margin="none">
+        Newsletter
+      </Heading>
+      <Text size="small" margin="none">
+        Sign up to receive the Free Law Project newsletter with tips and announcements
+      </Text>
+    </Box>
+    <Box direction="row" gap="small" margin={{ left: 'auto' }}>
+      <TextInput placeholder="Email Address" size="xsmall" />
+      <Button
+        icon={<FontAwesomeIcon icon={faNewspaper} />}
+        label="Subscribe"
+        onClick={() => ({ subscribe: 'Yay!' })}
+      />
+    </Box>
+  </Box>
+)
 const DonateButton = () => (
   <>
     <Box align="center" gap="xsmall">
@@ -94,6 +114,24 @@ const FooterLinks: any = () => {
 export const PageFooter = (props: any) => (
   <Footer background="dark-1" direction="row" pad="large">
     <Box direction="column" fill="horizontal">
+      <Box direction="row" pad="medium" align="center" fill="horizontal">
+        <Box direction="column">
+          <Heading level={4} margin="none">
+            Newsletter
+          </Heading>
+          <Text size="small" margin="none">
+            Sign up to receive the Free Law Project newsletter with tips and announcements
+          </Text>
+        </Box>
+        <Box direction="row" gap="small" margin={{ left: 'auto' }}>
+          <TextInput placeholder="Email Address" size="xsmall" />
+          <Button
+            icon={<FontAwesomeIcon icon={faNewspaper} />}
+            label="Subscribe"
+            onClick={() => ({ subscribe: 'Yay!' })}
+          />
+        </Box>
+      </Box>
       <Box direction="row" justify="end">
         <Box direction="row">
           <FooterLinks />

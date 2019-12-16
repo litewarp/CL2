@@ -96,24 +96,6 @@ const Home: StatelessPage<{}> = () => (
           </Paragraph>
         </Box>
         <DataComponents />
-        <Box direction="row" pad="medium" align="center" fill="horizontal">
-          <Box direction="column">
-            <Heading level={4} margin="none">
-              Newsletter
-            </Heading>
-            <Text size="small" margin="none">
-              Sign up to receive the Free Law Project newsletter with tips and announcements
-            </Text>
-          </Box>
-          <Box direction="row" gap="small" margin={{ left: 'auto' }}>
-            <TextInput placeholder="Email Address" size="xsmall" />
-            <Button
-              icon={<FontAwesomeIcon icon={faNewspaper} />}
-              label="Subscribe"
-              onClick={() => ({ subscribe: 'Yay!' })}
-            />
-          </Box>
-        </Box>
       </Box>
     </Box>
   </>

@@ -1,88 +1,66 @@
 /** @format */
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  ErrorMessage,
-  Field,
-  FieldInputProps,
-  Form,
-  FormikErrors,
-  FormikProps,
-  withFormik,
-} from 'formik'
-import { Box, Button, CheckBox, Heading, Layer, List, Select, Text, TextInput } from 'grommet'
 import * as React from 'react'
+import { Anchor, Box, Button, Heading, Paragraph, TextInput } from 'grommet'
+import OpinionSearchForm from './_opinionSearchForm'
 import withLayout from '../root/layout/withLayout'
-import PrecedentialStatusField from './_opinionSearchForm'
 
-export interface AdvancedSearchFormProps {
-  jurisdictions: never[]
-  caseName: string
-  citation: string
-  neutralCitation: string
-  judge: string
-  searchResultsOrder: string
-  filedAfter: string
-  filedBefore: string
-  minCites: number
-  maxCites: number
-  docketNumber: string
-  precedentialStatus: never[]
+const links = [
+  { name: 'freeLawProject', href: 'https://free.law', label: 'Free Law Project' },
+  { name: 'publicResourceOrg', label: 'Public.Resource.org', href: 'https://public.resource.org' },
+  { name: 'scotusDB', label: 'Supreme Court Database', href: 'https://scdb.wustl.edu' },
+  {
+    name: 'financialSupport',
+    label: 'financial and volunteer support',
+    href: 'https://free.law/thanks',
+  },
+  { name: 'coveragePage', label: 'coverage page', href: 'https://www.courtlistener.com/coverage' },
+  {
+    name: 'libraryOfCongress',
+    label: 'Library of Congress',
+    href:
+      'https://free.law/2011/05/25/updated-supreme-court-case-dates-and-the-first-release-of-early-scotus-data-in-machine-readable-form/',
+  },
+  {
+    name: 'freeLawScotusDB',
+    label: 'Supreme Court Database',
+    href:
+      'https://free.law/2014/12/21/courtlistener-is-now-integrated-with-the-supreme-court-database/',
+  },
+  {
+    name: 'ongoingBasis',
+    label: 'ongoing basis',
+    href: 'https://www.courtlistener.com/coverage/#scraped-jurisdictions',
+  },
+  {
+    name: 'citationAlert',
+    label: 'citation alert',
+    href: 'https://free.law/2016/01/30/citation-searching-on-courtlistener/',
+  },
+  {
+    name: 'customRssFeeds',
+    label: 'custom RSS feeds',
+    href: 'https://www.courtlistener.com/feeds/',
+  },
+]
+
+// workaround: type Component as any
+// see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
+const Link: any = ({ name }: { name: string }) => {
+  const option = links.find(l => l.name === name)
+  return option && <Anchor label={option.label} href={option.href} />
 }
 
-const SelectInput = (props: {
-  name: string
-  label: string
-  options: string[] | Array<{ label: string; value: string }>
-  labelKey?: string
-  valueKey?: string
-}) => (
-  <Box>
-    <Heading level={5}>{props.label}</Heading>
-    <Field name={props.name}>
-      {({ field, form }: { field: FieldInputProps<{}>; form: FormikProps<{}> }) => (
-        <Select
-          options={props.options}
-          {...field}
-          // setFieldValue's first argument is typed as never
-          // see https://github.com/jaredpalmer/formik/issues/323
-          onChange={(option: string) => form.setFieldValue(field.name as never, option)}
-        />
-      )}
-    </Field>
-    <ErrorMessage name={props.name} />
-  </Box>
-)
-
-const SimpleInput = (props: {
-  as: string | React.ReactNode
-  name: string
-  label: string
-  placeholder?: string
-}) => (
-  <Box>
-    <Heading level={5}>{props.label}</Heading>
-    <Field as={props.as} name={props.name} {...props} />
-    <ErrorMessage name={props.name} />
-  </Box>
-)
-
-const AdvancedSearchForm = (props: FormikProps<AdvancedSearchFormProps>) => {
-  const [showJurisdictions, setShowJurisdictions] = React.useState(false)
-  return (
-    <Box pad="medium" direction="column" align="center" gap="medium">
+const OpinionPage: React.FC = () => (
+  <>
+    <Box direction="column" align="center" gap="medium" pad="medium">
       <Heading level={1}>Advanced Opinion Search</Heading>
       <Heading level={2} textAlign="center">
         Search millions of opinions across hundreds of jurisdictions. Updated constantly.
       </Heading>
       <Button label="Learn More" />
-      <Box
-        width="large"
-        pad={{ vertical: 'small', left: 'small', right: '0' }}
-        direction="row"
-        align="center"
-        round="medium"
-        border="all">
+      <Box width="large" direction="row" align="center" round="medium" border="all">
         <TextInput type="search" plain />
         <Button
           icon={<FontAwesomeIcon icon={faSearch} />}
@@ -92,104 +70,89 @@ const AdvancedSearchForm = (props: FormikProps<AdvancedSearchFormProps>) => {
           onClick={() => ({ result: 'Yay! You searched!' })}
         />
       </Box>
-
-      <Form>
-        <Box direction="row">
-          <Box direction="column" pad="medium">
-            <Button
-              margin="medium"
-              label="Select Jurisdictions"
-              onClick={() => setShowJurisdictions(true)}
-            />
-            {showJurisdictions && (
-              <Layer
-                onEsc={() => setShowJurisdictions(false)}
-                onClickOutside={() => setShowJurisdictions(false)}>
-                <Box direction="row">
-                  <Heading level={3}>Select Jurisdictions</Heading>
-                </Box>
-              </Layer>
-            )}
-            <SimpleInput as={TextInput} name="caseName" label="Case Name:" />
-            <SimpleInput
-              as={TextInput}
-              name="filedAfter"
-              placeholder="YYYY-MM-DD"
-              label="Filed After:"
-            />
-            <SimpleInput as={TextInput} name="citation" label="Citation:" />
-          </Box>
-
-          <Box direction="column" pad="medium">
-            <SelectInput
-              name="resultsOrder"
-              label="Search Results Order:"
-              labelKey="label"
-              valueKey="value"
-              options={[
-                { label: 'Relevance', value: 'relevance' },
-                { label: 'Newest First', value: 'newest' },
-                { label: 'Oldest First', value: 'oldest' },
-                { label: 'Most Cited First', value: 'mostCited' },
-                { label: 'Least Cited First', value: 'leastCited' },
-              ]}
-            />
-            <SimpleInput as={TextInput} name="judge" label="Judge:" />
-            <SimpleInput
-              as={TextInput}
-              name="filedBefore"
-              placeholder="YYYY-MM-DD"
-              label="Filed Before:"
-            />
-            <SimpleInput as={TextInput} name="neutralCitation" label="Neutral Citation:" />
-          </Box>
-
-          <Box direction="column" pad="medium">
-            <PrecedentialStatusField />
-            <Box direction="row">
-              <SimpleInput as={TextInput} name="minCites" label="Min Cites:" />
-              <SimpleInput as={TextInput} name="maxCites" label="Max Cites:" />
-            </Box>
-            <SimpleInput as={TextInput} name="docketNumber" label="Docket Number:" />
-          </Box>
-        </Box>
-        <Box direction="row-responsive" justify="end">
-          <Button type="submit" label="Search" primary icon={<FontAwesomeIcon icon={faSearch} />} />
-        </Box>
-      </Form>
     </Box>
-  )
-}
+    <OpinionSearchForm />
+    <Box pad="medium">
+      <Heading level={2}>About the CourtListener Corpus of Opinions</Heading>
+      <Box direction="row">
+        <Box direction="column" pad="medium">
+          <Heading level={3}>Background</Heading>
+          <Paragraph>
+            The opinions in CourtListener have been collected since 2009 by{' '}
+            <Link name="freeLawProject" />, a non-profit devoted to high-quality legal data. We have
+            collected these opinions so that lawyers, researchers, journalists, corporate
+            organizations, and the public can have easy access to them.
+          </Paragraph>
+          <Paragraph>
+            We have gathered and curated these opinions from a variety of sources, including court
+            websites, information donations, <Link name="publicResourceOrg" />, and the{' '}
+            <Link name="scotusDB" />.
+          </Paragraph>
+          <Paragraph>
+            This work has been possible thanks to <Link name="financialSupport" /> from a growing
+            list of people and organizations. If this work is valuable to you, your research, or
+            your organization, please donate so our work can continue and thrive.
+          </Paragraph>
+          <Button
+            label="Donate Now"
+            href="https://www.courtlistener.com/donate/?referrer=opinion-adv-search"
+            primary
+          />
+        </Box>
+        <Box direction="column" pad="medium">
+          <Heading level={3}>Coverage</Heading>
+          <Paragraph>
+            Our collection of opinions combines the best data from many sources. On our{' '}
+            <Link name="coveragePage" />, you can see court-by-court graphs of what we have and can
+            see which courts we get data from on an ongoing basis.
+          </Paragraph>
+          <Paragraph>
+            We are particularly proud of our Supreme Court data, which we consider to be the best
+            collection available. We have made thousands of corrections to the other publicly
+            available data sets, and have enhanced it with data from the{' '}
+            <Link name="libraryOfCongress" /> and the <Link name="freeLawScotusDB" />.
+          </Paragraph>
+          <Button
+            label="Learn About Our Supreme Court Data"
+            href="https://free.law/supreme-court-data"
+          />
+          <Heading level={3}>CiteGeist Relevancy Engine</Heading>
+          <Paragraph>
+            The CourtListener search engine has been optimized over the years to provide the most
+            relevant and important cases at the top of the results. The system we use for this is
+            named CiteGeist, and it works by analyzing your query and combining that with
+            information about the citations between cases.
+          </Paragraph>
+          <Button
+            label="Read About CiteGeist"
+            href="https://free.law/2013/11/12/courtlistener-improves-search-results-thanks-to-volunteer-contributor/"
+          />
+        </Box>
+        <Box direction="column" pad="medium">
+          <Heading level={3}>Alerts</Heading>
+          <Paragraph>
+            For the courts where we get content on an <Link name="ongoingBasis" />, you can set up
+            alerts for any search query. This way, you get an email whenever there is a new opinion
+            matching your query.
+          </Paragraph>
+          <Paragraph>
+            Some popular queries are your company name or that of your competitor, a legal area that
+            you follow, or even a <Link name="citationAlert" /> that emails when a certain case is
+            cited. We also offer <Link name="customRssFeeds" /> for any search query.
+          </Paragraph>
+          <Paragraph>
+            To get started, do a search, then save it as an alert from the sidebar of your list of
+            results.
+          </Paragraph>
+          <Heading level={3}>Even More Advanced Searching</Heading>
+          <Paragraph>
+            You can do even more advanced searches by using fielded searches and query operators.
+          </Paragraph>
+          <Button label="Learn More" href="https://www.courtlistener.com/help/search-operators/" />
+        </Box>
+      </Box>
+    </Box>
+  </>
+)
 
-const AdvancedOpinionSearch = withFormik({
-  displayName: 'AdvancedOpinionSearchForm',
-  mapPropsToValues: () => ({
-    caseName: '',
-    filedAfter: '',
-    filedBefore: '',
-    precedentialStatus: [],
-    minCites: 0,
-    maxCites: 0,
-    docketNumber: '',
-    citation: '',
-    neutralCitation: '',
-    jurisdictions: [],
-    judge: '',
-    searchResultsOrder: '',
-  }),
-
-  validate: () => {
-    return []
-  },
-  handleSubmit: (values, { setSubmitting }) => {
-    // prettier-ignore
-    setTimeout(
-      () => {
-        alert(JSON.stringify(values, null, 2))
-        setSubmitting(false)
-      },
-      1000)
-  },
-})(AdvancedSearchForm)
-
-export default withLayout(AdvancedOpinionSearch)
+export default withLayout(OpinionPage)
