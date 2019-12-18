@@ -1,8 +1,8 @@
 /** @format */
 
 // Base HTML Template Used by Server-Side Renderer
-import '@fortawesome/fontawesome-svg-core/styles.css'
 import { config } from '@fortawesome/fontawesome-svg-core'
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import { AfterData, AfterRoot } from '@jaredpalmer/after'
 import * as React from 'react'
 import { ServerStyleSheet } from 'styled-components'

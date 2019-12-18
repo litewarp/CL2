@@ -35,6 +35,7 @@ export interface OpinionData {
   status?: string
   natureSuit?: string
   duration?: string
+  precedentialStatus?: string
 }
 
 export interface OpinionApiResponse {

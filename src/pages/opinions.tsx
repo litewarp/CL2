@@ -1,10 +1,10 @@
 /** @format */
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as React from 'react'
 import { Anchor, Box, Button, Heading, Paragraph, TextInput } from 'grommet'
-import OpinionSearchForm from './_opinionSearchForm'
+import * as React from 'react'
 import withLayout from '../root/layout/withLayout'
+import OpinionSearchForm from './_opinionSearchForm'
 
 const links = [
   { name: 'freeLawProject', href: 'https://free.law', label: 'Free Law Project' },
